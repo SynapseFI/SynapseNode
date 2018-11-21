@@ -41,7 +41,7 @@ class Client {
       phone_numbers,
       legal_names,
       bodyParams,
-      userInfo: this
+      clientInfo: this
     });
   }
 
@@ -54,7 +54,7 @@ class Client {
       page,
       per_page,
       show_refresh_tokens,
-      userInfo: this
+      clientInfo: this
     });
   }
 
@@ -63,7 +63,7 @@ class Client {
     return apiRequests.client[getUser]({
       user_id,
       full_dehydrate,
-      userInfo: this
+      clientInfo: this
     });
   }
 
@@ -74,7 +74,7 @@ class Client {
     return apiRequests.client[getPlatformTransactions]({
       page,
       per_page,
-      userInfo: this
+      clientInfo: this
     });
   }
 
@@ -87,7 +87,7 @@ class Client {
       user_id,
       page,
       per_page,
-      userInfo: this
+      clientInfo: this
     });
   }
 
@@ -98,14 +98,14 @@ class Client {
     return apiRequests.client[getPlatformNodes]({
       page,
       per_page,
-      userInfo: this
+      clientInfo: this
     });
   }
 
   // GET INSTITUTIONS
   getInstitutions() {
     return apiRequests.client[getInstitutions]({
-      userInfo: this
+      clientInfo: this
     });
   }
 
@@ -116,7 +116,7 @@ class Client {
       user_id,
       node_id,
       is_credit,
-      userInfo: this
+      clientInfo: this
     });
   }
 
@@ -124,7 +124,7 @@ class Client {
   issuePublicKey(scope = ['OAUTH|POST', 'USERS|POST', 'USERS|GET', 'USER|GET', 'USER|PATCH', 'SUBSCRIPTIONS|GET', 'SUBSCRIPTIONS|POST', 'SUBSCRIPTION|GET', 'SUBSCRIPTION|PATCH', 'CLIENT|REPORTS', 'CLIENT|CONTROLS']) {
     return apiRequests.client[issuePublicKey]({
       scope,
-      userInfo: this
+      clientInfo: this
     })
     .then(({ data }) => {
       return {data: data.public_key_obj};
@@ -136,7 +136,7 @@ class Client {
     return apiRequests.client[createSubscription]({
       url,
       scope,
-      userInfo: this
+      clientInfo: this
     });
   }
 
@@ -147,7 +147,7 @@ class Client {
     return apiRequests.client[getAllSubscriptions]({
       page,
       per_page,
-      userInfo: this
+      clientInfo: this
     });
   }
 
@@ -155,7 +155,7 @@ class Client {
   getSubscription(subscription_id) {
     return apiRequests.client[getSubscription]({
       subscription_id,
-      userInfo: this
+      clientInfo: this
     });
   }
 
@@ -164,7 +164,7 @@ class Client {
     return apiRequests.client[updateSubscription]({
       subscription_id,
       bodyParams,
-      userInfo: this
+      clientInfo: this
     });
   }
 }
