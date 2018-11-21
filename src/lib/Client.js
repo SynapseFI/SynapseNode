@@ -59,7 +59,7 @@ class Client {
   }
 
   // GET USER W/ USER_ID
-  getUser(user_id, full_dehydrate = 'no') {
+  getUser(user_id, full_dehydrate = false) {
     return apiRequests.client[getUser]({
       user_id,
       full_dehydrate,

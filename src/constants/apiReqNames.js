@@ -16,8 +16,8 @@ module.exports = {
   updateExistingDocument: 'updateExistingDocument',
   deleteExistingDocument: 'deleteExistingDocument',
   updateUser: 'updateUser',
-  // refresh ?
-  // oauth
+  refresh: 'refresh',
+  oauthUser: 'oauthUser',
   createNode: 'createNode',
   getAllUserNodes: 'getAllUserNodes'
 };

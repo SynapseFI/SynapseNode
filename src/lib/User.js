@@ -3,8 +3,8 @@ const {
   updateExistingDocument,
   deleteExistingDocument,
   updateUser,
-  // refresh ?
-  // oauth
+  refresh,
+  oauthUser,
   createNode,
   getAllUserNodes,
   getUserTransactions,
@@ -82,7 +82,7 @@ class User {
   // POST OAUTH USER
   oauthUser(bodyParams = {}) {
     return apiRequests.user[oauthUser]({
-      user_id: this.id
+      user_id: this.id,
       bodyParams,
       userInfo: this
     });

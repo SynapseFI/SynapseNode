@@ -55,8 +55,7 @@ module.exports[getAllUsers] = ({
 module.exports[getUser] = ({ user_id, full_dehydrate, clientInfo }) => {
   const { host, headers } = clientInfo;
   // REFACTOR TO USE ADD_QUERY_PARAMS
-  const url = `${host}/users/${user_id}?full_dehydrate=${full_dehydrate}`;
-  console.log(url);
+  const url = `${host}/users/${user_id}?full_dehydrate=${full_dehydrate ? 'yes' : 'no'}`;
 
   // REFACTOR TO USE REPLACE_PATH_PARAMS
   return axios.get(url, { headers });

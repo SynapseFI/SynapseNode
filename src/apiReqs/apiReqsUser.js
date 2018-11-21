@@ -5,10 +5,12 @@ const {
   updateExistingDocument,
   deleteExistingDocument,
   updateUser,
-  // refresh ?
-  // oauth
+  refresh,
+  oauthUser,
   createNode,
-  getAllUserNodes
+  getAllUserNodes,
+  getUserTransactions,
+  triggerDummyTransactions
 } = require('../constants/apiReqNames');
 
 const { addQueryParams, replacePathParams } = require('../helpers/buildUrls');

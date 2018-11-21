@@ -110,7 +110,7 @@ client.getUser('5bf493e3baabfc00a31db486')
 ```
 OR to pass in optional full_dehydrate field:
 ```
-client.getUser('5bf493e3baabfc00a31db486', 'yes')
+client.getUser('5bf493e3baabfc00a31db486', true)
 .then(({ data }) => {
   console.log('data ', data);
 });
