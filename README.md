@@ -79,58 +79,97 @@ client.createUser({
       "is_business": false
     }
   }
+})
+.then(({ data }) => {
+  console.log('data ', data);
 });
 ```
 #### Get All Users
 ```
-client.getAllUsers();
+client.getAllUsers()
+.then(({ data }) => {
+  console.log('data ', data);
+});
 ```
 OR to pass in optional query parameters:
 ```
 client.getAllUsers({
   page: 2,
   per_page: 10
+})
+.then(({ data }) => {
+  console.log('data ', data);
 });
 ```
 #### Get User
 ```
-client.getUser('5bf493e3baabfc00a31db486');
+client.getUser('5bf493e3baabfc00a31db486')
+.then(({ data }) => {
+  console.log('data ', data);
+});
 ```
 OR to pass in optional full_dehydrate field:
 ```
-client.getUser('5bf493e3baabfc00a31db486', 'yes');
+client.getUser('5bf493e3baabfc00a31db486', 'yes')
+.then(({ data }) => {
+  console.log('data ', data);
+});
 ```
 #### Get All Platform Transactions
 ```
-client.getPlatformTransactions();
+client.getPlatformTransactions()
+.then(({ data }) => {
+  console.log('data ', data);
+});
 ```
 #### Get All Platform Nodes
 ```
-client.getPlatformNodes();
+client.getPlatformNodes()
+.then(({ data }) => {
+  console.log('data ', data);
+});
 ```
 #### Get Institutions
 ```
-client.getInstitutions();
+client.getInstitutions()
+.then(({ data }) => {
+  console.log('data ', data);
+});
 ```
 #### Issue Public Key
 ```
-client.issuePublicKey();
+client.issuePublicKey()
+.then(({ data }) => {
+  console.log('data ', data);
+});
 ```
 #### Create Subscription
 ```
-client.createSubscription('https://webhook.site/4e8bb189-68cb-4d85-8ae5-291a1cea65f9');
+client.createSubscription('https://webhook.site/4e8bb189-68cb-4d85-8ae5-291a1cea65f9')
+.then(({ data }) => {
+  console.log('data ', data);
+});
 ```
 #### Get All Subscriptions
 ```
-client.getAllSubscriptions();
+client.getAllSubscriptions()
+.then(({ data }) => {
+  console.log('data ', data);
+});
 ```
 #### Get Subscription
 ```
-client.getSubscription('5bdcc4bb06896300c0dcdc5c');
+client.getSubscription('5bdcc4bb06896300c0dcdc5c')
+.then(({ data }) => {
+  console.log('data ', data);
+});
 ```
 #### Update Subscription
 ```
 client.updateSubscription('5bdcc4bb06896300c0dcdc5c', {
   is_active: false
+})
+.then(({ data }) => {
+  console.log('data ', data);
 });
 ```
