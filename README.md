@@ -8,13 +8,14 @@ npm install
 
 ## Initialization
 ```
-import Client from 'SynapseFI-Node-v2';
+const Client = require('./src/lib/Client');
 
 const client = new Client({
   client_id: '<client_id>',
   client_secret: '<client_secret>',
   fingerprint: '<fingerprint>',
-  ip_address: '<ip_address>'
+  ip_address: '<ip_address>',
+  isProduction: '<isProduction>'
 });
 ```
 
@@ -84,7 +85,7 @@ client.createUser({
 ```
 client.getAllUsers();
 ```
-||
+OR to pass in optional query parameters
 ```
 client.getAllUsers({
   page: 2,
@@ -95,7 +96,7 @@ client.getAllUsers({
 ```
 client.getUser('5bf493e3baabfc00a31db486');
 ```
-||
+OR to pass in optional full_dehydrate field:
 ```
 client.getUser('5bf493e3baabfc00a31db486', 'yes');
 ```
