@@ -85,7 +85,7 @@ client.createUser({
 ```
 client.getAllUsers();
 ```
-OR to pass in optional query parameters
+OR to pass in optional query parameters:
 ```
 client.getAllUsers({
   page: 2,
