@@ -1,4 +1,16 @@
+const {
+  addNewDocuments,
+  updateExistingDocument,
+  deleteExistingDocument,
+  updateUser,
+  // refresh ?
+  // oauth
+  createNode,
+  getAllUserNodes
+} = require('../constants/apiReqNames');
+
 const apiRequests = require('../apiReqs/apiRequests');
+const buildHeaders = require('../helpers/buildHeaders');
 
 class User {
   constructor({
@@ -49,6 +61,32 @@ class User {
     return apiRequests.user[updateUser]({
       user_id: this.id,
       bodyParams,
+      userInfo: this
+    });
+  }
+
+  // REFRESH?
+
+  // OAUTH
+
+  // CREATE NODE
+  createNode(bodyParams = {}) {
+    return apiRequests.user[createNode]({
+      user_id: this.id,
+      bodyParams,
+      userInfo: this
+    });
+  }
+
+  // GET ALL USER NODES
+  getAllUserNodes(queryParams = {}) {
+    const { page, per_page, type } = queryParams;
+
+    return apiRequests.user[getAllUserNodes]({
+      user_id: this.id,
+      page,
+      per_page,
+      type,
       userInfo: this
     });
   }

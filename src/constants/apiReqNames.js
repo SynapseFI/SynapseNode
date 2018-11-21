@@ -11,5 +11,13 @@ module.exports = {
   createSubscription: 'createSubscription',
   getAllSubscriptions: 'getAllSubscriptions',
   getSubscription: 'getSubscription',
-  updateSubscription: 'updateSubscription'
+  updateSubscription: 'updateSubscription',
+  addNewDocuments: 'addNewDocuments',
+  updateExistingDocument: 'updateExistingDocument',
+  deleteExistingDocument: 'deleteExistingDocument',
+  updateUser: 'updateUser',
+  // refresh ?
+  // oauth
+  createNode: 'createNode',
+  getAllUserNodes: 'getAllUserNodes'
 };
