@@ -120,7 +120,7 @@ module.exports[triggerDummyTransactions] = ({ user_id, node_id, is_credit, userI
 
 module.exports[issuePublicKey] = ({ scope, userInfo }) => {
   const { host, headers } = userInfo;
-  const url = `${host}/client?issue_public_key=yes&scope=${scope}`;
+  const url = `${host}/client?issue_public_key=yes&scope=${scope.join()}`;
 
   return axios.get(url, { headers });
 };
