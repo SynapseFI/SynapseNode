@@ -1,0 +1,59 @@
+const _ = require('lodash');
+
+module.exports.addQueryParams = ({
+  originalUrl,
+  query,
+  page,
+  per_page,
+  show_refresh_tokens,
+  full_dehydrate,
+  type
+}) => {
+  const params = [];
+
+  if (query !== undefined) {
+    params.push(`query=${query}`);
+  }
+  if (page !== undefined) {
+    params.push(`page=${page}`);
+  }
+  if (per_page !== undefined) {
+    params.push(`per_page=${per_page}`);
+  }
+  if (show_refresh_tokens !== undefined) {
+    params.push(`show_refresh_tokens=${show_refresh_tokens}`);
+  }
+  if (full_dehydrate !== undefined) {
+    params.push(`full_dehydrate=${full_dehydrate}`);
+  }
+  if (type !== undefined) {
+    params.push(`type=${type}`);
+  }
+
+  return params.length === 0 ? originalUrl : originalUrl += `?${params.join('&')}`;
+};
+
+module.exports.replacePathParams = ({
+  originalUrl,
+  user_id,
+  node_id,
+  trans_id,
+  subnet_id
+}) => {
+  let copiedUrl = originalUrl;
+
+  if (user_id !== undefined) {
+    copiedUrl = _.replace(copiedUrl, ':user_id', user_id);
+  }
+  if (node_id !== undefined) {
+    copiedUrl = _.replace(copiedUrl, ':node_id', node_id);
+  }
+  if (trans_id !== undefined) {
+    copiedUrl = _.replace(copiedUrl, ':trans_id', trans_id);
+  }
+  if (subnet_id !== undefined) {
+    copiedUrl = _.replace(copiedUrl, ':subnet_id', subnet_id);
+  }
+
+  return copiedUrl;
+};
