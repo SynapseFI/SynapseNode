@@ -53,9 +53,15 @@ module.exports[updateUser] = ({
   return axios.patch(`${host}/users/${user_id}`, bodyParams, { headers });
 };
 
-// REFRESH?
+module.exports[oauthUser] = ({
+  user_id,
+  bodyParams,
+  userInfo
+}) => {
+  const { host, headers } = userInfo;
 
-// OAUTH
+  return axios.post(`${host}/oauth/${user_id}`, bodyParams, { headers });
+};
 
 module.exports[createNode] = ({
   user_id,

@@ -31,7 +31,7 @@ class User {
     this.client = client;
   }
 
-  // ADD NEW DOCUMENTS
+  // PATCH ADD NEW DOCUMENTS
   addNewDocuments(bodyParams = {}) {
     return apiRequests.user[addNewDocuments]({
       user_id: this.id,
@@ -40,7 +40,7 @@ class User {
     });
   }
 
-  // UPDATE EXISTING DOCUMENT
+  // PATCH UPDATE EXISTING DOCUMENT
   updateExistingDocument(bodyParams = {}) {
     return apiRequests.user[updateExistingDocument]({
       user_id: this.id,
@@ -49,7 +49,7 @@ class User {
     });
   }
 
-  // DELETE EXISTING DOCUMENTS
+  // PATCH DELETE EXISTING DOCUMENTS
   deleteExistingDocument(bodyParams = {}) {
     return apiRequests.user[deleteExistingDocument]({
       user_id: this.id,
@@ -58,7 +58,7 @@ class User {
     });
   }
 
-  // UPDATE USER
+  // PATCH UPDATE USER
   updateUser(bodyParams = {}) {
     return apiRequests.user[updateUser]({
       user_id: this.id,
@@ -67,11 +67,28 @@ class User {
     });
   }
 
-  // REFRESH?
+  // REFRESH TOKEN
+  refresh() {
+    return apiRequests.client[getUser]({
+      user_id: this.id,
+      full_dehydrate: 'no',
+      clientInfo: this.client
+    })
+    .then(({ data }) => {
+      return data.refresh_token;
+    });
+  }
 
-  // OAUTH
+  // POST OAUTH USER
+  oauthUser(bodyParams = {}) {
+    return apiRequests.user[oauthUser]({
+      user_id: this.id
+      bodyParams,
+      userInfo: this
+    });
+  }
 
-  // CREATE NODE
+  // POST CREATE NODE
   createNode(bodyParams = {}) {
     return apiRequests.user[createNode]({
       user_id: this.id,
