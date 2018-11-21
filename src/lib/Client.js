@@ -125,6 +125,9 @@ class Client {
     return apiRequests.client[issuePublicKey]({
       scope,
       userInfo: this
+    })
+    .then(({ data }) => {
+      return {data: data.public_key_obj};
     });
   }
 
