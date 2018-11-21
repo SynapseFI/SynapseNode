@@ -5,10 +5,8 @@ const {
   getAllUsers,
   getUser,
   getPlatformTransactions,
-  getUserTransactions,
   getPlatformNodes,
   getInstitutions,
-  triggerDummyTransactions,
   issuePublicKey,
   createSubscription,
   getAllSubscriptions,
@@ -78,19 +76,6 @@ module.exports[getPlatformTransactions] = ({ page, per_page, clientInfo }) => {
   );
 };
 
-// MOVE TO API_REQ_USER!!!
-module.exports[getUserTransactions] = ({ user_id, page, per_page, clientInfo }) => {
-  const { host, headers } = clientInfo;
-  const url = addQueryParams({
-    // STATIC ENDPOINT
-    originalUrl: `${host}/users/${user_id}/trans`,
-    page,
-    per_page
-  });
-
-  return axios.get(url, { headers });
-};
-
 module.exports[getPlatformNodes] = ({ page, per_page, clientInfo }) => {
   const { host, headers } = clientInfo;
   const url = addQueryParams({
@@ -106,14 +91,6 @@ module.exports[getPlatformNodes] = ({ page, per_page, clientInfo }) => {
 module.exports[getInstitutions] = ({ clientInfo }) => {
   const { host, headers } = clientInfo;
   const url = `${host}/institutions`
-
-  return axios.get(url, { headers });
-};
-
-// MOVE TO API_REQ_USER!!!
-module.exports[triggerDummyTransactions] = ({ user_id, node_id, is_credit, clientInfo }) => {
-  const { host, headers } = clientInfo;
-  const url = `${host}/users/${user_id}/nodes/${node_id}/dummy-tran?is_credit=${is_credit}`;
 
   return axios.get(url, { headers });
 };

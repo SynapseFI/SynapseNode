@@ -78,19 +78,6 @@ class Client {
     });
   }
 
-  // MOVE TO USER OBJECT!!!
-  // GET ALL USER TRANSACTIONS
-  getUserTransactions(user_id, queryParams = {}) {
-    const { page, per_page } = queryParams;
-
-    return apiRequests.client[getUserTransactions]({
-      user_id,
-      page,
-      per_page,
-      clientInfo: this
-    });
-  }
-
   // GET ALL PLATFORM NODES
   getPlatformNodes(queryParams = {}) {
     const { page, per_page } = queryParams;
@@ -105,17 +92,6 @@ class Client {
   // GET INSTITUTIONS
   getInstitutions() {
     return apiRequests.client[getInstitutions]({
-      clientInfo: this
-    });
-  }
-
-  // MOVE TO USER OBJECT!!!
-  // GET TRIGGER DUMMY TRANSACTIONS
-  triggerDummyTransactions(user_id, node_id, is_credit = 'no') {
-    return apiRequests.client[triggerDummyTransactions]({
-      user_id,
-      node_id,
-      is_credit,
       clientInfo: this
     });
   }

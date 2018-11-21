@@ -6,7 +6,9 @@ const {
   // refresh ?
   // oauth
   createNode,
-  getAllUserNodes
+  getAllUserNodes,
+  getUserTransactions,
+  triggerDummyTransactions
 } = require('../constants/apiReqNames');
 
 const apiRequests = require('../apiReqs/apiRequests');
@@ -87,6 +89,28 @@ class User {
       page,
       per_page,
       type,
+      userInfo: this
+    });
+  }
+
+  // GET ALL USER TRANSACTIONS
+  getUserTransactions(queryParams = {}) {
+    const { page, per_page } = queryParams;
+
+    return apiRequests.user[getUserTransactions]({
+      user_id: this.id,
+      page,
+      per_page,
+      userInfo: this
+    });
+  }
+
+  // GET TRIGGER DUMMY TRANSACTIONS
+  triggerDummyTransactions(node_id, is_credit = 'no') {
+    return apiRequests.user[triggerDummyTransactions]({
+      user_id: this.id,
+      node_id,
+      is_credit,
       userInfo: this
     });
   }
