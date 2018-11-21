@@ -129,7 +129,7 @@ class Client {
   }
 
   // POST CREATE SUBSCRIPTION
-  createSubscription(url, scope = ['USERS|POST', 'USER|PATCH', 'NODES|POST', 'NODE|POST', 'TRANS|POST', 'TRAN|PATCH']) {
+  createSubscription(url, scope = ['USERS|POST', 'USER|PATCH', 'NODES|POST', 'NODE|PATCH', 'TRANS|POST', 'TRAN|PATCH']) {
     return apiRequests.client[createSubscription]({
       url,
       scope,
