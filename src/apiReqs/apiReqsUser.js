@@ -107,7 +107,7 @@ module.exports[getUserTransactions] = ({ user_id, page, per_page, userInfo }) =>
 
 module.exports[triggerDummyTransactions] = ({ user_id, node_id, is_credit, userInfo }) => {
   const { host, headers } = clientInfo;
-  const url = `${host}/users/${user_id}/nodes/${node_id}/dummy-tran?is_credit=${is_credit}`;
+  const url = `${host}/users/${user_id}/nodes/${node_id}/dummy-tran?is_credit=${is_credit ? 'yes' : 'no'}`;
 
   return axios.get(url, { headers });
 };

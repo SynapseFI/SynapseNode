@@ -14,6 +14,7 @@ const {
 const apiRequests = require('../apiReqs/apiRequests');
 const buildHeaders = require('../helpers/buildHeaders');
 
+// NEED TO REFACTOR USER CLASS ATTRIBUTES/CONSTRUCTOR!!!
 class User {
   constructor({
     id,
@@ -123,7 +124,7 @@ class User {
   }
 
   // GET TRIGGER DUMMY TRANSACTIONS
-  triggerDummyTransactions(node_id, is_credit = 'no') {
+  triggerDummyTransactions(node_id, is_credit = false) {
     return apiRequests.user[triggerDummyTransactions]({
       user_id: this.id,
       node_id,
