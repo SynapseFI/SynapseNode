@@ -50,7 +50,7 @@ class User {
     });
   }
 
-  // PATCH DELETE EXISTING DOCUMENTS
+  // PATCH DELETE EXISTING DOCUMENT
   deleteExistingDocument(bodyParams = {}) {
     return apiRequests.user[deleteExistingDocument]({
       user_id: this.id,
@@ -69,7 +69,7 @@ class User {
   }
 
   // REFRESH TOKEN
-  refresh() {
+  _refresh() {
     return apiRequests.client[getUser]({
       user_id: this.id,
       full_dehydrate: 'no',

@@ -16,6 +16,7 @@ const {
 
 const apiRequests = require('../apiReqs/apiRequests');
 const buildHeaders = require('../helpers/buildHeaders');
+const User = require('./User');
 
 class Client {
   constructor({
@@ -42,6 +43,16 @@ class Client {
       legal_names,
       bodyParams,
       clientInfo: this
+    })
+    .then(({ data }) => {
+      return new User({
+        id: data._id,
+        fingerprint: this.fingerprint,
+        oauth_key: '',
+        refresh_token: data.refresh_token,
+        ip_address: this.ip_address,
+        client: this
+      });
     });
   }
 
@@ -127,7 +138,7 @@ class Client {
     });
   }
 
-  // GET SUBSCRIPTION
+  // GET SUBSCRIPTION W/ SUBSCRIPTION_ID
   getSubscription(subscription_id) {
     return apiRequests.client[getSubscription]({
       subscription_id,
