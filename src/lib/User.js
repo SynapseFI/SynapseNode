@@ -19,16 +19,6 @@ class User {
     data,
     client
   }) {
-    // this.id = id;
-    // this.fingerprint = fingerprint;
-    // this.oauth_key = oauth_key;
-    // this.refresh_token = refresh_token;
-    // this.ip_address = ip_address;
-    // this.client = client;
-    // this.host = client.host;
-    // this.headers = buildHeaders({ client.client_id, client.client_secret, fingerprint, });
-
-
     this.id = data._id;
     this.body = data;
     this.host = client.host;
@@ -103,7 +93,6 @@ class User {
     })
     .then(({ data }) => {
       this.oauth_key = data.oauth_key;
-      console.log('OAUTH: ', data.oauth_key);
 
       this.headers = buildHeaders({
         client_id: this.client.client_id,
