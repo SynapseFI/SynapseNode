@@ -105,10 +105,23 @@ module.exports[getUserTransactions] = ({ user_id, page, per_page, userInfo }) =>
   return axios.get(url, { headers });
 };
 
-// WILL NEED TO MOVE TO NODE CLASS!!!
 module.exports[triggerDummyTransactions] = ({ user_id, node_id, is_credit, userInfo }) => {
-  const { host, headers } = clientInfo;
+  const { host, headers } = userInfo;
   const url = `${host}/users/${user_id}/nodes/${node_id}/dummy-tran?is_credit=${is_credit ? 'yes' : 'no'}`;
+
+  return axios.get(url, { headers });
+};
+
+module.exports[generageUboForm] = ({ user_id, bodyParams, userInfo }) => {
+  const { host, headers } = userInfo;
+  const url = `${host}/users/${user_id}/ubo`;
+
+  return axios.patch(url, payload, { headers });
+};
+
+module.exports[getStatementsByUser] = ({ user_id, page, per_page, userInfo }) => {
+  const { host, headers } = userInfo;
+  const url = `${host}/users/${user_id}/statements`;
 
   return axios.get(url, { headers });
 };

@@ -140,13 +140,33 @@ class User {
     });
   }
 
-  // WILL NEED TO MOVE TO NODE CLASS!!!
   // GET TRIGGER DUMMY TRANSACTIONS
   triggerDummyTransactions(node_id, is_credit = false) {
     return apiRequests.user[triggerDummyTransactions]({
       user_id: this.id,
       node_id,
       is_credit,
+      userInfo: this
+    });
+  }
+
+  // PATCH GENERATE UBO FORM
+  generateUboForm(bodyParams) {
+    return apiRequests.user[generageUboForm]({
+      user_id: this.id,
+      bodyParams,
+      userInfo: this
+    });
+  }
+
+  // GET STATEMENTS BY USER
+  getStatementsByUser(queryParams = {}) {
+    const { page, per_page } = queryParams;
+
+    return apiRequests.user[getStatementsByUser]({
+      user_id: this.id,
+      page,
+      per_page,
       userInfo: this
     });
   }
