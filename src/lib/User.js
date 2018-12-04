@@ -14,22 +14,36 @@ const {
 const apiRequests = require('../apiReqs/apiRequests');
 const buildHeaders = require('../helpers/buildHeaders');
 
-// NEED TO REFACTOR USER CLASS ATTRIBUTES/CONSTRUCTOR!!!
 class User {
   constructor({
-    id,
-    fingerprint,
-    oauth_key,
-    refresh_token,
-    ip_address,
+    data,
     client
   }) {
-    this.id = id;
-    this.fingerprint = fingerprint;
-    this.oauth_key = oauth_key;
-    this.refresh_token = refresh_token;
-    this.ip_address = ip_address;
+    // this.id = id;
+    // this.fingerprint = fingerprint;
+    // this.oauth_key = oauth_key;
+    // this.refresh_token = refresh_token;
+    // this.ip_address = ip_address;
+    // this.client = client;
+    // this.host = client.host;
+    // this.headers = buildHeaders({ client.client_id, client.client_secret, fingerprint, });
+
+
+    this.id = data._id;
+    this.body = data;
+    this.host = client.host;
+    this.fingerprint = client.fingerprint;
+    this.ip_address = client.ip_address;
+    this.oauth_key = '';
     this.client = client;
+
+    this.headers = buildHeaders({
+      client_id: client.client_id,
+      client_secret: client.client_secret,
+      fingerprint: this.fingerprint,
+      ip_address: this.ip_address,
+      oauth_key: this.oauth_key
+    });
   }
 
   // PATCH ADD NEW DOCUMENTS
@@ -86,6 +100,20 @@ class User {
       user_id: this.id,
       bodyParams,
       userInfo: this
+    })
+    .then(({ data }) => {
+      this.oauth_key = data.oauth_key;
+      console.log('OAUTH: ', data.oauth_key);
+
+      this.headers = buildHeaders({
+        client_id: this.client.client_id,
+        client_secret: this.client.client_secret,
+        fingerprint: this.fingerprint,
+        ip_address: this.ip_address,
+        oauth_key: this.oauth_key
+      });
+
+      return data;
     });
   }
 
@@ -123,6 +151,7 @@ class User {
     });
   }
 
+  // WILL NEED TO MOVE TO NODE CLASS!!!
   // GET TRIGGER DUMMY TRANSACTIONS
   triggerDummyTransactions(node_id, is_credit = false) {
     return apiRequests.user[triggerDummyTransactions]({

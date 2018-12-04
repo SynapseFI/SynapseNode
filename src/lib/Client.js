@@ -46,11 +46,7 @@ class Client {
     })
     .then(({ data }) => {
       return new User({
-        id: data._id,
-        fingerprint: this.fingerprint,
-        oauth_key: '',
-        refresh_token: data.refresh_token,
-        ip_address: this.ip_address,
+        data,
         client: this
       });
     });
@@ -75,6 +71,12 @@ class Client {
       user_id,
       full_dehydrate,
       clientInfo: this
+    })
+    .then(({ data }) => {
+      return new User({
+        data,
+        client: this
+      });
     });
   }
 
