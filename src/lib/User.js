@@ -228,6 +228,25 @@ class User {
       userInfo: this
     });
   }
+
+  // PATCH UPDATE NODE
+  updateNode(node_id, bodyParams) {
+    return apiRequests.user[updateNode]({
+      node_id,
+      bodyParams,
+      userInfo: this
+    });
+  }
+
+  // DELETE NODE
+  deleteNode(node_id) {
+    return apiRequests.user[deleteNode]({
+      node_id,
+      userInfo: this
+    });
+  }
+
+  
 }
 
 module.exports = User;

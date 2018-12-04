@@ -170,9 +170,23 @@ module.exports[verifyMicroDeposits] = ({ user_id, node_id, bodyParams, userInfo 
 };
 
 // !!!!!!!! WILL NEED TO REFACTOR/REMOVE USER_ID FROM METHODS ABOVE !!!!!!!!
-module.exports[reinitiateMicroDeposits] = ({ node_id, userInfo }) {
+module.exports[reinitiateMicroDeposits] = ({ node_id, userInfo }) => {
   const { host, headers, id } = userInfo;
   const url = `${host}/users/${id}/nodes/${node_id}?resend_micro=yes`;
 
   return axios.patch(url, {}, { headers });
+};
+
+module.exports[updateNode] = ({ node_id, bodyParams, userInfo }) => {
+  const { host, headers, id } = userInfo;
+  const url = `${host}/users/${id}/nodes/${node_id}`;
+
+  return axios.patch(url, bodyParams, { headers });
+};
+
+module.exports[deleteNode] = ({ node_id, userInfo }) => {
+  const { host, headers, id } = userInfo;
+  const url = `${host}/users/${id}/nodes/${node_id}`;
+
+  return axios.delete(url, { headers });
 };
