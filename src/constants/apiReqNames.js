@@ -19,5 +19,11 @@ module.exports = {
   refresh: 'refresh',
   oauthUser: 'oauthUser',
   createNode: 'createNode',
-  getAllUserNodes: 'getAllUserNodes'
+  getAllUserNodes: 'getAllUserNodes',
+  generateUboForm: 'generateUboForm',
+  getStatementsByUser: 'getStatementsByUser',
+  getStatementsByNode: 'getStatementsByNode',
+  shipDebitCard: 'shipDebitCard',
+  resetDebitCard: 'resetDebitCard',
+  verifyMicroDeposits: 'verifyMicroDeposits'
 };

@@ -8,8 +8,14 @@ const {
   createNode,
   getAllUserNodes,
   getUserTransactions,
-  triggerDummyTransactions
-  // STARTING FROM GENERATE_UBO_FORM
+  triggerDummyTransactions,
+  generateUboForm,
+  getStatementsByUser,
+  getStatementsByNode,
+  shipDebitCard,
+  resetDebitCard,
+  verifyMicroDeposits
+  // STARTING FROM REINITIATE MICRO-DEPOSITS
 } = require('../constants/apiReqNames');
 
 const apiRequests = require('../apiReqs/apiRequests');
@@ -204,7 +210,24 @@ class User {
     });
   }
 
-  
+  // PATCH VERIFY MICRO-DEPOSITS
+  verifyMicroDeposits(node_id, bodyParams) {
+    return apiRequests.user[verifyMicroDeposits]({
+      user_id: this.id,
+      node_id,
+      bodyParams,
+      userInfo: this
+    });
+  }
+
+  // !!!!!!!! WILL NEED TO REFACTOR/REMOVE USER_ID FROM METHODS ABOVE !!!!!!!!
+  // PATCH REINITIATE MICRO-DEPOSITS
+  reinitiateMicroDeposits(node_id) {
+    return apiRequests.user[reinitiateMicroDeposits]({
+      node_id,
+      userInfo: this
+    });
+  }
 }
 
 module.exports = User;
