@@ -9,6 +9,7 @@ const {
   getAllUserNodes,
   getUserTransactions,
   triggerDummyTransactions
+  // STARTING FROM GENERATE_UBO_FORM
 } = require('../constants/apiReqNames');
 
 const apiRequests = require('../apiReqs/apiRequests');
@@ -170,6 +171,40 @@ class User {
       userInfo: this
     });
   }
+
+  // GET STATEMENTS BY NODE
+  getStatementsByNode(node_id, queryParams = {}) {
+    const { page, per_page } = queryParams;
+
+    return apiRequests.user[getStatementsByNode]({
+      user_id: this.id,
+      node_id,
+      page,
+      per_page,
+      userInfo: this
+    });
+  }
+
+  // PATCH SHIP DEBIT CARD
+  shipDebitCard(node_id, bodyParams) {
+    return apiRequests.user[shipDebitCard]({
+      user_id: this.id,
+      node_id,
+      bodyParams,
+      userInfo: this
+    });
+  }
+
+  // PATCH RESET DEBIT CARD
+  resetDebitCard(node_id) {
+    return apiRequests.user[resetDebitCard]({
+      user_id: this.id,
+      node_id,
+      userInfo: this
+    });
+  }
+
+  
 }
 
 module.exports = User;

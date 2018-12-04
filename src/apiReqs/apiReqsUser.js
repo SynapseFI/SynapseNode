@@ -11,6 +11,7 @@ const {
   getAllUserNodes,
   getUserTransactions,
   triggerDummyTransactions
+  // STARTING FROM GENERATE_UBO_FORM
 } = require('../constants/apiReqNames');
 
 const { addQueryParams, replacePathParams } = require('../helpers/buildUrls');
@@ -124,4 +125,25 @@ module.exports[getStatementsByUser] = ({ user_id, page, per_page, userInfo }) =>
   const url = `${host}/users/${user_id}/statements`;
 
   return axios.get(url, { headers });
+};
+
+module.exports[getStatementsByNode] = ({ user_id, node_id, page, per_page, userInfo }) => {
+  const { host, headers } = userInfo;
+  const url = `${host}/users/${user_id}/nodes/${node_id}/statements`;
+
+  return axios.get(url, { headers });
+};
+
+module.exports[shipDebitCard] = ({ user_id, node_id, bodyParams, userInfo }) {
+  const { host, headers } = userInfo;
+  const url = `${host}/users/${user_id}/nodes/${node_id}?ship=yes`;
+
+  return axios.patch(url, bodyParams, { headers });
+};
+
+module.exports[resetDebitCard] = ({ user_id, node_id, userInfo }) {
+  const { host, headers } = userInfo;
+  const url = `${host}/users/${user_id}/nodes/${node_id}?reset=yes`;
+
+  return axios.patch(url, {}, { headers });
 };
