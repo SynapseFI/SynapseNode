@@ -203,6 +203,13 @@ module.exports[deleteNode] = ({ node_id, userInfo }) => {
   return axios.delete(url, { headers });
 };
 
+module.exports[generateApplePayToken] = ({ node_id, bodyParams, userInfo }) => {
+  const { host, headers, id } = userInfo;
+  const url = `${host}/users/${id}/nodes/${node_id}/applepay`;
+
+  return axios.patch(url, bodyParams, { headers });
+};
+
 module.exports[createTransaction] = ({ node_id, bodyParams, userInfo }) => {
   const { host, headers, id } = userInfo;
   const url = `${host}/users/${id}/nodes/${node_id}/trans`;
@@ -240,6 +247,19 @@ module.exports[commentOnStatus] = ({ node_id, trans_id, bodyParams, userInfo }) 
   const url = `${host}/users/${id}/nodes/${node_id}/trans/${trans_id}`;
 
   return axios.patch(url, bodyParams, { headers });
+};
+
+module.exports[disputeCardTransaction] = ({ node_id, trans_id, userInfo }) => {
+  const { host, headers, id } = userInfo;
+  const url = `${host}/users/${id}/nodes/${node_id}/trans/${trans_id}/dispute`;
+
+  return axios.patch(
+    url,
+    {
+      dispute_reason: 'CHARGE_BACK'
+    },
+    { headers }
+  );
 };
 
 module.exports[getAllSubnets] = ({ node_id, page, per_page, userInfo }) => {

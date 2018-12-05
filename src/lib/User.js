@@ -172,7 +172,7 @@ class User {
 
   // PATCH GENERATE UBO FORM
   generateUboForm(bodyParams) {
-    return apiRequests.user[generageUboForm]({
+    return apiRequests.user[generateUboForm]({
       user_id: this.id,
       bodyParams,
       userInfo: this
@@ -259,6 +259,15 @@ class User {
     });
   }
 
+  // PATCH GENERATE APPLE PAY TOKEN
+  generateApplePayToken(node_id, bodyParams) {
+    return apiRequests.user[generateApplePayToken]({
+      node_id,
+      bodyParams,
+      userInfo: this
+    });
+  }
+
   // POST CREATE TRANSACTION
   createTransaction(node_id, bodyParams) {
     return apiRequests.user[createTransaction]({
@@ -304,6 +313,15 @@ class User {
       node_id,
       trans_id,
       bodyParams,
+      userInfo: this
+    });
+  }
+
+  // PATCH DISPUTE CARD TRANSACTION
+  disputeCardTransaction(node_id, trans_id) {
+    return apiRequests.user[disputeCardTransaction]({
+      node_id,
+      trans_id,
       userInfo: this
     });
   }
