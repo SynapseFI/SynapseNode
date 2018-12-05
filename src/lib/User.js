@@ -268,7 +268,37 @@ class User {
     });
   }
 
-  //
+  // GET TRANSACTION W/ TRANSACTION_ID
+  getTransaction(node_id, trans_id) {
+    return apiRequests.user[getTransaction]({
+      node_id,
+      trans_id,
+      userInfo: this
+    });
+  }
+
+  // GET ALL NODE TRANSACTIONS
+  getAllNodeTransactions(node_id, queryParams = {}) {
+    const { page, per_page } = queryParams;
+
+    return apiRequests.user[getAllNodeTransactions]({
+      node_id,
+      page,
+      per_page,
+      userInfo: this
+    });
+  }
+
+  // DELETE TRANSACTION
+  deleteTransaction(node_id, trans_id) {
+    return apiRequests.user[deleteTransaction]({
+      node_id,
+      trans_id,
+      userInfo: this
+    });
+  }
+
+  
 }
 
 module.exports = User;

@@ -209,3 +209,28 @@ module.exports[createTransaction] = ({ node_id, bodyParams, userInfo }) => {
 
   return axios.post(url, bodyParams, { headers });
 };
+
+module.exports[getTransaction] = ({ node_id, trans_id, userInfo }) => {
+  const { host, headers, id } = userInfo;
+  const url = `${host}/users/${id}/nodes/${node_id}/trans/${trans_id}`;
+
+  return axios.get(url, { headers });
+};
+
+module.exports[getAllNodeTransactions] = ({ node_id, trans_id, page, per_page, userInfo }) => {
+  const { host, headers, id } = userInfo;
+  const url = addQueryParams({
+    originalUrl: `${host}/users/${id}/nodes/${node_id}/trans`,
+    page,
+    per_page
+  });
+
+  return axios.get(url, { headers });
+};
+
+module.exports[deleteTransaction] = ({ node_id, trans_id, userInfo }) => {
+  const { host, headers, id } = userInfo;
+  const url = `${host}/users/${id}/nodes/${node_id}/trans/${trans_id}`;
+
+  return axios.delete(url, { headers });
+};
