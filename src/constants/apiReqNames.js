@@ -26,5 +26,18 @@ module.exports = {
   getStatementsByNode: 'getStatementsByNode',
   shipDebitCard: 'shipDebitCard',
   resetDebitCard: 'resetDebitCard',
-  verifyMicroDeposits: 'verifyMicroDeposits'
+  verifyMicroDeposits: 'verifyMicroDeposits',
+  reinitiateMicroDeposits: 'reinitiateMicroDeposits',
+  updateNode: 'updateNode',
+  deleteNode: 'deleteNode',
+  generateApplePayToken: 'generateApplePayToken',
+  createTransaction: 'createTransaction',
+  getTransaction: 'getTransaction',
+  getAllNodeTransactions: 'getAllNodeTransactions',
+  deleteTransaction: 'deleteTransaction',
+  commentOnStatus: 'commentOnStatus',
+  disputeCardTransaction: 'disputeCardTransaction',
+  getAllSubnets: 'getAllSubnets',
+  getSubnet: 'getSubnet',
+  createSubnet: 'createSubnet'
 };

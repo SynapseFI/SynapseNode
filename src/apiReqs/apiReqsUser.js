@@ -18,7 +18,19 @@ const {
   shipDebitCard,
   resetDebitCard,
   verifyMicroDeposits
-  // STARTING FROM REINITIATE MICRO-DEPOSITS
+  reinitiateMicroDeposits,
+  updateNode,
+  deleteNode,
+  generateApplePayToken,
+  createTransaction,
+  getTransaction,
+  getAllNodeTransactions,
+  deleteTransaction,
+  commentOnStatus,
+  disputeCardTransaction,
+  getAllSubnets,
+  getSubnet,
+  createSubnet
 } = require('../constants/apiReqNames');
 
 const { addQueryParams, replacePathParams } = require('../helpers/buildUrls');

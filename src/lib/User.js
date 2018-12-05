@@ -15,8 +15,20 @@ const {
   getStatementsByNode,
   shipDebitCard,
   resetDebitCard,
-  verifyMicroDeposits
-  // STARTING FROM REINITIATE MICRO-DEPOSITS
+  verifyMicroDeposits,
+  reinitiateMicroDeposits,
+  updateNode,
+  deleteNode,
+  generateApplePayToken,
+  createTransaction,
+  getTransaction,
+  getAllNodeTransactions,
+  deleteTransaction,
+  commentOnStatus,
+  disputeCardTransaction,
+  getAllSubnets,
+  getSubnet,
+  createSubnet
 } = require('../constants/apiReqNames');
 
 const apiRequests = require('../apiReqs/apiRequests');
@@ -233,7 +245,7 @@ class User {
     });
   }
 
-  // !!!!!!!! WILL NEED TO REFACTOR/REMOVE USER_ID FROM METHODS ABOVE !!!!!!!!
+  // !!!!! WILL NEED TO REFACTOR/REMOVE USER_ID FROM METHODS ABOVE !!!!!!
   // PATCH REINITIATE MICRO-DEPOSITS
   reinitiateMicroDeposits(node_id) {
     return apiRequests.user[reinitiateMicroDeposits]({
