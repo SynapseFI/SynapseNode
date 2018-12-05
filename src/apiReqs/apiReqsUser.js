@@ -234,3 +234,35 @@ module.exports[deleteTransaction] = ({ node_id, trans_id, userInfo }) => {
 
   return axios.delete(url, { headers });
 };
+
+module.exports[commentOnStatus] = ({ node_id, trans_id, bodyParams, userInfo }) => {
+  const { host, headers, id } = userInfo;
+  const url = `${host}/users/${id}/nodes/${node_id}/trans/${trans_id}`;
+
+  return axios.patch(url, bodyParams, { headers });
+};
+
+module.exports[getAllSubnets] = ({ node_id, page, per_page, userInfo }) => {
+  const { host, headers, id } = userInfo;
+  const url = addQueryParams({
+    originalUrl: `${host}/users/${id}/nodes/${node_id}/subnets`,
+    page,
+    per_page
+  });
+
+  return axios.get(url, { headers });
+};
+
+module.exports[getSubnet] = ({ node_id, subnet_id, userInfo }) => {
+  const { host, headers, id } = userInfo;
+  const url = `${host}/users/${id}/nodes/${node_id}/subnets/${subnet_id}`;
+
+  return axios.get(url, { headers });
+};
+
+module.exports[createSubnet] = ({ node_id, bodyParams, userInfo }) => {
+  const { host, headers, id } = userInfo;
+  const url = `${host}/users/${id}/nodes/${node_id}/subnets`;
+
+  return axios.post(url, bodyParams, { headers });
+};

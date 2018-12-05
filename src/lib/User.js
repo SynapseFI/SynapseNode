@@ -298,7 +298,47 @@ class User {
     });
   }
 
-  
+  // PATCH COMMENT ON STATUS
+  commentOnStatus(node_id, trans_id, bodyParams) {
+    return apiRequests.user[commentOnStatus]({
+      node_id,
+      trans_id,
+      bodyParams,
+      userInfo: this
+    });
+  }
+
+  // GET ALL SUBNETS
+  getAllSubnets(node_id, queryParams = {}) {
+    const { page, per_page } = queryParams;
+
+    return apiRequests.user[getAllSubnets]({
+      node_id,
+      page,
+      per_page,
+      userInfo: this
+    });
+  }
+
+  // GET SUBNET W/ SUBNET_ID
+  getSubnet(node_id, subnet_id) {
+    return apiRequests.user[getSubnet]({
+      node_id,
+      subnet_id,
+      userInfo: this
+    });
+  }
+
+  // POST CREATE SUBNET
+  createSubnet(node_id, bodyParams) {
+    return apiRequests.user[createSubnet]({
+      node_id,
+      bodyParams,
+      userInfo: this
+    });
+  }
+
+  // UPDATE SUBNET???????
 }
 
 module.exports = User;
