@@ -7,6 +7,7 @@ const {
   oauthUser,
   createNode,
   getAllUserNodes,
+  getNode,
   getUserTransactions,
   triggerDummyTransactions,
   generateUboForm,
@@ -135,6 +136,18 @@ class User {
     });
   }
 
+  // GET NODE W/ NODE_ID
+  getNode(node_id, queryParams = {}) {
+    const { full_dehydrate, force_refresh } = queryParams;
+
+    return apiRequests.user[getNode]({
+      node_id,
+      full_dehydrate,
+      force_refresh,
+      userInfo: this
+    });
+  }
+
   // GET ALL USER TRANSACTIONS
   getUserTransactions(queryParams = {}) {
     const { page, per_page } = queryParams;
@@ -246,7 +259,16 @@ class User {
     });
   }
 
-  
+  // POST CREATE TRANSACTION
+  createTransaction(node_id, bodyParams) {
+    return apiRequests.user[createTransaction]({
+      node_id,
+      bodyParams,
+      userInfo: this
+    });
+  }
+
+  //
 }
 
 module.exports = User;

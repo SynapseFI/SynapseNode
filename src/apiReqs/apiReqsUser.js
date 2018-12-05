@@ -9,6 +9,7 @@ const {
   oauthUser,
   createNode,
   getAllUserNodes,
+  getNode,
   getUserTransactions,
   triggerDummyTransactions,
   generateUboForm,
@@ -95,6 +96,17 @@ module.exports[getAllUserNodes] = ({
     page,
     per_page,
     type
+  });
+
+  return axios.get(url, { headers });
+};
+
+module.exports[getNode] = ({ node_id, full_dehydrate, force_refresh, userInfo }) => {
+  const { host, headers, id } = userInfo;
+  const url = addQueryParams({
+    originalUrl: `${host}/users/${id}/nodes/${node_id}`,
+    full_dehydrate,
+    force_refresh
   });
 
   return axios.get(url, { headers });
@@ -189,4 +201,11 @@ module.exports[deleteNode] = ({ node_id, userInfo }) => {
   const url = `${host}/users/${id}/nodes/${node_id}`;
 
   return axios.delete(url, { headers });
+};
+
+module.exports[createTransaction] = ({ node_id, bodyParams, userInfo }) => {
+  const { host, headers, id } = userInfo;
+  const url = `${host}/users/${id}/nodes/${node_id}/trans`;
+
+  return axios.post(url, bodyParams, { headers });
 };

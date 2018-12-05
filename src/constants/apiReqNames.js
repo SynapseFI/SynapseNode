@@ -20,6 +20,7 @@ module.exports = {
   oauthUser: 'oauthUser',
   createNode: 'createNode',
   getAllUserNodes: 'getAllUserNodes',
+  getNode: 'getNode',
   generateUboForm: 'generateUboForm',
   getStatementsByUser: 'getStatementsByUser',
   getStatementsByNode: 'getStatementsByNode',
