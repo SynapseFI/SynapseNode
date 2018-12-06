@@ -229,7 +229,6 @@ class User {
     });
   }
 
-  // !!!!! WILL NEED TO REFACTOR/REMOVE USER_ID FROM METHODS ABOVE !!!!!!
   // PATCH REINITIATE MICRO-DEPOSITS
   reinitiateMicroDeposits(node_id) {
     return apiRequests.user[reinitiateMicroDeposits]({
