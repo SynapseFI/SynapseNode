@@ -59,7 +59,6 @@ class User {
   // PATCH ADD NEW DOCUMENTS
   addNewDocuments(bodyParams = {}) {
     return apiRequests.user[addNewDocuments]({
-      user_id: this.id,
       bodyParams,
       userInfo: this
     });
@@ -68,7 +67,6 @@ class User {
   // PATCH UPDATE EXISTING DOCUMENT
   updateExistingDocument(bodyParams = {}) {
     return apiRequests.user[updateExistingDocument]({
-      user_id: this.id,
       bodyParams,
       userInfo: this
     });
@@ -77,7 +75,6 @@ class User {
   // PATCH DELETE EXISTING DOCUMENT
   deleteExistingDocument(bodyParams = {}) {
     return apiRequests.user[deleteExistingDocument]({
-      user_id: this.id,
       bodyParams,
       userInfo: this
     });
@@ -86,7 +83,6 @@ class User {
   // PATCH UPDATE USER
   updateUser(bodyParams = {}) {
     return apiRequests.user[updateUser]({
-      user_id: this.id,
       bodyParams,
       userInfo: this
     });
@@ -95,7 +91,6 @@ class User {
   // REFRESH TOKEN
   _refresh() {
     return apiRequests.client[getUser]({
-      user_id: this.id,
       full_dehydrate: 'no',
       clientInfo: this.client
     })
@@ -107,7 +102,6 @@ class User {
   // POST OAUTH USER
   oauthUser(bodyParams = {}) {
     return apiRequests.user[oauthUser]({
-      user_id: this.id,
       bodyParams,
       userInfo: this
     })
@@ -129,7 +123,6 @@ class User {
   // POST CREATE NODE
   createNode(bodyParams = {}) {
     return apiRequests.user[createNode]({
-      user_id: this.id,
       bodyParams,
       userInfo: this
     });
@@ -140,7 +133,6 @@ class User {
     const { page, per_page, type } = queryParams;
 
     return apiRequests.user[getAllUserNodes]({
-      user_id: this.id,
       page,
       per_page,
       type,
@@ -165,7 +157,6 @@ class User {
     const { page, per_page } = queryParams;
 
     return apiRequests.user[getUserTransactions]({
-      user_id: this.id,
       page,
       per_page,
       userInfo: this
@@ -175,7 +166,6 @@ class User {
   // GET TRIGGER DUMMY TRANSACTIONS
   triggerDummyTransactions(node_id, is_credit = false) {
     return apiRequests.user[triggerDummyTransactions]({
-      user_id: this.id,
       node_id,
       is_credit,
       userInfo: this
@@ -185,7 +175,6 @@ class User {
   // PATCH GENERATE UBO FORM
   generateUboForm(bodyParams) {
     return apiRequests.user[generateUboForm]({
-      user_id: this.id,
       bodyParams,
       userInfo: this
     });
@@ -196,7 +185,6 @@ class User {
     const { page, per_page } = queryParams;
 
     return apiRequests.user[getStatementsByUser]({
-      user_id: this.id,
       page,
       per_page,
       userInfo: this
@@ -208,7 +196,6 @@ class User {
     const { page, per_page } = queryParams;
 
     return apiRequests.user[getStatementsByNode]({
-      user_id: this.id,
       node_id,
       page,
       per_page,
@@ -219,7 +206,6 @@ class User {
   // PATCH SHIP DEBIT CARD
   shipDebitCard(node_id, bodyParams) {
     return apiRequests.user[shipDebitCard]({
-      user_id: this.id,
       node_id,
       bodyParams,
       userInfo: this
@@ -229,7 +215,6 @@ class User {
   // PATCH RESET DEBIT CARD
   resetDebitCard(node_id) {
     return apiRequests.user[resetDebitCard]({
-      user_id: this.id,
       node_id,
       userInfo: this
     });
@@ -238,7 +223,6 @@ class User {
   // PATCH VERIFY MICRO-DEPOSITS
   verifyMicroDeposits(node_id, bodyParams) {
     return apiRequests.user[verifyMicroDeposits]({
-      user_id: this.id,
       node_id,
       bodyParams,
       userInfo: this

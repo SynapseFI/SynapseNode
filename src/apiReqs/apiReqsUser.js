@@ -35,76 +35,46 @@ const {
 
 const { addQueryParams, replacePathParams } = require('../helpers/buildUrls');
 
-module.exports[addNewDocuments] = ({
-  user_id,
-  bodyParams,
-  userInfo
-}) => {
-  const { host, headers } = userInfo;
+module.exports[addNewDocuments] = ({ bodyParams, userInfo }) => {
+  const { host, headers, id } = userInfo;
 
-  return axios.patch(`${host}/users/${user_id}`, bodyParams, { headers });
+  return axios.patch(`${host}/users/${id}`, bodyParams, { headers });
 };
 
-module.exports[updateExistingDocument] = ({
-  user_id,
-  bodyParams,
-  userInfo
-}) => {
-  const { host, headers } = userInfo;
+module.exports[updateExistingDocument] = ({ bodyParams, userInfo }) => {
+  const { host, headers, id } = userInfo;
 
-  return axios.patch(`${host}/users/${user_id}`, bodyParams, { headers });
+  return axios.patch(`${host}/users/${id}`, bodyParams, { headers });
 };
 
-module.exports[deleteExistingDocument] = ({
-  user_id,
-  bodyParams,
-  userInfo
-}) => {
-  const { host, headers } = userInfo;
+module.exports[deleteExistingDocument] = ({ bodyParams, userInfo }) => {
+  const { host, headers, id } = userInfo;
 
-  return axios.patch(`${host}/users/${user_id}`, bodyParams, { headers });
+  return axios.patch(`${host}/users/${id}`, bodyParams, { headers });
 };
 
-module.exports[updateUser] = ({
-  user_id,
-  bodyParams,
-  userInfo
-}) => {
-  const { host, headers } = userInfo;
+module.exports[updateUser] = ({ bodyParams, userInfo }) => {
+  const { host, headers, id } = userInfo;
 
-  return axios.patch(`${host}/users/${user_id}`, bodyParams, { headers });
+  return axios.patch(`${host}/users/${id}`, bodyParams, { headers });
 };
 
-module.exports[oauthUser] = ({
-  user_id,
-  bodyParams,
-  userInfo
-}) => {
-  const { host, headers } = userInfo;
+module.exports[oauthUser] = ({ bodyParams, userInfo }) => {
+  const { host, headers, id } = userInfo;
 
-  return axios.post(`${host}/oauth/${user_id}`, bodyParams, { headers });
+  return axios.post(`${host}/oauth/${id}`, bodyParams, { headers });
 };
 
-module.exports[createNode] = ({
-  user_id,
-  bodyParams,
-  userInfo
-}) => {
-  const { host, headers } = userInfo;
+module.exports[createNode] = ({ bodyParams, userInfo }) => {
+  const { host, headers, id } = userInfo;
 
-  return axios.post(`${host}/users/${user_id}/nodes`, bodyParams, { headers });
+  return axios.post(`${host}/users/${id}/nodes`, bodyParams, { headers });
 };
 
-module.exports[getAllUserNodes] = ({
-  user_id,
-  page,
-  per_page,
-  type,
-  userInfo
-}) => {
-  const { host, headers } = userInfo;
+module.exports[getAllUserNodes] = ({ page, per_page, type, userInfo }) => {
+  const { host, headers, id } = userInfo;
   const url = addQueryParams({
-    originalUrl: `${host}/users/${user_id}/nodes`,
+    originalUrl: `${host}/users/${id}/nodes`,
     page,
     per_page,
     type
@@ -124,11 +94,11 @@ module.exports[getNode] = ({ node_id, full_dehydrate, force_refresh, userInfo })
   return axios.get(url, { headers });
 };
 
-module.exports[getUserTransactions] = ({ user_id, page, per_page, userInfo }) => {
-  const { host, headers } = userInfo;
+module.exports[getUserTransactions] = ({ page, per_page, userInfo }) => {
+  const { host, headers, id } = userInfo;
   const url = addQueryParams({
     // STATIC ENDPOINT
-    originalUrl: `${host}/users/${user_id}/trans`,
+    originalUrl: `${host}/users/${id}/trans`,
     page,
     per_page
   });
@@ -136,24 +106,24 @@ module.exports[getUserTransactions] = ({ user_id, page, per_page, userInfo }) =>
   return axios.get(url, { headers });
 };
 
-module.exports[triggerDummyTransactions] = ({ user_id, node_id, is_credit, userInfo }) => {
-  const { host, headers } = userInfo;
-  const url = `${host}/users/${user_id}/nodes/${node_id}/dummy-tran?is_credit=${is_credit ? 'yes' : 'no'}`;
+module.exports[triggerDummyTransactions] = ({ node_id, is_credit, userInfo }) => {
+  const { host, headers, id } = userInfo;
+  const url = `${host}/users/${id}/nodes/${node_id}/dummy-tran?is_credit=${is_credit ? 'yes' : 'no'}`;
 
   return axios.get(url, { headers });
 };
 
-module.exports[generateUboForm] = ({ user_id, bodyParams, userInfo }) => {
-  const { host, headers } = userInfo;
-  const url = `${host}/users/${user_id}/ubo`;
+module.exports[generateUboForm] = ({ bodyParams, userInfo }) => {
+  const { host, headers, id } = userInfo;
+  const url = `${host}/users/${id}/ubo`;
 
   return axios.patch(url, payload, { headers });
 };
 
-module.exports[getStatementsByUser] = ({ user_id, page, per_page, userInfo }) => {
-  const { host, headers } = userInfo;
+module.exports[getStatementsByUser] = ({ page, per_page, userInfo }) => {
+  const { host, headers, id } = userInfo;
   const url = addQueryParams({
-    originalUrl: `${host}/users/${user_id}/statements`,
+    originalUrl: `${host}/users/${id}/statements`,
     page,
     per_page
   });
@@ -161,10 +131,10 @@ module.exports[getStatementsByUser] = ({ user_id, page, per_page, userInfo }) =>
   return axios.get(url, { headers });
 };
 
-module.exports[getStatementsByNode] = ({ user_id, node_id, page, per_page, userInfo }) => {
-  const { host, headers } = userInfo;
+module.exports[getStatementsByNode] = ({ node_id, page, per_page, userInfo }) => {
+  const { host, headers, id } = userInfo;
   const url = addQueryParams({
-    originalUrl: `${host}/users/${user_id}/nodes/${node_id}/statements`,
+    originalUrl: `${host}/users/${id}/nodes/${node_id}/statements`,
     page,
     per_page
   });
@@ -172,23 +142,23 @@ module.exports[getStatementsByNode] = ({ user_id, node_id, page, per_page, userI
   return axios.get(url, { headers });
 };
 
-module.exports[shipDebitCard] = ({ user_id, node_id, bodyParams, userInfo }) => {
-  const { host, headers } = userInfo;
-  const url = `${host}/users/${user_id}/nodes/${node_id}?ship=yes`;
+module.exports[shipDebitCard] = ({ node_id, bodyParams, userInfo }) => {
+  const { host, headers, id } = userInfo;
+  const url = `${host}/users/${id}/nodes/${node_id}?ship=yes`;
 
   return axios.patch(url, bodyParams, { headers });
 };
 
-module.exports[resetDebitCard] = ({ user_id, node_id, userInfo }) => {
-  const { host, headers } = userInfo;
-  const url = `${host}/users/${user_id}/nodes/${node_id}?reset=yes`;
+module.exports[resetDebitCard] = ({ node_id, userInfo }) => {
+  const { host, headers, id } = userInfo;
+  const url = `${host}/users/${id}/nodes/${node_id}?reset=yes`;
 
   return axios.patch(url, {}, { headers });
 };
 
-module.exports[verifyMicroDeposits] = ({ user_id, node_id, bodyParams, userInfo }) => {
-  const { host, headers } = userInfo;
-  const url = `${host}/users/${user_id}/nodes/${node_id}`;
+module.exports[verifyMicroDeposits] = ({ node_id, bodyParams, userInfo }) => {
+  const { host, headers, id } = userInfo;
+  const url = `${host}/users/${id}/nodes/${node_id}`;
 
   return axios.patch(url, bodyParams, { headers });
 };
