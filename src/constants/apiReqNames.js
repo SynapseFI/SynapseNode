@@ -19,6 +19,7 @@ module.exports = {
   refresh: 'refresh',
   oauthUser: 'oauthUser',
   createNode: 'createNode',
+  verifyAchMfa: 'verifyAchMfa',
   getAllUserNodes: 'getAllUserNodes',
   getNode: 'getNode',
   generateUboForm: 'generateUboForm',

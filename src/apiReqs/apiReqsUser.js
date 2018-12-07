@@ -8,6 +8,7 @@ const {
   refresh,
   oauthUser,
   createNode,
+  verifyAchMfa,
   getAllUserNodes,
   getNode,
   getUserTransactions,
