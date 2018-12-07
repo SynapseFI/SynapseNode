@@ -128,6 +128,16 @@ class User {
     });
   }
 
+  // POST ACH-US MFA
+  // submit answer to a mfa question from bank login attempt
+  verifyAchMfa(access_token, mfa_answer) {
+    return apiRequests.user[verifyAchMfa]({
+      access_token,
+      mfa_answer,
+      userInfo: this
+    });
+  }
+
   // GET ALL USER NODES
   getAllUserNodes(queryParams = {}) {
     const { page, per_page, type } = queryParams;

@@ -17,7 +17,7 @@ const {
   getStatementsByNode,
   shipDebitCard,
   resetDebitCard,
-  verifyMicroDeposits
+  verifyMicroDeposits,
   reinitiateMicroDeposits,
   updateNode,
   deleteNode,
@@ -69,6 +69,19 @@ module.exports[createNode] = ({ bodyParams, userInfo }) => {
   const { host, headers, id } = userInfo;
 
   return axios.post(`${host}/users/${id}/nodes`, bodyParams, { headers });
+};
+
+module.exports[verifyAchMfa] = ({ access_token, mfa_answer, userInfo }) => {
+  const { host, headers, id} = userInfo;
+
+  return axios.post(
+    `${host}/users/${id}/nodes`,
+    {
+      access_token,
+      mfa_answer
+    },
+    { headers }
+  );
 };
 
 module.exports[getAllUserNodes] = ({ page, per_page, type, userInfo }) => {
