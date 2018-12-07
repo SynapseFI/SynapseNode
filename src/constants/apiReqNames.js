@@ -39,5 +39,8 @@ module.exports = {
   disputeCardTransaction: 'disputeCardTransaction',
   getAllSubnets: 'getAllSubnets',
   getSubnet: 'getSubnet',
-  createSubnet: 'createSubnet'
+  createSubnet: 'createSubnet',
+  registerNewFingerprint: 'registerNewFingerprint',
+  supplyDevice2FA: 'supplyDevice2FA',
+  verifyFingerprint2FA: 'verifyFingerprint2FA'
 };

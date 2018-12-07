@@ -30,7 +30,10 @@ const {
   disputeCardTransaction,
   getAllSubnets,
   getSubnet,
-  createSubnet
+  createSubnet,
+  registerNewFingerprint,
+  supplyDevice2FA,
+  verifyFingerprint2FA
 } = require('../constants/apiReqNames');
 
 const { addQueryParams, replacePathParams } = require('../helpers/buildUrls');
@@ -279,4 +282,44 @@ module.exports[createSubnet] = ({ node_id, bodyParams, userInfo }) => {
   const url = `${host}/users/${id}/nodes/${node_id}/subnets`;
 
   return axios.post(url, bodyParams, { headers });
+};
+
+// UPDATE SUBNET PLACEHOLDER
+
+module.exports[registerNewFingerprint] = ({ refresh_token, userInfo }) => {
+  const { host, headers, id } = userInfo;
+
+  return axios.post(
+    `${host}/oauth/${id}`,
+    {
+      refresh_token
+    },
+    { headers }
+  );
+};
+
+module.exports[supplyDevice2FA] = ({ device, refresh_token, userInfo }) => {
+  const { host, headers, id } = userInfo;
+
+  return axios.post(
+    `${host}/oauth/${id}`,
+    {
+      refresh_token,
+      "phone_number": device
+    },
+    { headers }
+  );
+};
+
+module.exports[verifyFingerprint2FA] = ({ validation_pin, refresh_token, userInfo }) => {
+  const { host, headers, id } = userInfo;
+
+  return axios.post(
+    `${host}/oauth/${id}`,
+    {
+      refresh_token,
+      validation_pin
+    },
+    { headers }
+  );
 };

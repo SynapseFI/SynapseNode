@@ -28,7 +28,10 @@ const {
   disputeCardTransaction,
   getAllSubnets,
   getSubnet,
-  createSubnet
+  createSubnet,
+  registerNewFingerprint,
+  supplyDevice2FA,
+  verifyFingerprint2FA
 } = require('../constants/apiReqNames');
 
 const apiRequests = require('../apiReqs/apiRequests');
@@ -361,7 +364,48 @@ class User {
     });
   }
 
-  // UPDATE SUBNET???????
+  // UPDATE SUBNET PLACEHOLDER
+
+  // First call for registering new fingerprint
+  registerNewFingerprint(fp) {
+    const refresh_token = this._refresh();
+
+    this.fingerprint = fp;
+    this.headers = buildHeaders({
+      client_id: client.client_id,
+      client_secret: client.client_secret,
+      fingerprint: this.fingerprint,
+      ip_address: this.ip_address,
+      oauth_key: this.oauth_key
+    });
+
+    return apiRequests.user[registerNewFingerprint]({
+      refresh_token,
+      userInfo: this
+    });
+  }
+
+  // Second call for registering new fingerprint
+  supplyDevice2FA(device) {
+    const refresh_token = this._refresh();
+
+    return apiRequests.user[supplyDevice2FA]({
+      device,
+      refresh_token,
+      userInfo: this
+    });
+  }
+
+  // Final call for registering new fingerprint
+  verifyFingerprint2FA(validation_pin) {
+    const refresh_token = this._refresh();
+
+    return apiRequests.user[verifyFingerprint2FA]({
+      validation_pin,
+      refresh_token,
+      userInfo: this
+    });
+  }
 }
 
 module.exports = User;
