@@ -114,10 +114,10 @@ class Client {
     return apiRequests.client[issuePublicKey]({
       scope,
       clientInfo: this
-    })
-    .then(({ data }) => {
-      return {data: data.public_key_obj};
     });
+    // .then(({ data }) => {
+    //   return {data: data.public_key_obj};
+    // });
   }
 
   // POST CREATE SUBSCRIPTION
