@@ -134,7 +134,7 @@ module.exports[generateUboForm] = ({ bodyParams, userInfo }) => {
   const { host, headers, id } = userInfo;
   const url = `${host}/users/${id}/ubo`;
 
-  return axios.patch(url, payload, { headers });
+  return axios.patch(url, bodyParams, { headers });
 };
 
 module.exports[getStatementsByUser] = ({ page, per_page, userInfo }) => {
