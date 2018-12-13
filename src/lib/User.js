@@ -32,7 +32,8 @@ const {
   createSubnet,
   registerNewFingerprint,
   supplyDevice2FA,
-  verifyFingerprint2FA
+  verifyFingerprint2FA,
+  getUser
 } = require('../constants/apiReqNames');
 
 const apiRequests = require('../apiReqs/apiRequests');
@@ -95,6 +96,7 @@ class User {
   // REFRESH TOKEN
   _refresh() {
     return apiRequests.client[getUser]({
+      user_id: this.id,
       full_dehydrate: 'no',
       clientInfo: this.client
     })
@@ -368,13 +370,13 @@ class User {
   // UPDATE SUBNET PLACEHOLDER
 
   // First call for registering new fingerprint
-  registerNewFingerprint(fp) {
-    const refresh_token = this._refresh();
+  async registerNewFingerprint(fp) {
+    const refresh_token = await this._refresh();
 
     this.fingerprint = fp;
     this.headers = buildHeaders({
-      client_id: client.client_id,
-      client_secret: client.client_secret,
+      client_id: this.client.client_id,
+      client_secret: this.client.client_secret,
       fingerprint: this.fingerprint,
       ip_address: this.ip_address,
       oauth_key: this.oauth_key
@@ -387,8 +389,17 @@ class User {
   }
 
   // Second call for registering new fingerprint
-  supplyDevice2FA(device) {
-    const refresh_token = this._refresh();
+  async supplyDevice2FA(fp, device) {
+    const refresh_token = await this._refresh();
+
+    this.fingerprint = fp;
+    this.headers = buildHeaders({
+      client_id: this.client.client_id,
+      client_secret: this.client.client_secret,
+      fingerprint: this.fingerprint,
+      ip_address: this.ip_address,
+      oauth_key: this.oauth_key
+    });
 
     return apiRequests.user[supplyDevice2FA]({
       device,
@@ -398,8 +409,17 @@ class User {
   }
 
   // Final call for registering new fingerprint
-  verifyFingerprint2FA(validation_pin) {
-    const refresh_token = this._refresh();
+  async verifyFingerprint2FA(fp, validation_pin) {
+    const refresh_token = await this._refresh();
+
+    this.fingerprint = fp;
+    this.headers = buildHeaders({
+      client_id: this.client.client_id,
+      client_secret: this.client.client_secret,
+      fingerprint: this.fingerprint,
+      ip_address: this.ip_address,
+      oauth_key: this.oauth_key
+    });
 
     return apiRequests.user[verifyFingerprint2FA]({
       validation_pin,
