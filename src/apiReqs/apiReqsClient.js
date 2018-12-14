@@ -136,3 +136,43 @@ module.exports[updateSubscription] = ({ subscription_id, bodyParams, clientInfo}
 
   return axios.patch(url, reqBody, { headers });
 };
+
+module.exports[locateAtms] = ({ page, per_page, zip, radius, lat, lon, clientInfo }) => {
+  const { host, headers } = clientInfo;
+  const url = addQueryParams({
+    originalUrl: `${host}/nodes/atms`,
+    page,
+    per_page,
+    zip,
+    radius,
+    lat,
+    lon
+  });
+
+  return axios.get(url, { headers });
+};
+
+module.exports[getCryptoQuotes] = ({ clientInfo }) => {
+  const { host, headers } = clientInfo;
+  const url = `${host}/nodes/crypto-quotes`;
+
+  return axios.get(url, { headers });
+};
+
+module.exports[getCryptoMarketData] = ({ limit, currency, clientInfo }) => {
+  const { host, headers } = clientInfo;
+  const url = addQueryParams({
+    originalUrl: `${host}/nodes/crypto-market-watch`,
+    limit,
+    currency
+  });
+
+  return axios.get(url, { headers });
+};
+
+module.exports[getWebhookLogs] = ({ clientInfo }) => {
+  const { host, headers } = clientInfo;
+  const url = `${host}/subscriptions/logs`;
+
+  return axios.get(url, { headers });
+};

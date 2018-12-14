@@ -156,6 +156,46 @@ class Client {
       clientInfo: this
     });
   }
+
+  // GET LOCATE ATMS
+  locateAtms(queryParams = {}) {
+    const { page, per_page, zip, radius, lat, lon } = queryParams;
+
+    return apiRequests.client[locateAtms]({
+      page,
+      per_page,
+      zip,
+      radius,
+      lat,
+      lon,
+      clientInfo: this
+    });
+  }
+
+  // GET CRYPTO QUOTES
+  getCryptoQuotes() {
+    return apiRequests.client[getCryptoQuotes]({
+      clientInfo: this
+    });
+  }
+
+  // GET CRYPTO MARKET DATA
+  getCryptoMarketData(queryParams = {}) {
+    const { limit, currency } = queryParams;
+
+    return apiRequests.client[getCryptoMarketData]({
+      limit,
+      currency,
+      clientInfo: this
+    });
+  }
+
+  // GET WEBHOOK LOGS
+  getWebhookLogs() {
+    return apiRequests.client[getWebhookLogs]({
+      clientInfo: this
+    });
+  }
 }
 
 module.exports = Client;

@@ -7,7 +7,13 @@ module.exports.addQueryParams = ({
   per_page,
   show_refresh_tokens,
   full_dehydrate,
-  type
+  type,
+  zip,
+  lat,
+  lon,
+  radius,
+  limit,
+  currency
 }) => {
   const params = [];
 
@@ -28,6 +34,24 @@ module.exports.addQueryParams = ({
   }
   if (type !== undefined) {
     params.push(`type=${type}`);
+  }
+  if (zip !== undefined) {
+    params.push(`zip=${zip}`);
+  }
+  if (lat !== undefined) {
+    params.push(`lat=${lat}`);
+  }
+  if (lon !== undefined) {
+    params.push(`lon=${lon}`);
+  }
+  if (radius !== undefined) {
+    params.push(`radius=${radius}`);
+  }
+  if (limit !== undefined) {
+    params.push(`limit=${limit}`);
+  }
+  if (currency !== undefined) {
+    params.push(`currency=${currency}`);
   }
 
   return params.length === 0 ? originalUrl : originalUrl += `?${params.join('&')}`;
