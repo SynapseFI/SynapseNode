@@ -43,5 +43,9 @@ module.exports = {
   createSubnet: 'createSubnet',
   registerNewFingerprint: 'registerNewFingerprint',
   supplyDevice2FA: 'supplyDevice2FA',
-  verifyFingerprint2FA: 'verifyFingerprint2FA'
+  verifyFingerprint2FA: 'verifyFingerprint2FA',
+  locateAtms: 'locateAtms',
+  getCryptoQuotes: 'getCryptoQuotes',
+  getCryptoMarketData: 'getCryptoMarketData',
+  getWebhookLogs: 'getWebhookLogs'
 };

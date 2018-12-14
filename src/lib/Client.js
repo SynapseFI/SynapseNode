@@ -11,7 +11,11 @@ const {
   createSubscription,
   getAllSubscriptions,
   getSubscription,
-  updateSubscription
+  updateSubscription,
+  locateAtms,
+  getCryptoQuotes,
+  getCryptoMarketData,
+  getWebhookLogs
 } = require('../constants/apiReqNames');
 
 const apiRequests = require('../apiReqs/apiRequests');
