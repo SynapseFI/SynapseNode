@@ -75,9 +75,7 @@ describe('Client', () => {
 
   describe('post create user', () => {
     it('should create a user object', mochaAsync(async () => {
-      const response = await Helpers.client.createUser({
-        bodyParams: createUserPayload
-      });
+      const response = await Helpers.client.createUser(createUserPayload);
       expect(response.id).to.not.be.null;
       expect(response).to.be.an.instanceof(User);
     }));

@@ -106,7 +106,7 @@ class User {
   }
 
   // POST OAUTH USER
-  oauthUser(bodyParams = {}) {
+  _oauthUser(bodyParams = {}) {
     return apiRequests.user[oauthUser]({
       bodyParams,
       userInfo: this
@@ -127,7 +127,18 @@ class User {
   }
 
   // POST CREATE NODE
-  createNode(bodyParams = {}) {
+  createNode(bodyParams = {}, idempotency_key = undefined) {
+    if (idempotency_key) {
+      this.headers = buildHeaders({
+        client_id: this.client.client_id,
+        client_secret: this.client.client_secret,
+        fingerprint: this.fingerprint,
+        ip_address: this.ip_address,
+        oauth_key: this.oauth_key,
+        idempotency_key
+      });
+    }
+
     return apiRequests.user[createNode]({
       bodyParams,
       userInfo: this
@@ -136,7 +147,18 @@ class User {
 
   // POST ACH-US MFA
   // submit answer to a mfa question from bank login attempt
-  verifyAchMfa(access_token, mfa_answer) {
+  verifyAchMfa(access_token, mfa_answer, idempotency_key = undefined) {
+    if (idempotency_key) {
+      this.headers = buildHeaders({
+        client_id: this.client.client_id,
+        client_secret: this.client.client_secret,
+        fingerprint: this.fingerprint,
+        ip_address: this.ip_address,
+        oauth_key: this.oauth_key,
+        idempotency_key
+      });
+    }
+
     return apiRequests.user[verifyAchMfa]({
       access_token,
       mfa_answer,
@@ -280,7 +302,18 @@ class User {
   }
 
   // POST CREATE TRANSACTION
-  createTransaction(node_id, bodyParams) {
+  createTransaction(node_id, bodyParams, idempotency_key = undefined) {
+    if (idempotency_key) {
+      this.headers = buildHeaders({
+        client_id: this.client.client_id,
+        client_secret: this.client.client_secret,
+        fingerprint: this.fingerprint,
+        ip_address: this.ip_address,
+        oauth_key: this.oauth_key,
+        idempotency_key
+      });
+    }
+
     return apiRequests.user[createTransaction]({
       node_id,
       bodyParams,
@@ -359,7 +392,18 @@ class User {
   }
 
   // POST CREATE SUBNET
-  createSubnet(node_id, bodyParams) {
+  createSubnet(node_id, bodyParams, idempotency_key = undefined) {
+    if (idempotency_key) {
+      this.headers = buildHeaders({
+        client_id: this.client.client_id,
+        client_secret: this.client.client_secret,
+        fingerprint: this.fingerprint,
+        ip_address: this.ip_address,
+        oauth_key: this.oauth_key,
+        idempotency_key
+      });
+    }
+    
     return apiRequests.user[createSubnet]({
       node_id,
       bodyParams,

@@ -21,17 +21,13 @@ const {
 const { addQueryParams, replacePathParams } = require('../helpers/buildUrls');
 
 module.exports[createUser] = ({
-  logins,
-  phone_numbers,
-  legal_names,
   bodyParams,
   clientInfo
 }) => {
   const { host, headers } = clientInfo;
-  const reqBody = bodyParams || { logins, phone_numbers, legal_names };
 
   // WILL NEED TO IMPLEMENT STATIC ENDPOINTS
-  return axios.post(`${host}/users`, reqBody, { headers });
+  return axios.post(`${host}/users`, bodyParams, { headers });
 };
 
 module.exports[getAllUsers] = ({

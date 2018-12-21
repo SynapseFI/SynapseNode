@@ -40,11 +40,19 @@ class Client {
   }
 
   // POST CREATE USER
-  createUser({ logins, phone_numbers, legal_names, bodyParams }) {
+  createUser(bodyParams, idempotency_key = undefined) {
+    if (idempotency_key) {
+      this.headers = buildHeaders({
+        client_id: this.client_id,
+        client_secret: this.client_secret,
+        fingerprint: this.fingerprint,
+        ip_address: this.ip_address,
+        oauth_key: this.oauth_key,
+        idempotency_key
+      });
+    }
+
     return apiRequests.client[createUser]({
-      logins,
-      phone_numbers,
-      legal_names,
       bodyParams,
       clientInfo: this
     })
@@ -125,7 +133,18 @@ class Client {
   }
 
   // POST CREATE SUBSCRIPTION
-  createSubscription(url, scope = ['USERS|POST', 'USER|PATCH', 'NODES|POST', 'NODE|PATCH', 'TRANS|POST', 'TRAN|PATCH']) {
+  createSubscription(url, scope = ['USERS|POST', 'USER|PATCH', 'NODES|POST', 'NODE|PATCH', 'TRANS|POST', 'TRAN|PATCH'], idempotency_key = undefined) {
+    if (idempotency_key) {
+      this.headers = buildHeaders({
+        client_id: this.client_id,
+        client_secret: this.client_secret,
+        fingerprint: this.fingerprint,
+        ip_address: this.ip_address,
+        oauth_key: this.oauth_key,
+        idempotency_key
+      });
+    }
+
     return apiRequests.client[createSubscription]({
       url,
       scope,
