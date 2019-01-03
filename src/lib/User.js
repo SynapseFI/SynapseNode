@@ -3,8 +3,8 @@ const {
   updateExistingDocument,
   deleteExistingDocument,
   updateUser,
-  refresh,
-  oauthUser,
+  _grabRefreshToken,
+  _oauthUser,
   createNode,
   verifyAchMfa,
   getAllUserNodes,
@@ -51,7 +51,6 @@ class User {
     this.ip_address = client.ip_address;
     this.oauth_key = '';
     this.client = client;
-
     this.headers = buildHeaders({
       client_id: client.client_id,
       client_secret: client.client_secret,
@@ -93,8 +92,8 @@ class User {
     });
   }
 
-  // REFRESH TOKEN
-  _refresh() {
+  // RETRIEVE REFRESH TOKEN
+  _grabRefreshToken() {
     return apiRequests.client[getUser]({
       user_id: this.id,
       full_dehydrate: 'no',
@@ -107,7 +106,7 @@ class User {
 
   // POST OAUTH USER
   _oauthUser(bodyParams = {}) {
-    return apiRequests.user[oauthUser]({
+    return apiRequests.user[_oauthUser]({
       bodyParams,
       userInfo: this
     })
@@ -403,7 +402,7 @@ class User {
         idempotency_key
       });
     }
-    
+
     return apiRequests.user[createSubnet]({
       node_id,
       bodyParams,
@@ -415,7 +414,7 @@ class User {
 
   // First call for registering new fingerprint
   async registerNewFingerprint(fp) {
-    const refresh_token = await this._refresh();
+    const refresh_token = await this._grabRefreshToken();
 
     this.fingerprint = fp;
     this.headers = buildHeaders({
@@ -434,7 +433,7 @@ class User {
 
   // Second call for registering new fingerprint
   async supplyDevice2FA(fp, device) {
-    const refresh_token = await this._refresh();
+    const refresh_token = await this._grabRefreshToken();
 
     this.fingerprint = fp;
     this.headers = buildHeaders({
@@ -454,7 +453,7 @@ class User {
 
   // Final call for registering new fingerprint
   async verifyFingerprint2FA(fp, validation_pin) {
-    const refresh_token = await this._refresh();
+    const refresh_token = await this._grabRefreshToken();
 
     this.fingerprint = fp;
     this.headers = buildHeaders({

@@ -5,8 +5,8 @@ const {
   updateExistingDocument,
   deleteExistingDocument,
   updateUser,
-  refresh,
-  oauthUser,
+  _grabRefreshToken,
+  _oauthUser,
   createNode,
   verifyAchMfa,
   getAllUserNodes,
@@ -63,7 +63,7 @@ module.exports[updateUser] = ({ bodyParams, userInfo }) => {
   return axios.patch(`${host}/users/${id}`, bodyParams, { headers });
 };
 
-module.exports[oauthUser] = ({ bodyParams, userInfo }) => {
+module.exports[_oauthUser] = ({ bodyParams, userInfo }) => {
   const { host, headers, id } = userInfo;
 
   return axios.post(`${host}/oauth/${id}`, bodyParams, { headers });

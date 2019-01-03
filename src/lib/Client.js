@@ -56,11 +56,17 @@ class Client {
       bodyParams,
       clientInfo: this
     })
-    .then(({ data }) => {
-      return new User({
-        data,
-        client: this
-      });
+    .then(async ({ data }) => {
+      try {
+        const user = await new User ({ data, client: this });
+        await user._oauthUser({ 'refresh_token': user.body.refresh_token });
+        return user;
+      } catch (e) {
+        console.log(e);
+      }
+    })
+    .catch(err => {
+      console.log('ERR: ', err);
     });
   }
 
@@ -84,11 +90,17 @@ class Client {
       full_dehydrate,
       clientInfo: this
     })
-    .then(({ data }) => {
-      return new User({
-        data,
-        client: this
-      });
+    .then(async ({ data }) => {
+      try {
+        const user = await new User ({ data, client: this });
+        await user._oauthUser({ 'refresh_token': user.body.refresh_token });
+        return user;
+      } catch (e) {
+        console.log(e);
+      }
+    })
+    .catch(err => {
+      console.log('ERR: ', err);
     });
   }
 
