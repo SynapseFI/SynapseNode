@@ -139,9 +139,6 @@ class Client {
       scope,
       clientInfo: this
     });
-    // .then(({ data }) => {
-    //   return {data: data.public_key_obj};
-    // });
   }
 
   // POST CREATE SUBSCRIPTION
@@ -226,11 +223,12 @@ class Client {
   }
 
   // GET WEBHOOK LOGS
-  getWebhookLogs() {
-    return apiRequests.client[getWebhookLogs]({
-      clientInfo: this
-    });
-  }
+  // CONTENT TYPE BREAKING API CALL
+  // getWebhookLogs() {
+  //   return apiRequests.client[getWebhookLogs]({
+  //     clientInfo: this
+  //   });
+  // }
 }
 
 module.exports = Client;

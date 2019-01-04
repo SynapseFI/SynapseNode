@@ -23,7 +23,6 @@ const client = new Client({
 #### Create User
 ```
 client.createUser({
-  bodyParams: {
     "logins": [
       {
         "email": "test@synapsefi.com"
@@ -79,9 +78,9 @@ client.createUser({
       "is_business": false
     }
   }
-})
-.then(({ data }) => {
-  console.log('data ', data);
+)
+.then(( user ) => {
+  console.log('user ', user);
 });
 ```
 #### Get All Users
@@ -103,16 +102,16 @@ client.getAllUsers({
 ```
 #### Get User
 ```
-client.getUser('5bf493e3baabfc00a31db486')
-.then(({ data }) => {
-  console.log('data ', data);
+client.getUser('<USER_ID>')
+.then(( user ) => {
+  console.log('user ', user);
 });
 ```
 OR to pass in optional full_dehydrate field:
 ```
-client.getUser('5bf493e3baabfc00a31db486', true)
-.then(({ data }) => {
-  console.log('data ', data);
+client.getUser('<USER_ID>', true)
+.then(( user ) => {
+  console.log('user ', user);
 });
 ```
 #### Get All Platform Transactions
@@ -122,9 +121,29 @@ client.getPlatformTransactions()
   console.log('data ', data);
 });
 ```
+OR to pass in optional query parameters:
+```
+client.getPlatformTransactions({
+  page: 2,
+  per_page: 10
+})
+.then(({ data }) => {
+  console.log('data ', data);
+});
+```
 #### Get All Platform Nodes
 ```
 client.getPlatformNodes()
+.then(({ data }) => {
+  console.log('data ', data);
+});
+```
+OR to pass in optional query parameters:
+```
+client.getPlatformNodes({
+  page: 2,
+  per_page: 10
+})
 .then(({ data }) => {
   console.log('data ', data);
 });
@@ -143,9 +162,30 @@ client.issuePublicKey()
   console.log('data ', data);
 });
 ```
+OR to optionally specify which scopes to issue the public key for:
+```
+client.issuePublicKey([
+  'CLIENT|CONTROLS',
+  'USER|GET'
+])
+.then(({ data }) => {
+  console.log('data ', data);
+});
+```
 #### Create Subscription
 ```
-client.createSubscription('https://webhook.site/4e8bb189-68cb-4d85-8ae5-291a1cea65f9')
+client.createSubscription('<SUBSCRIPTION_URL>')
+.then(({ data }) => {
+  console.log('data ', data);
+});
+```
+OR to specify the scope of the subscription:
+```
+client.createSubscription('<SUBSCRIPTION_URL>', [
+  'USER|PATCH',
+  'NODE|PATCH',
+  'TRAN|PATCH'
+])
 .then(({ data }) => {
   console.log('data ', data);
 });
@@ -157,19 +197,80 @@ client.getAllSubscriptions()
   console.log('data ', data);
 });
 ```
+OR to pass in optional query parameters:
+```
+client.getAllSubscriptions({
+  page: 2,
+  per_page: 1
+})
+.then(({ data }) => {
+  console.log('data ', data);
+});
+```
 #### Get Subscription
 ```
-client.getSubscription('5bdcc4bb06896300c0dcdc5c')
+client.getSubscription('<SUBSCRIPTION_ID>')
 .then(({ data }) => {
   console.log('data ', data);
 });
 ```
 #### Update Subscription
 ```
-client.updateSubscription('5bdcc4bb06896300c0dcdc5c', {
+client.updateSubscription('<SUBSCRIPTION_ID>', {
   is_active: false
 })
 .then(({ data }) => {
   console.log('data ', data);
 });
 ```
+#### Locate ATMs
+```
+client.locateAtms({
+  zip: 94114
+})
+.then(({ data }) => {
+  console.log('data ', data);
+});
+```
+OR to pass in optional query parameters:
+```
+client.locateAtms({
+  zip: 94114,
+  page: 2,
+  radius: 5,
+  per_page: 5
+})
+.then(({ data }) => {
+  console.log('data ', data);
+});
+```
+#### Crypto Quotes
+```
+client.getCryptoQuotes()
+.then(({ data }) => {
+  console.log('data ', data);
+});
+```
+#### Crypto Market Data
+```
+client.getCryptoMarketData()
+.then(({ data }) => {
+  console.log('data ', data);
+});
+```
+OR to pass in optional query parameters:
+```
+client.getCryptoMarketData({
+  currency: 'ETH',
+  limit: 1
+})
+.then(({ data }) => {
+  console.log('data ', data);
+});
+```
+#### Webhook Logs
+```
+client.getWebhookLogs()
+.then(({ data }) => {
+  console.log('data ', data);
+});
