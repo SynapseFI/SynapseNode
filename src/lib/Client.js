@@ -47,7 +47,6 @@ class Client {
         client_secret: this.client_secret,
         fingerprint: this.fingerprint,
         ip_address: this.ip_address,
-        oauth_key: this.oauth_key,
         idempotency_key
       });
     }
@@ -57,16 +56,9 @@ class Client {
       clientInfo: this
     })
     .then(async ({ data }) => {
-      try {
-        const user = await new User ({ data, client: this });
-        await user._oauthUser({ 'refresh_token': user.body.refresh_token });
-        return user;
-      } catch (e) {
-        console.log(e);
-      }
-    })
-    .catch(err => {
-      console.log('ERR: ', err);
+      const user = await new User ({ data, client: this });
+      await user._oauthUser({ 'refresh_token': user.body.refresh_token });
+      return user;
     });
   }
 
@@ -91,16 +83,9 @@ class Client {
       clientInfo: this
     })
     .then(async ({ data }) => {
-      try {
-        const user = await new User ({ data, client: this });
-        await user._oauthUser({ 'refresh_token': user.body.refresh_token });
-        return user;
-      } catch (e) {
-        console.log(e);
-      }
-    })
-    .catch(err => {
-      console.log('ERR: ', err);
+      const user = await new User ({ data, client: this });
+      await user._oauthUser({ 'refresh_token': user.body.refresh_token });
+      return user;
     });
   }
 
@@ -149,7 +134,6 @@ class Client {
         client_secret: this.client_secret,
         fingerprint: this.fingerprint,
         ip_address: this.ip_address,
-        oauth_key: this.oauth_key,
         idempotency_key
       });
     }
