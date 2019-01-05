@@ -19,9 +19,6 @@ describe('User', () => {
   beforeEach(async () => {
     try {
       testUser = await Helpers.client.getUser('5c1009d75596f200c40e7947');
-      await testUser.oauthUser({
-        refresh_token: testUser.body.refresh_token
-      });
     } catch (e) {
       console.log('bE ERR: ', e.response.data);
     }

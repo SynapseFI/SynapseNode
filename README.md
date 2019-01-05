@@ -15,7 +15,7 @@ const client = new Client({
   client_secret: '<client_secret>',
   fingerprint: '<fingerprint>',
   ip_address: '<ip_address>',
-  // isProduction boolean determines production (true) or sandbox (false) endpoints used
+  // isProduction boolean determines if production (true) or sandbox (false) endpoint is used
   isProduction: false
 });
 
