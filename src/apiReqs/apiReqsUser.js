@@ -38,22 +38,10 @@ const {
 
 const { addQueryParams, replacePathParams } = require('../helpers/buildUrls');
 
-module.exports[addNewDocuments] = ({ bodyParams, userInfo }) => {
-  const { host, headers, id } = userInfo;
-
-  return axios.patch(`${host}/users/${id}`, bodyParams, { headers });
-};
-
-module.exports[updateExistingDocument] = ({ bodyParams, userInfo }) => {
-  const { host, headers, id } = userInfo;
-
-  return axios.patch(`${host}/users/${id}`, bodyParams, { headers });
-};
-
 module.exports[addUserKyc] = ({ bodyParams, userInfo }) => {
   const { host, headers, id } = userInfo;
 
-  return axios.patch(`${host}/users/${id}`, bodyParams, { headers });)
+  return axios.patch(`${host}/users/${id}`, bodyParams, { headers });
 };
 
 module.exports[deleteExistingDocument] = ({ bodyParams, userInfo }) => {
