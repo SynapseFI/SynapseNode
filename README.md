@@ -33,7 +33,7 @@ const user = client.createUser({
   ],
   "extra": {
     "supp_id": "my_user_id",
-    "cip_tag":1,
+    "cip_tag": 1,
     "is_business": false
   }
 }) || client.getUser('<USER_ID>');
@@ -235,6 +235,20 @@ client.getSubscription('<SUBSCRIPTION_ID>')
 });
 ```
 #### Update Subscription
+To update the scope of subscription:
+```
+client.updateSubscription('<SUBSCRIPTION_ID>', {
+  scope: [
+    'USER|PATCH',
+    'NODE|PATCH',
+    'TRAN|PATCH'
+  ]
+})
+.then(({ data }) => {
+  console.log('data ', data);
+});
+```
+To unsubscribe from webhooks:
 ```
 client.updateSubscription('<SUBSCRIPTION_ID>', {
   is_active: false
