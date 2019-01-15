@@ -1,8 +1,7 @@
 const axios = require('axios');
 
 const {
-  addNewDocuments,
-  updateExistingDocument,
+  addUserKyc,
   deleteExistingDocument,
   updateUser,
   _grabRefreshToken,
@@ -49,6 +48,12 @@ module.exports[updateExistingDocument] = ({ bodyParams, userInfo }) => {
   const { host, headers, id } = userInfo;
 
   return axios.patch(`${host}/users/${id}`, bodyParams, { headers });
+};
+
+module.exports[addUserKyc] = ({ bodyParams, userInfo }) => {
+  const { host, headers, id } = userInfo;
+
+  return axios.patch(`${host}/users/${id}`, bodyParams, { headers });)
 };
 
 module.exports[deleteExistingDocument] = ({ bodyParams, userInfo }) => {

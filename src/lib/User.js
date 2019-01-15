@@ -1,6 +1,5 @@
 const {
-  addNewDocuments,
-  updateExistingDocument,
+  addUserKyc,
   deleteExistingDocument,
   updateUser,
   _grabRefreshToken,
@@ -60,17 +59,9 @@ class User {
     });
   }
 
-  // PATCH ADD NEW DOCUMENTS
-  addNewDocuments(bodyParams = {}) {
-    return apiRequests.user[addNewDocuments]({
-      bodyParams,
-      userInfo: this
-    });
-  }
-
-  // PATCH UPDATE EXISTING DOCUMENT
-  updateExistingDocument(bodyParams = {}) {
-    return apiRequests.user[updateExistingDocument]({
+  // PATCH ADD USER KYC
+  addUserKyc(bodyParams = {}) {
+    return apiRequests.user[addUserKyc]({
       bodyParams,
       userInfo: this
     });
