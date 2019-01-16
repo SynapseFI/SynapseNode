@@ -12,21 +12,21 @@ const client = new Client({
 });
 
 const user = client.createUser({
-  "logins": [
+  logins: [
     {
-      "email": "test@synapsepay.com"
+      email: 'test@synapsepay.com'
     }
   ],
-  "phone_numbers": [
-    "901.111.1111"
+  phone_numbers: [
+    '901.111.1111'
   ],
-  "legal_names": [
-    "Test User"
+  legal_names: [
+    'Test User'
   ],
-  "extra": {
-    "supp_id": "my_user_id",
-    "cip_tag": 1,
-    "is_business": false
+  extra: {
+    supp_id: 'my_user_id',
+    cip_tag: 1,
+    is_business: false
   }
 }) || client.getUser('<USER_ID>');
 ```
@@ -35,59 +35,59 @@ const user = client.createUser({
 #### Create User
 ```
 client.createUser({
-    "logins": [
+    logins: [
       {
-        "email": "test@synapsefi.com"
+        email: 'test@synapsefi.com'
       }
     ],
-    "phone_numbers": [
-      "901.111.1111",
-      "test@synapsefi.com"
+    phone_numbers: [
+      '901.111.1111',
+      'test@synapsefi.com'
     ],
-    "legal_names": [
-      "Test User"
+    legal_names: [
+      'Test User'
     ],
-    "documents": [
+    documents: [
       {
-        "email": "test@test.com",
-        "phone_number": "901.111.1111",
-        "ip": "::1",
-        "name": "Test User",
-        "alias": "Test",
-        "entity_type": "M",
-        "entity_scope": "Arts & Entertainment",
-        "day": 2,
-        "month": 5,
-        "year": 1989,
-        "address_street": "944 Market St.",
-        "address_city": "SF",
-        "address_subdivision": "CA",
-        "address_postal_code": "94102",
-        "address_country_code": "US",
-        "virtual_docs": [
+        email: 'test@test.com',
+        phone_number: '901.111.1111',
+        ip: '::1',
+        name: 'Test User',
+        alias: 'Test',
+        entity_type: 'M',
+        entity_scope: 'Arts & Entertainment',
+        day: 2,
+        month: 5,
+        year: 1989,
+        address_street: '944 Market St.',
+        address_city: 'SF',
+        address_subdivision: 'CA',
+        address_postal_code: '94102',
+        address_country_code: 'US',
+        virtual_docs: [
           {
-            "document_value": "2222",
-            "document_type": "SSN"
+            document_value: '2222',
+            document_type: 'SSN'
           }
         ],
-        "physical_docs": [
+        physical_docs: [
           {
-            "document_value": "data:image/gif;base64,SUQs==",
-            "document_type": "GOVT_ID"
+            document_value: 'data:image/gif;base64,SUQs==',
+            document_type: 'GOVT_ID'
           }
         ],
-        "social_docs": [
+        social_docs: [
           {
-            "document_value": "https://www.facebook.com/valid",
-            "document_type": "FACEBOOK"
+            document_value: 'https://www.facebook.com/valid',
+            document_type: 'FACEBOOK'
           }
         ]
       }
     ],
-    "extra": {
-      "supp_id": "122eddfgbeafrfvbbb",
-      "cip_tag": 1,
-      "is_business": false
+    extra: {
+      supp_id: '122eddfgbeafrfvbbb',
+      cip_tag: 1,
+      is_business: false
     }
   }
 )
@@ -301,49 +301,37 @@ client.getWebhookLogs()
   console.log('data ', data);
 });
 ```
-#### Add New Documents
+#### Add User KYC
 ```
-user.addNewDocuments({
-  'documents': [{
-    'email': 'test@test.com',
-    'phone_number': '901.111.1111',
-    'ip': '::1',
-    'name': 'Test User',
-    'alias': 'Test',
-    'entity_type': 'M',
-    'entity_scope': 'Arts & Entertainment',
-    'day': 2,
-    'month': 5,
-    'year': 1989,
-    'address_street': '944 Market St.',
-    'address_city': 'SF',
-    'address_subdivision': 'CA',
-    'address_postal_code': '94102',
-    'address_country_code': 'US',
-    'virtual_docs': [{
-      'document_value': '2222',
-      'document_type': 'SSN'
+user.addUserKyc({
+  documents:[{
+    email: 'test@test.com',
+    phone_number: '901.111.1111',
+    ip: '::1',
+    name: 'Test User',
+    alias: 'Test',
+    entity_type: 'M',
+    entity_scope: 'Arts & Entertainment',
+    day: 2,
+    month: 5,
+    year: 1989,
+    address_street: '1 Market St.',
+    address_city: 'SF',
+    address_subdivision: 'CA',
+    address_postal_code: '94114',
+    address_country_code: 'US',
+    virtual_docs:[{
+      document_value: '2222',
+      document_type: 'SSN'
     }],
-    'physical_docs': [{
-      'document_value': 'data:image/gif;base64,SUQs==',
-      'document_type': 'GOVT_ID'
+    physical_docs:[{
+      document_value: 'data:image/gif;base64,SUQs==',
+      document_type: 'GOVT_ID'
     }],
-    'social_docs': [{
-      'document_value': 'https://www.facebook.com/valid',
-      'document_type': 'FACEBOOK'
+    social_docs:[{
+      document_value: 'https://www.facebook.com/valid',
+      document_type: 'FACEBOOK'
     }]
-  }]
-})
-.then(({ data }) => {
-  console.log('data ', data);
-});
-```
-#### Update Existing Document
-```
-user.updateExistingDocument({
-  'documents':[{
-    'id': '<DOC_ID>',
-    'email': 'test2@synapsefi.com'
   }]
 })
 .then(({ data }) => {
@@ -353,9 +341,9 @@ user.updateExistingDocument({
 #### Delete Existing Document
 ```
 user.deleteExistingDocument({
-  'documents': [{
-    'id': '<DOC_ID>',
-    'permission_scope': 'DELETE_DOCUMENT'
+  documents: [{
+    id: '<DOC_ID>',
+    permission_scope: 'DELETE_DOCUMENT'
   }]
 })
 .then(({ data }) => {
@@ -363,9 +351,55 @@ user.deleteExistingDocument({
 });
 ```
 #### Update User
+To update user's base document:
 ```
 user.updateUser({
-  'permission': 'MAKE-IT-GO-AWAY'
+  documents: [{
+    id: '<BASE_DOC_ID>',
+    email: 'test2@synapsefi.com'
+  }]
+})
+.then(({ data }) => {
+  console.log('data ', data);
+});
+```
+To update user's sub-document:
+```
+user.updateUser({
+  documents: [{
+    id: '<BASE_DOC_ID>',
+    virtual_docs: [{
+      id: '<SUB_DOC_ID>',
+      document_value: '111-11-2222',
+      document_type: 'SSN'
+    }]
+  }]
+})
+.then(({ data }) => {
+  console.log('data ', data);
+});
+```
+To verify user's MFA:
+```
+user.updateUser({
+  documents: [{
+    id: '<BASE_DOC_ID>',
+    social_docs: [{
+      id: '<SUB_DOC_ID>',
+      document_value: '901.111.1111',
+      document_type: 'PHONE_NUMBER_2FA',
+      mfa_answer: '123456'
+    }]
+  }]
+})
+.then(({ data }) => {
+  console.log('data ', data);
+});
+```
+To lock/remove user:
+```
+user.updateUser({
+  permission: 'MAKE-IT-GO-AWAY'
 })
 .then(({ data }) => {
   console.log('data ', data);
@@ -374,9 +408,9 @@ user.updateUser({
 #### Create Node
 ```
 user.createNode({
-  'type': 'DEPOSIT-US',
-  'info': {
-    'nickname': 'Test Checking'
+  type: 'DEPOSIT-US',
+  info: {
+    nickname: 'Test Checking'
   }
 })
 .then(({ data }) => {
@@ -458,38 +492,38 @@ user.triggerDummyTransactions('<NODE_ID>', true)
 #### Generate UBO Form
 ```
 user.generateUboForm({
-  'entity_info': {
-    'cryptocurrency': true,
-    'msb': {
-      'federal': true,
-      'states': [
+  entity_info: {
+    cryptocurrency: true,
+    msb: {
+      federal: true,
+      states: [
         'AL'
       ]
     },
-    'public_company': false,
-    'majority_owned_by_listed': false,
-    'registered_SEC': false,
-    'regulated_financial': false,
-    'gambling': false,
-    'document_id': '<DOC_ID>'
+    public_company: false,
+    majority_owned_by_listed: false,
+    registered_SEC: false,
+    regulated_financial: false,
+    gambling: false,
+    document_id: '<DOC_ID>'
   },
-  'signer': {
-    'document_id': '<DOC_ID>',
-    'relationship_to_entity': 'CEO'
+  signer: {
+    document_id: '<DOC_ID>',
+    relationship_to_entity: 'CEO'
   },
-  'compliance_contact': {
-    'document_id': '<DOC_ID>',
-    'relationship_to_entity': 'CEO'
+  compliance_contact: {
+    document_id: '<DOC_ID>',
+    relationship_to_entity: 'CEO'
   },
-  'primary_controlling_contact': {
-    'document_id': '<DOC_ID>',
-    'relationship_to_entity': 'CEO'
+  primary_controlling_contact: {
+    document_id: '<DOC_ID>',
+    relationship_to_entity: 'CEO'
   },
-  'owners': [
+  owners: [
     {
-      'document_id': '<DOC_ID>',
-      'title': 'CEO',
-      'ownership': 95
+      document_id: '<DOC_ID>',
+      title: 'CEO',
+      ownership: 95
     }
   ]
 })
@@ -534,7 +568,7 @@ user.getStatementsByNode('<NODE_ID>', {
 #### Ship Debit Card
 ```
 user.shipDebitCard('<NODE_ID>', {
-  'fee_node_id': '<FEE_NODE_ID>'
+  fee_node_id: '<FEE_NODE_ID>'
 })
 .then(({ data }) => {
   console.log('data ', data);
@@ -550,7 +584,7 @@ user.resetDebitCard('<NODE_ID>')
 #### Verify Micro-Deposits
 ```
 user.verifyMicroDeposits('<NODE_ID>', {
-  'micro': [0.1, 0.1]
+  micro: [0.1, 0.1]
 })
 .then(({ data }) => {
   console.log('data ', data);
@@ -566,7 +600,7 @@ user.reinitiateMicroDeposits('<NODE_ID>')
 #### Update Node
 ```
 user.updateNode('<NODE_ID>', {
-  'allowed': 'INACTIVE'
+  allowed: 'INACTIVE'
 })
 .then(({ data }) => {
   console.log('data ', data);
@@ -582,9 +616,9 @@ user.deleteNode('<NODE_ID>')
 #### Generate Apple Pay Token
 ```
 user.generateApplePayToken('<NODE_ID>', {
-  'certificate': 'your applepay cert',
-  'nonce': '9c02xxx2',
-  'nonce_signature': '4082f883ae62d0700c283e225ee9d286713ef74'
+  certificate: 'your applepay cert',
+  nonce: '9c02xxx2',
+  nonce_signature: '4082f883ae62d0700c283e225ee9d286713ef74'
 })
 .then(({ data }) => {
   console.log('data ', data);
@@ -593,17 +627,17 @@ user.generateApplePayToken('<NODE_ID>', {
 #### Create Transaction
 ```
 user.createTransaction('<NODE_ID>', {
-  'to': {
-    'type': 'ACH-US',
-    'id': '<NODE_ID>'
+  to: {
+    type: 'ACH-US',
+    id: '<NODE_ID>'
   },
-  'amount': {
-    'amount': 100.1,
-    'currency': 'USD'
+  amount: {
+    amount: 100.1,
+    currency: 'USD'
   },
-  'extra': {
-    'ip': '127.0.0.1',
-    'note': 'Test transaction'
+  extra: {
+    ip: '127.0.0.1',
+    note: 'Test transaction'
   }
 })
 .then(({ data }) => {
@@ -615,17 +649,17 @@ OR to pass in optional idempotency key:
 user.createTransaction(
   '<NODE_ID>',
   {
-    'to': {
-      'type': 'ACH-US',
-      'id': '<NODE_ID>'
+    to: {
+      type: 'ACH-US',
+      id: '<NODE_ID>'
     },
-    'amount': {
-      'amount': 100.1,
-      'currency': 'USD'
+    amount: {
+      amount: 100.1,
+      currency: 'USD'
     },
-    'extra': {
-      'ip': '127.0.0.1',
-      'note': 'Test transaction'
+    extra: {
+      ip: '127.0.0.1',
+      note: 'Test transaction'
     }
   },
   '<IDEMPOTENCY_KEY>'
@@ -668,7 +702,7 @@ user.deleteTransaction('<NODE_ID>', '<TRANSACTION_ID>')
 #### Comment on Status
 ```
 user.commentOnStatus('<NODE_ID>', '<TRANSACTION_ID>', {
-  'comment': 'add comment'
+  comment: 'add comment'
 })
 .then(({ data }) => {
   console.log('data ', data);
@@ -742,9 +776,9 @@ POST calls support idempotency for safely retrying requests without accidentally
 ```
 user.createNode(
   {
-    'type': 'DEPOSIT-US',
-    'info': {
-      'nickname': 'My Checking'
+    type: 'DEPOSIT-US',
+    info: {
+      nickname: 'My Checking'
     }
   },
   '<IDEMPOTENCY_KEY>'
