@@ -39,5 +39,8 @@
   "peerDependencies": {
     "lodash": "^4.17.10",
     "axios": "^0.18.0"
+  },
+  "dependencies": {
+    "dotenv": "^6.2.0"
   }
 }
