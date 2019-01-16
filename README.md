@@ -1,10 +1,11 @@
 # SynapseFI-Node-v2
 SynapseFI Node.js API Wrapper Version 2
 
-## Code Example
+## Code Examples
 Please refer to [samples.md](samples.md) and our [API documentation](https://docs.synapsefi.com) for examples.
 
 ## Setup
+Run the following command from the root package directory
 ```
 npm install
 ```

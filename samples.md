@@ -12,12 +12,12 @@ const client = new Client({
 });
 
 const user = client.createUser({
-  "logins": [
+  logins: [
     {
-      "email": "test@synapsepay.com"
+      email: "test@synapsepay.com"
     }
   ],
-  "phone_numbers": [
+  phone_numbers: [
     "901.111.1111"
   ],
   "legal_names": [
