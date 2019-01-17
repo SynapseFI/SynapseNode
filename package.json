@@ -21,7 +21,7 @@
     "synapsepay"
   ],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "axios": "^0.18.0",
     "babel-cli": "^6.26.0",
