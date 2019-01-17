@@ -31,4 +31,4 @@ module.exports = ({ client_id, client_secret, oauth_key, fingerprint, ip_address
   }
 
   return headers;
-}
+};
