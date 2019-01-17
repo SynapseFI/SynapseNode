@@ -5,9 +5,8 @@ SynapseFI Node.js API Client Library Version 2
 Please refer to [samples.md](samples.md) and our [API documentation](https://docs.synapsefi.com) for examples.
 
 ## Setup
-Run the following command from the root package directory
 ```
-npm install
+npm install SynapseNode
 ```
 
 ## Initialization
@@ -36,7 +35,7 @@ const client = new Client({
 ```
 
 ## Testing
-Run the following command from the root package directory after the .env file is set up:
+Run the following command from the root package directory after the .env file is set up and '<ID>' values are replaced in the test files:
 ```
 npm test
 ```
