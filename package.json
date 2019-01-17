@@ -14,7 +14,12 @@
     "dist": "npm run clean && npm run build",
     "push": "npm run clean && npm run build && npm publish"
   },
-  "keywords": [],
+  "keywords": [
+    "API",
+    "payments",
+    "synapsefi",
+    "synapsepay"
+  ],
   "author": "",
   "license": "ISC",
   "devDependencies": {
