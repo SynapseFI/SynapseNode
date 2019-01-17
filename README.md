@@ -6,7 +6,7 @@ Please refer to [samples.md](samples.md) and our [API documentation](https://doc
 
 ## Setup
 ```
-npm install SynapseNode
+npm install synapsenode
 ```
 
 ## Initialization
