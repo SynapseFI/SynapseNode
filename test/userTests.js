@@ -4,10 +4,6 @@ const Helpers = require('./testHelpers');
 const mochaAsync = fn => {
   return done => {
     fn.call().then(done, err => {
-      if (err) {
-        console.log(err);
-        // console.log(err.response.data.error);
-      }
       done(err);
     });
   };
@@ -17,62 +13,7 @@ describe('User', () => {
   let testUser;
 
   beforeEach(async () => {
-    try {
-      testUser = await Helpers.client.getUser('5c1009d75596f200c40e7947');
-    } catch (e) {
-      console.log('bE ERR: ', e.response.data);
-    }
-  });
-
-  describe('patch add new documents', () => {
-    it('should add new base document', mochaAsync(async () => {
-      const response = await testUser.addNewDocuments({
-        documents: [
-          {
-            email: "test@test.com",
-            phone_number: "901.111.1111",
-            ip: "::1",
-            name: "Test User",
-            alias: "Test",
-            entity_type: "M",
-            entity_scope: "Arts & Entertainment",
-            day: 2,
-            month: 5,
-            year: 1989,
-            address_street: "44 Tehama St.",
-            address_city: "San Francisco",
-            address_subdivision: "CA",
-            address_postal_code: "94105",
-            address_country_code: "US",
-            virtual_docs: [{
-              document_value: '111-111-2222',
-              document_type: 'SSN'
-            }],
-            physical_docs: [{
-              document_value: 'data:image/gif;base64,SUQs==',
-              document_type: 'GOVT_ID'
-            }]
-          }
-        ]
-      });
-      expect(response.status).to.equal(200);
-    }));
-  });
-
-  describe('patch update existing document', () => {
-    it('should update existing base document', mochaAsync(async () => {
-      const response = await testUser.updateExistingDocument({
-        documents: [{
-          id: testUser.body.documents[0].id,
-          virtual_docs: [{
-            id: testUser.body.documents[0].virtual_docs[0].id,
-            document_value: "111-11-3333",
-            document_type: "SSN"
-          }]
-        }]
-      });
-      expect(response.status).to.equal(200);
-    }));
+    testUser = await Helpers.client.getUser('<USER_ID>');
   });
 
   describe('patch delete existing document', () => {
@@ -144,7 +85,7 @@ describe('User', () => {
 
   describe('get node w/ nodeID', () => {
     it('should return specified node', mochaAsync(async () => {
-      const response = await testUser.getNode('5c1012086a294e00611bc803');
+      const response = await testUser.getNode('<NODE_ID>');
       expect(response.status).to.equal(200);
     }));
   });
@@ -158,24 +99,21 @@ describe('User', () => {
 
   describe('get trigger dummy transactions', () => {
     it('should trigger dummy transactions', mochaAsync(async () => {
-      const response = await testUser.triggerDummyTransactions('5c1012086a294e00611bc803');
+      const response = await testUser.triggerDummyTransactions('<NODE_ID>');
       expect(response.status).to.equal(200);
     }));
   });
 
   describe('patch generate ubo form', () => {
     it('should generate new ubo form', mochaAsync(async () => {
-      const user = await Helpers.client.getUser('5c11b0995596f200c6132b37');
-      await user.oauthUser({
-        refresh_token: user.body.refresh_token
-      });
+      const user = await Helpers.client.getUser('<BUSINESS_USER_ID');
       const response = await user.generateUboForm({
         signer: {
-          document_id: '2a4a5957a3a62aaac1a0dd0edcae96ea2cdee688ec6337b20745eed8869e3ac8',
+          document_id: '<BENEFICIAL_OWNER_BASE_DOC_ID>',
           relationship_to_entity: 'CEO'
         },
         entity_info: {
-          document_id: '81922e855f703faf281d506ccf13b8ea931f9d91c984b1a1212fcae4c7ed0d4e',
+          document_id: '<BUSINESS_BASE_DOC_ID>',
           gambling: false,
           cryptocurrency: false,
           public_company: false,
@@ -188,16 +126,16 @@ describe('User', () => {
           }
         },
         primary_controlling_contact: {
-          document_id: '2a4a5957a3a62aaac1a0dd0edcae96ea2cdee688ec6337b20745eed8869e3ac8',
+          document_id: '<BENEFICIAL_OWNER_BASE_DOC_ID>',
           relationship_to_entity: 'CEO'
         },
         compliance_contact: {
-          document_id: '2a4a5957a3a62aaac1a0dd0edcae96ea2cdee688ec6337b20745eed8869e3ac8',
+          document_id: '<BENEFICIAL_OWNER_BASE_DOC_ID>',
           relationship_to_entity: 'CEO'
         },
         owners: [
           {
-          document_id: '2a4a5957a3a62aaac1a0dd0edcae96ea2cdee688ec6337b20745eed8869e3ac8',
+          document_id: '<BENEFICIAL_OWNER_BASE_DOC_ID>',
           title: 'CEO',
           ownership: 95
           }
@@ -216,15 +154,15 @@ describe('User', () => {
 
   describe('get statements by node', () => {
     it('should retrive statements by specified node', mochaAsync(async () => {
-      const response = await testUser.getStatementsByNode('5c1012086a294e00611bc803');
+      const response = await testUser.getStatementsByNode('<NODE_ID>');
       expect(response.status).to.equal(200);
     }));
   });
 
   describe('patch ship debit card', () => {
     it('should ship debit card', mochaAsync(async () => {
-      const response = await testUser.shipDebitCard('5c10366058b87200631010f4', {
-        fee_node_id: '5b7b32df55a94c00765be804'
+      const response = await testUser.shipDebitCard('<NODE_ID>', {
+        fee_node_id: '<FEE_NODE_ID>'
       });
       expect(response.status).to.equal(200);
     }));
@@ -232,7 +170,7 @@ describe('User', () => {
 
   describe('patch reset debit card', () => {
     it('should reset debit card', mochaAsync(async () => {
-      const response = await testUser.resetDebitCard('5c10366058b87200631010f4');
+      const response = await testUser.resetDebitCard('<NODE_ID>');
       expect(response.status).to.equal(200);
     }));
   });
@@ -261,14 +199,14 @@ describe('User', () => {
 
   describe('patch reinitiate micro-deposits', () => {
     it('should reinitiate microdeposits', mochaAsync(async () => {
-      const response = await testUser.reinitiateMicroDeposits('5c1040f258b87200631013fe');
+      const response = await testUser.reinitiateMicroDeposits('<NODE_ID>');
       expect(response.status).to.equal(200);
     }));
   });
 
   describe('patch update node', () => {
     it('should update node', mochaAsync(async () => {
-      const response = await testUser.updateNode('5c1012086a294e00611bc803', {
+      const response = await testUser.updateNode('<NODE_ID>', {
         nickname: 'New Nickname'
       });
       expect(response.status).to.equal(200);
@@ -277,14 +215,14 @@ describe('User', () => {
 
   describe('delete node', () => {
     it('should delete node', mochaAsync(async () => {
-      const response = await testUser.deleteNode('5c1040f258b87200631013fe');
+      const response = await testUser.deleteNode('<NODE_ID>');
       expect(response.status).to.equal(200);
     }));
   });
 
   describe('patch generate apple pay token', () => {
     it('should generate new apple pay token', mochaAsync(async () => {
-      const response = await testUser.generateApplePayToken('5c10366058b87200631010f4', {
+      const response = await testUser.generateApplePayToken('<NODE_ID>', {
         certificate: 'your applepay cert',
         nonce: '9c02xxx2',
         nonce_signature: '4082f883ae62d0700c283e225ee9d286713ef74'
@@ -295,10 +233,10 @@ describe('User', () => {
 
   describe('post create transaction', () => {
     it('should create new transaction', mochaAsync(async () => {
-      const response = await testUser.createTransaction('5c1013558b76a20067e70f6a', {
+      const response = await testUser.createTransaction('<NODE_ID>', {
         to: {
-          type: 'DEPOSIT-US',
-          id: '5c1012086a294e00611bc803'
+          type: '<NODE_TYPE>',
+          id: '<NODE_ID>'
         },
         amount: {
           amount: 5.0,
@@ -314,14 +252,14 @@ describe('User', () => {
 
   describe('get transaction w/ transactionID', () => {
     it('should retrive specified transaction', mochaAsync(async () => {
-      const response = await testUser.getTransaction('5c1013558b76a20067e70f6a', '5c10519f6a81c9008bbf72e5');
+      const response = await testUser.getTransaction('<NODE_ID>', '<TRXN_ID>');
       expect(response.status).to.equal(200);
     }));
   });
 
   describe('get all node transactions', () => {
     it('should retrive all node transaction', mochaAsync(async () => {
-      const response = await testUser.getAllNodeTransactions('5c1013558b76a20067e70f6a');
+      const response = await testUser.getAllNodeTransactions('<NODE_ID>');
       expect(response.status).to.equal(200);
     }));
   });
@@ -329,10 +267,10 @@ describe('User', () => {
   describe('delete transaction', () => {
     it('should delete specified transaction', mochaAsync(async () => {
       // create transaction
-      const txn = await testUser.createTransaction('5c1013558b76a20067e70f6a', {
+      const txn = await testUser.createTransaction('<NODE_ID>', {
         to: {
-          type: 'DEPOSIT-US',
-          id: '5c1012086a294e00611bc803'
+          type: '<NODE_TYPE>',
+          id: '<NODE_ID>'
         },
         amount: {
           amount: 5.0,
@@ -344,7 +282,7 @@ describe('User', () => {
       });
       expect(txn.status).to.equal(200);
       // delete transaction
-      const response = await testUser.deleteTransaction('5c1013558b76a20067e70f6a', txn.data._id);
+      const response = await testUser.deleteTransaction('<NODE_ID>', txn.data._id);
       expect(response.status).to.equal(200);
     }));
   });
@@ -352,10 +290,10 @@ describe('User', () => {
   describe('patch comment on status', () => {
     it('should comment on transaction status', mochaAsync(async () => {
       // create transaction
-      const txn = await testUser.createTransaction('5c1013558b76a20067e70f6a', {
+      const txn = await testUser.createTransaction('<NODE_ID>', {
         to: {
-          type: 'DEPOSIT-US',
-          id: '5c1012086a294e00611bc803'
+          type: '<NODE_TYPE>',
+          id: '<NODE_ID>'
         },
         amount: {
           amount: 5.0,
@@ -367,7 +305,7 @@ describe('User', () => {
       });
       expect(txn.status).to.equal(200);
       // comment on status
-      const response = await testUser.commentOnStatus('5c1013558b76a20067e70f6a', txn.data._id, {
+      const response = await testUser.commentOnStatus('<NODE_ID>', txn.data._id, {
         comment: 'my comment'
       });
       expect(response.status).to.equal(200);
@@ -376,28 +314,28 @@ describe('User', () => {
 
   describe('patch dispute card transaction', () => {
     it('should submit dispute of card transaction', mochaAsync(async () => {
-      const response = await testUser.disputeCardTransaction('5c10366058b87200631010f4', '5c1440497bedaa008a4a316a');
+      const response = await testUser.disputeCardTransaction('<NODE_ID>', '<TRXN_ID>');
       expect(response.status).to.equal(200);
     }));
   });
 
   describe('get all subnets', () => {
     it('should retrieve all user subnets', mochaAsync(async () => {
-      const response = await testUser.getAllSubnets('5c1012086a294e00611bc803');
+      const response = await testUser.getAllSubnets('<NODE_ID>');
       expect(response.status).to.equal(200);
     }));
   });
 
   describe('get subnet w/ subnetID', () => {
     it('should retrieve specified subnet', mochaAsync(async () => {
-      const response = await testUser.getSubnet('5c1012086a294e00611bc803', '5c10569f1ce2a6002b08a117');
+      const response = await testUser.getSubnet('<NODE_ID>', '<SUBNET_ID>');
       expect(response.status).to.equal(200);
     }));
   });
 
   describe('post create subnet', () => {
     it('should create subnet', mochaAsync(async () => {
-      const response = await testUser.createSubnet('5c1012086a294e00611bc803', {
+      const response = await testUser.createSubnet('<NODE_ID>', {
         nickname: 'Test Subnet'
       });
       expect(response.status).to.equal(200);
@@ -413,14 +351,14 @@ describe('User', () => {
     }));
 
     it('should submit 2fa device', mochaAsync(async () => {
-      const response = await testUser.supplyDevice2FA('newTestFingerprint123', 'easak@synapsefi.com');
+      const response = await testUser.supplyDevice2FA('newTestFingerprint123', '<2FA_DEVICE>');
       expect(response.status).to.equal(202);
     }));
   });
 
   describe('verify fingerprint 2fa', () => {
     it('should verify fingerprint 2fa', mochaAsync(async () => {
-      const response = await testUser.verifyFingerprint2FA('newTestFingerprint123', '321965');
+      const response = await testUser.verifyFingerprint2FA('newTestFingerprint123', '<2FA_CODE>');
       expect(response.status).to.equal(200);
     }));
   });

@@ -62,10 +62,6 @@ const createUserPayload = {
 const mochaAsync = fn => {
   return done => {
     fn.call().then(done, err => {
-      if (err) {
-        console.log('MOCHA_ASYNC: ', err);
-        // console.log(err.response.data.error);
-      }
       done(err);
     });
   };
@@ -91,8 +87,8 @@ describe('Client', () => {
 
   describe('get user with userID', () => {
     it('should return correct user', mochaAsync(async () => {
-      const response = await Helpers.client.getUser('5bf493e3baabfc00a31db486');
-      expect(response.id).to.equal('5bf493e3baabfc00a31db486');
+      const response = await Helpers.client.getUser('<USER_ID>');
+      expect(response.id).to.equal('<USER_ID>');
       expect(response).to.be.an.instanceof(User);
     }));
   });
@@ -147,16 +143,16 @@ describe('Client', () => {
 
   describe('get subscription with subscriptionID', () => {
     it('should return correct subscription', mochaAsync(async () => {
-      const response = await Helpers.client.getSubscription('5bdcc4bb06896300c0dcdc5c');
+      const response = await Helpers.client.getSubscription('<SUBSCRIPTION_ID');
       expect(response.status).to.equal(200);
-      expect(response.data._id).to.equal('5bdcc4bb06896300c0dcdc5c');
+      expect(response.data._id).to.equal('<SUBSCRIPTION_ID>');
     }));
   });
 
   describe('patch update subscription', () => {
     it('should update subscription', mochaAsync(async () => {
       const response = await Helpers.client.updateSubscription(
-        '5bdcc4bb06896300c0dcdc5c',
+        '<SUBSCRIPTION_ID>',
         {
           is_active: false
         }
