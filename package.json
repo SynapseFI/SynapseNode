@@ -1,6 +1,6 @@
 {
-  "name": "SynapseFI-Node-v2",
-  "version": "0.0.0",
+  "name": "SynapseNode",
+  "version": "1.0.0",
   "description": "",
   "main": "dist/index.js",
   "files": [
