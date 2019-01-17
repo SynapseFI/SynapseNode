@@ -1,4 +1,4 @@
-# SynapseFI-Node-v2
+# SynapseNode
 SynapseFI Node.js API Client Library Version 2
 
 ## Code Examples

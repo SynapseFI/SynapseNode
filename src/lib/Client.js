@@ -206,13 +206,11 @@ class Client {
     });
   }
 
-  // GET WEBHOOK LOGS
-  // CONTENT TYPE BREAKING API CALL
-  // getWebhookLogs() {
-  //   return apiRequests.client[getWebhookLogs]({
-  //     clientInfo: this
-  //   });
-  // }
+  getWebhookLogs() {
+    return apiRequests.client[getWebhookLogs]({
+      clientInfo: this
+    });
+  }
 }
 
 module.exports = Client;
