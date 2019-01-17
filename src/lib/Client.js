@@ -57,7 +57,7 @@ class Client {
     })
     .then(async ({ data }) => {
       const user = await new User ({ data, client: this });
-      await user._oauthUser({ 'refresh_token': user.body.refresh_token });
+      await user._oauthUser({ refresh_token: user.body.refresh_token });
       return user;
     });
   }
