@@ -35,7 +35,7 @@ const client = new Client({
 ```
 
 ## Testing
-Run the following command from the root package directory after the .env file is set up and '<ID>' values are replaced in the test files:
+Run the following command from the root package directory after the .env file is set up and '<OBJ_ID>' values are replaced in the test files:
 ```
 npm test
 ```
