@@ -1,5 +1,5 @@
 {
-  "name": "SynapseNode",
+  "name": "synapsenode",
   "version": "1.0.0",
   "description": "Node.js Library for SynapseFI API v3.1 Rest",
   "main": "dist/index.js",
