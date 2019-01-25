@@ -567,7 +567,7 @@ user.getStatementsByNode('<NODE_ID>', {
 ```
 #### Ship Debit Card
 ```
-user.shipDebitCard('<NODE_ID>', {
+user.shipCardNode('<NODE_ID>', {
   fee_node_id: '<FEE_NODE_ID>'
 })
 .then(({ data }) => {
@@ -576,7 +576,7 @@ user.shipDebitCard('<NODE_ID>', {
 ```
 #### Reset Debit Card
 ```
-user.resetDebitCard('<NODE_ID>')
+user.resetCardNode('<NODE_ID>')
 .then(({ data }) => {
   console.log('data ', data);
 });
@@ -742,7 +742,68 @@ user.getSubnet('<NODE_ID>', '<SUBNET_ID>')
 #### Create Subnet
 ```
 user.createSubnet('<NODE_ID>', {
-  'nickname': 'Test AC/RT'
+  nickname: 'Test AC/RT'
+})
+.then(({ data }) => {
+  console.log('data ', data);
+});
+```
+#### Update Subnet
+To activate card number:
+```
+user.updateSubnet('<NODE_ID>', '<SUBNET_ID>', {
+  status: 'ACTIVE'
+})
+.then(({ data }) => {
+  console.log('data ', data);
+});
+```
+To deactivate card number:
+```
+user.updateSubnet('<NODE_ID>', '<SUBNET_ID>', {
+  status: 'INACTIVE'
+})
+.then(({ data }) => {
+  console.log('data ', data);
+});
+```
+To set pin for card:
+```
+user.updateSubnet('<NODE_ID>', '<SUBNET_ID>', {
+  card_pin: 'mlMKMv5+ekyw9M5AtqUBZxgdzj+GEjzddp93qSPw6uRXGpdNiNulVZxcbH1gGGiwEU9UeOwGmgiMaQsDkpbuh3SWY6IxSiPNHI9ryY8z/z+d8MXockQxsKnl1B+ekcLAXx9s2RZM7T6Nfoa+ABGwRV7aFGt91NYaolA0tfU1981J9juB/iljm9cz5JUKDPCxZbn+LW1f4O/5Pt3fDX9Nrre/HsuHtgc7OIu6XTvg1FCm+ds3AkFdHA0dw1aW4j5biXWVEkNpb01PIicANYXtO/AusqH8udBLh0GIU/xNSTzipk/M2hUqoTZdOo7Hu8UZgLbWUEpv7hAAY2tfu/ymsA=='
+})
+.then(({ data }) => {
+  console.log('data ', data);
+});
+```
+To update card preferences:
+```
+user.updateSubnet('<NODE_ID>', '<SUBNET_ID>', {
+  preferences: {
+    allow_foreign_transactions: true,
+    daily_atm_withdrawal_limit: 100,
+    daily_transaction_limit: 1000
+  }
+})
+.then(({ data }) => {
+  console.log('data ', data);
+});
+```
+To delete card:
+```
+user.updateSubnet('<NODE_ID>', '<SUBNET_ID>', {
+  status: 'TERMINATED'
+})
+.then(({ data }) => {
+  console.log('data ', data);
+});
+```
+#### Ship Card
+```
+user.shipCard('<NODE_ID>', '<SUBNET_ID>', {
+  fee_node_id: '<FEE_NODE_ID>',
+  expedite: false,
+  card_style_id: '555'
 })
 .then(({ data }) => {
   console.log('data ', data);

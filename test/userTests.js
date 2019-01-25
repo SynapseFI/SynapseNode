@@ -161,7 +161,7 @@ describe('User', () => {
 
   describe('patch ship debit card', () => {
     it('should ship debit card', mochaAsync(async () => {
-      const response = await testUser.shipDebitCard('<NODE_ID>', {
+      const response = await testUser.shipCardNode('<NODE_ID>', {
         fee_node_id: '<FEE_NODE_ID>'
       });
       expect(response.status).to.equal(200);
@@ -170,7 +170,7 @@ describe('User', () => {
 
   describe('patch reset debit card', () => {
     it('should reset debit card', mochaAsync(async () => {
-      const response = await testUser.resetDebitCard('<NODE_ID>');
+      const response = await testUser.resetCardNode('<NODE_ID>');
       expect(response.status).to.equal(200);
     }));
   });

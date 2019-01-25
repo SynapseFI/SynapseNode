@@ -13,8 +13,8 @@ const {
   generateUboForm,
   getStatementsByUser,
   getStatementsByNode,
-  shipDebitCard,
-  resetDebitCard,
+  shipCardNode,
+  resetCardNode,
   verifyMicroDeposits,
   reinitiateMicroDeposits,
   updateNode,
@@ -29,6 +29,8 @@ const {
   getAllSubnets,
   getSubnet,
   createSubnet,
+  updateSubnet,
+  shipCard,
   registerNewFingerprint,
   supplyDevice2FA,
   verifyFingerprint2FA,
@@ -231,8 +233,8 @@ class User {
     });
   }
 
-  // PATCH SHIP DEBIT CARD
-  shipDebitCard(node_id, bodyParams) {
+  // PATCH SHIP DEBIT CARD NODE
+  shipCardNode(node_id, bodyParams) {
     return apiRequests.user[shipDebitCard]({
       node_id,
       bodyParams,
@@ -240,8 +242,8 @@ class User {
     });
   }
 
-  // PATCH RESET DEBIT CARD
-  resetDebitCard(node_id) {
+  // PATCH RESET DEBIT CARD NODE
+  resetCardNode(node_id) {
     return apiRequests.user[resetDebitCard]({
       node_id,
       userInfo: this
@@ -401,7 +403,25 @@ class User {
     });
   }
 
-  // UPDATE SUBNET PLACEHOLDER
+  // PATCH UPDATE SUBNET
+  updateSubnet(node_id, subnet_id, bodyParams = {}) {
+    return apiRequests.user[updateSubnet]({
+      node_id,
+      subnet_id,
+      bodyParams,
+      userInfo: this
+    });
+  }
+
+  // PATCH SHIP CARD SUBNET
+  shipCard(node_id, subnet_id, bodyParams ={}) {
+    return apiRequests.user[shipCard]({
+      node_id,
+      subnet_id,
+      bodyParams,
+      userInfo: this
+    });
+  }
 
   // First call for registering new fingerprint
   async registerNewFingerprint(fp) {

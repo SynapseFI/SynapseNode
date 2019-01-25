@@ -15,8 +15,8 @@ const {
   generateUboForm,
   getStatementsByUser,
   getStatementsByNode,
-  shipDebitCard,
-  resetDebitCard,
+  shipCardNode,
+  resetCardNode,
   verifyMicroDeposits,
   reinitiateMicroDeposits,
   updateNode,
@@ -31,6 +31,8 @@ const {
   getAllSubnets,
   getSubnet,
   createSubnet,
+  updateSubnet,
+  shipCard,
   registerNewFingerprint,
   supplyDevice2FA,
   verifyFingerprint2FA
@@ -152,14 +154,14 @@ module.exports[getStatementsByNode] = ({ node_id, page, per_page, userInfo }) =>
   return axios.get(url, { headers });
 };
 
-module.exports[shipDebitCard] = ({ node_id, bodyParams, userInfo }) => {
+module.exports[shipCardNode] = ({ node_id, bodyParams, userInfo }) => {
   const { host, headers, id } = userInfo;
   const url = `${host}/users/${id}/nodes/${node_id}?ship=yes`;
 
   return axios.patch(url, bodyParams, { headers });
 };
 
-module.exports[resetDebitCard] = ({ node_id, userInfo }) => {
+module.exports[resetCardNode] = ({ node_id, userInfo }) => {
   const { host, headers, id } = userInfo;
   const url = `${host}/users/${id}/nodes/${node_id}?reset=yes`;
 
@@ -278,7 +280,19 @@ module.exports[createSubnet] = ({ node_id, bodyParams, userInfo }) => {
   return axios.post(url, bodyParams, { headers });
 };
 
-// UPDATE SUBNET PLACEHOLDER
+module.exports[updateSubnet] = ({ node_id, subnet_id, bodyParams, userInfo }) => {
+  const { host, headers, id } = userInfo;
+  const url = `${host}/users/${id}/nodes/${node_id}/subnets/${subnet_id}`;
+
+  return axios.patch(url, bodyParams, { headers });
+};
+
+module.exports[shipCard] = ({ node_id, subnet_id, bodyParams, userInfo }) => {
+  const { host, headers, id } = userInfo;
+  const url = `${host}/users/${id}/nodes/${node_id}/subnets/${subnet_id}/ship`;
+
+  return axios.patch(url, bodyParams, { headers });
+};
 
 module.exports[registerNewFingerprint] = ({ refresh_token, userInfo }) => {
   const { host, headers, id } = userInfo;
