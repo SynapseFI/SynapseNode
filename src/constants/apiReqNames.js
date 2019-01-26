@@ -24,8 +24,8 @@ module.exports = {
   generateUboForm: 'generateUboForm',
   getStatementsByUser: 'getStatementsByUser',
   getStatementsByNode: 'getStatementsByNode',
-  shipDebitCard: 'shipDebitCard',
-  resetDebitCard: 'resetDebitCard',
+  shipCardNode: 'shipCardNode',
+  resetCardNode: 'resetCardNode',
   verifyMicroDeposits: 'verifyMicroDeposits',
   reinitiateMicroDeposits: 'reinitiateMicroDeposits',
   updateNode: 'updateNode',
@@ -40,11 +40,13 @@ module.exports = {
   getAllSubnets: 'getAllSubnets',
   getSubnet: 'getSubnet',
   createSubnet: 'createSubnet',
+  updateSubnet: 'updateSubnet',
   registerNewFingerprint: 'registerNewFingerprint',
   supplyDevice2FA: 'supplyDevice2FA',
   verifyFingerprint2FA: 'verifyFingerprint2FA',
   locateAtms: 'locateAtms',
   getCryptoQuotes: 'getCryptoQuotes',
   getCryptoMarketData: 'getCryptoMarketData',
-  getWebhookLogs: 'getWebhookLogs'
+  getWebhookLogs: 'getWebhookLogs',
+  shipCard: 'shipCard'
 };
