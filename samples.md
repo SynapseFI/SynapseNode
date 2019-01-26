@@ -740,9 +740,20 @@ user.getSubnet('<NODE_ID>', '<SUBNET_ID>')
 });
 ```
 #### Create Subnet
+To issue account / routing number:
 ```
 user.createSubnet('<NODE_ID>', {
   nickname: 'Test AC/RT'
+})
+.then(({ data }) => {
+  console.log('data ', data);
+});
+```
+To issue debit card:
+```
+user.createSubnet('<NODE_ID>', {
+  nickname: 'My Debit Card',
+  account_class: 'DEBIT_CARD'
 })
 .then(({ data }) => {
   console.log('data ', data);
@@ -831,7 +842,6 @@ user.verifyFingerprint2FA('<FINGERPRINT_VALUE>', '<VALIDATION_PIN>')
   console.log('data ', data);
 });
 ```
-
 #### Idempotent Requests
 POST calls support idempotency for safely retrying requests without accidentally performing the same operation twice. Pass the idempotency key you wish to use as a string as the final argument to the POST call.
 ```

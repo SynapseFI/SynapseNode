@@ -342,8 +342,6 @@ describe('User', () => {
     }));
   });
 
-  // UPDATE SUBNET TEST PLACEHOLDER
-
   describe('register new fingerprint', () => {
     it('should submit new fingerprint', mochaAsync(async () => {
       const response = await testUser.registerNewFingerprint('newTestFingerprint123');
