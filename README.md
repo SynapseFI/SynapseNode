@@ -22,7 +22,8 @@ FINGERPRINT=<YOUR_FINGERPRINT>
 ```
 Initialize new Client:
 ```
-const Client = require('./src/lib/Client');
+const Synapse = require('synapsenode');
+const Client = Synapse.Client;
 
 const client = new Client({
   client_id: process.env.CLIENT_ID,
