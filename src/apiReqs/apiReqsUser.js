@@ -242,17 +242,11 @@ module.exports[commentOnStatus] = ({ node_id, trans_id, bodyParams, userInfo }) 
   return axios.patch(url, bodyParams, { headers });
 };
 
-module.exports[disputeCardTransaction] = ({ node_id, trans_id, userInfo }) => {
+module.exports[disputeCardTransaction] = ({ node_id, trans_id, bodyParams, userInfo }) => {
   const { host, headers, id } = userInfo;
   const url = `${host}/users/${id}/nodes/${node_id}/trans/${trans_id}/dispute`;
 
-  return axios.patch(
-    url,
-    {
-      dispute_reason: 'CHARGE_BACK'
-    },
-    { headers }
-  );
+  return axios.patch(url, bodyParams, { headers });
 };
 
 module.exports[getAllSubnets] = ({ node_id, page, per_page, userInfo }) => {
