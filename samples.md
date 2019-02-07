@@ -710,8 +710,20 @@ user.commentOnStatus('<NODE_ID>', '<TRANSACTION_ID>', {
 });
 ```
 #### Dispute Card Transaction
+For charge backs:
 ```
-user.disputeCardTransaction('<NODE_ID>', '<TRANSACTION_ID>')
+user.disputeCardTransaction('<NODE_ID>', '<TRANSACTION_ID>', {
+  dispute_reason: 'CHARGE_BACK'
+})
+.then(({ data }) => {
+  console.log('data ', data);
+});
+```
+For charged twice:
+```
+user.disputeCardTransaction('<NODE_ID>', '<TRANSACTION_ID>', {
+  dispute_reason: 'CHARGED_TWICE'
+})
 .then(({ data }) => {
   console.log('data ', data);
 });

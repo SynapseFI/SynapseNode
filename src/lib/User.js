@@ -354,10 +354,11 @@ class User {
   }
 
   // PATCH DISPUTE CARD TRANSACTION
-  disputeCardTransaction(node_id, trans_id) {
+  disputeCardTransaction(node_id, trans_id, bodyParams) {
     return apiRequests.user[disputeCardTransaction]({
       node_id,
       trans_id,
+      bodyParams,
       userInfo: this
     });
   }
