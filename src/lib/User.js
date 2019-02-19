@@ -34,7 +34,8 @@ const {
   registerNewFingerprint,
   supplyDevice2FA,
   verifyFingerprint2FA,
-  getUser
+  getUser,
+  updateIpAddress
 } = require('../constants/apiReqNames');
 
 const apiRequests = require('../apiReqs/apiRequests');
@@ -424,7 +425,7 @@ class User {
     });
   }
 
-  // First call for registering new fingerprint
+  // POST First call for registering new fingerprint
   async registerNewFingerprint(fp) {
     const refresh_token = await this._grabRefreshToken();
 
@@ -443,7 +444,7 @@ class User {
     });
   }
 
-  // Second call for registering new fingerprint
+  // POST Second call for registering new fingerprint
   async supplyDevice2FA(fp, device) {
     const refresh_token = await this._grabRefreshToken();
 
@@ -463,7 +464,7 @@ class User {
     });
   }
 
-  // Final call for registering new fingerprint
+  // POST Final call for registering new fingerprint
   async verifyFingerprint2FA(fp, validation_pin) {
     const refresh_token = await this._grabRefreshToken();
 
@@ -481,6 +482,19 @@ class User {
       refresh_token,
       userInfo: this
     });
+  }
+
+  // UPDATE USER IP ADDRESS
+  updateIpAddress(ip) {
+    this.ip_address = ip;
+    this.headers = buildHeaders({
+      client_id: this.client.client_id,
+      client_secret: this.client.client_secret,
+      fingerprint: this.fingerprint,
+      ip_address: this.ip_address,
+      oauth_key: this.oauth_key
+    });
+    return this.headers;
   }
 }
 
