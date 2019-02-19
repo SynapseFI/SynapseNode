@@ -206,6 +206,7 @@ class Client {
     });
   }
 
+  // GET WEBHOOK LOGS
   getWebhookLogs() {
     return apiRequests.client[getWebhookLogs]({
       clientInfo: this
