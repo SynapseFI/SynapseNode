@@ -7,6 +7,7 @@ module.exports.addQueryParams = ({
   per_page,
   show_refresh_tokens,
   full_dehydrate,
+  force_refresh,
   type,
   zip,
   lat,
@@ -31,6 +32,9 @@ module.exports.addQueryParams = ({
   }
   if (full_dehydrate !== undefined) {
     params.push(`full_dehydrate=${full_dehydrate}`);
+  }
+  if (force_refresh !== undefined) {
+    params.push(`force_refresh=${force_refresh}`);
   }
   if (type !== undefined) {
     params.push(`type=${type}`);
