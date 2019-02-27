@@ -1,6 +1,6 @@
 {
   "name": "synapsenode",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "Node.js Library for SynapseFI API v3.1 Rest",
   "main": "dist/index.js",
   "files": [
@@ -46,6 +46,7 @@
     "axios": "^0.18.0"
   },
   "dependencies": {
-    "dotenv": "^6.2.0"
+    "dotenv": "^6.2.0",
+    "axios": "^0.18.0"
   }
 }
