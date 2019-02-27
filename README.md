@@ -1,6 +1,6 @@
 # SynapseNode
 ![npm](https://img.shields.io/npm/v/synapsenode.svg)
-![](https://img.shields.io/badge/status-beta-yellow.svg)  
+![status](https://img.shields.io/badge/status-beta-yellow.svg)  
 SynapseFI Node.js API Client Library Version 2
 
 ## Code Examples
