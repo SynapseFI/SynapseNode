@@ -40,26 +40,47 @@ class Client {
   }
 
   // POST CREATE USER
-  createUser(bodyParams, idempotency_key = undefined) {
-    if (idempotency_key) {
-      this.headers = buildHeaders({
-        client_id: this.client_id,
-        client_secret: this.client_secret,
-        fingerprint: this.fingerprint,
-        ip_address: this.ip_address,
-        idempotency_key
-      });
-    }
+  // createUser(bodyParams, idempotency_key = undefined) {
+  //   if (idempotency_key) {
+  //     this.headers = buildHeaders({
+  //       client_id: this.client_id,
+  //       client_secret: this.client_secret,
+  //       fingerprint: this.fingerprint,
+  //       ip_address: this.ip_address,
+  //       idempotency_key
+  //     });
+  //   }
+  //
+  //   return apiRequests.client[createUser]({
+  //     bodyParams,
+  //     clientInfo: this
+  //   })
+  //   .then(async ({ data }) => {
+  //     const user = await new User ({ data, client: this });
+  //     await user._oauthUser({ refresh_token: user.body.refresh_token });
+  //     return user;
+  //   });
+  // }
 
-    return apiRequests.client[createUser]({
-      bodyParams,
-      clientInfo: this
-    })
-    .then(async ({ data }) => {
-      const user = await new User ({ data, client: this });
-      await user._oauthUser({ refresh_token: user.body.refresh_token });
-      return user;
+  // POST CREATE USER
+  async createUser(bodyParams, fingerprint, ip_address, idempotency_key = undefined) {
+    const headers = buildHeaders({
+      client_id: this.client_id,
+      client_secret: this.client_secret,
+      fingerprint,
+      ip_address,
+      idempotency_key
     });
+
+    const { data } = await apiRequests.client[createUser]({
+      bodyParams,
+      headers,
+      clientInfo: this
+    });
+
+    const user = await new User({ data, fingerprint, ip_address, client: this });
+    await user._oauthUser({ refresh_token: user.body.refresh_token });
+    return user;
   }
 
   // GET ALL USERS
@@ -76,17 +97,38 @@ class Client {
   }
 
   // GET USER W/ USER_ID
-  getUser(user_id, full_dehydrate = false) {
-    return apiRequests.client[getUser]({
+  // getUser(user_id, full_dehydrate = false) {
+  //   return apiRequests.client[getUser]({
+  //     user_id,
+  //     full_dehydrate,
+  //     clientInfo: this
+  //   })
+  //   .then(async ({ data }) => {
+  //     const user = await new User ({ data, client: this });
+  //     await user._oauthUser({ 'refresh_token': user.body.refresh_token });
+  //     return user;
+  //   });
+  // }
+
+  // GET USER W/ USER_ID
+  async getUser(user_id, fingerprint, ip_address = this.ip_address, full_dehydrate = false) {
+    const headers = buildHeaders({
+      client_id: this.client_id,
+      client_secret: this.client_secret,
+      fingerprint,
+      ip_address
+    });
+
+    const { data } = await apiRequests.client[getUser]({
       user_id,
       full_dehydrate,
+      headers,
       clientInfo: this
-    })
-    .then(async ({ data }) => {
-      const user = await new User ({ data, client: this });
-      await user._oauthUser({ 'refresh_token': user.body.refresh_token });
-      return user;
     });
+
+    const user = await new User ({ data, fingerprint, ip_address, client: this });
+    await user._oauthUser({ refresh_token: user.body.refresh_token });
+    return user;
   }
 
   // GET ALL PLATFORM TRANSACTIONS

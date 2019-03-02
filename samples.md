@@ -1,3 +1,54 @@
+# Table of Contents
+- [Initialization](#initialization)
+- [Client](#client)
+	* [Create User](#create-user)
+  * [Get All Users](#get-all-users)
+	* [Get User](#get-user)
+  * [Get All Platform Transactions](#get-all-platform-transactions)
+  * [Get All Platform Nodes](#get-all-platform-nodes)
+  * [Get Institutions](#get-institutions)
+  * [Issue Public Key](#issue-public-key)
+	* [Create Subscription](#create-subscription)
+  * [Get All Subscriptions](#get-all-subscriptions)
+	* [Get Subscription](#get-subscription)
+	* [Update Subscription](#update-subscription)
+  * [Locate ATMs](#locate-atms)
+  * [Get Crypto Quotes](#crypto-quotes)
+  * [Get Crypto Market Data](#crypto-market-data)
+	* [Get Webhook Logs](#webhook-logs)
+- [User](#user)
+  * [Add User KYC](#add-user-kyc)
+  * [Delete Existing Document](#delete-existing-document)
+  * [Update User](#update-user)
+  * [Create Node](#create-node)
+  * [Verify ACH-US MFA](#verify-ach-us-mfa)
+  * [Get All User Nodes](#get-all-user-nodes)
+  * [Get Node](#get-node)
+  * [Get User Transactions](#get-user-transactions)
+  * [Trigger Dummy Transactions](#trigger-dummy-transactions)
+  * [Generate UBO Form](#generate-ubo-form)
+  * [Get Statements by User](#get-statements-by-user)
+  * [Get Statements by Node](#get-statements-by-node)
+  * [Ship Debit Card](#ship-debit-card)
+  * [Reset Debit Card](#reset-debit-card)
+  * [Verify Micro-Deposits](#verify-micro-deposits)
+  * [Reinitiate Micro-Deposits](#reinitiate-micro-deposits)
+  * [Update Node](#update-node)
+  * [Delete Node](#delete-node)
+  * [Generate Apple Pay Token](#generate-apple-pay-token)
+  * [Create Transaction](#create-transaction)
+  * [Get Transaction](#get-transaction)
+  * [Get All Node Transactions](#get-all-node-transactions)
+  * [Delete Transaction](#delete-transaction)
+  * [Comment on Status](#comment-on-status)
+  * [Dispute Card Transaction](#dispute-card-transaction)
+  * [Get All Subnets](#get-all-subnets)
+  * [Get Subnet](#get-subnet)
+  * [Create Subnet](#create-subnet)
+  * [Update Subnet](#update-subnet)
+  * [Ship Card Subnet](#ship-card-subnet)
+  * [Register New Fingerprint Flow](#register-new-fingerprint)
+
 ## Initialization
 ```
 const Synapse = require('synapsenode');
@@ -32,7 +83,7 @@ const user = client.createUser({
 }) || client.getUser('<USER_ID>');
 ```
 
-## Samples
+## Client
 #### Create User
 ```
 client.createUser({
@@ -302,6 +353,8 @@ client.getWebhookLogs()
   console.log('data ', data);
 });
 ```
+
+## User
 #### Add User KYC
 ```
 user.addUserKyc({
@@ -822,7 +875,7 @@ user.updateSubnet('<NODE_ID>', '<SUBNET_ID>', {
   console.log('data ', data);
 });
 ```
-#### Ship Card
+#### Ship Card Subnet
 ```
 user.shipCard('<NODE_ID>', '<SUBNET_ID>', {
   fee_node_id: '<FEE_NODE_ID>',

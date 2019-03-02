@@ -44,13 +44,15 @@ const buildHeaders = require('../helpers/buildHeaders');
 class User {
   constructor({
     data,
+    fingerprint,
+    ip_address,
     client
   }) {
     this.id = data._id;
     this.body = data;
     this.host = client.host;
-    this.fingerprint = client.fingerprint;
-    this.ip_address = client.ip_address;
+    this.fingerprint = fingerprint;
+    this.ip_address = ip_address;
     this.oauth_key = '';
     this.client = client;
     this.headers = buildHeaders({
@@ -91,6 +93,7 @@ class User {
     return apiRequests.client[getUser]({
       user_id: this.id,
       full_dehydrate: 'no',
+      headers: this.headers,
       clientInfo: this.client
     })
     .then(({ data }) => {
