@@ -48,6 +48,7 @@
   * [Update Subnet](#update-subnet)
   * [Ship Card Subnet](#ship-card-subnet)
   * [Register New Fingerprint Flow](#register-new-fingerprint)
+- [Idempotent Requests](#idempotent-requests)
 
 ## Initialization
 ```
