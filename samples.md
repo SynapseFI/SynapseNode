@@ -47,7 +47,7 @@
   * [Create Subnet](#create-subnet)
   * [Update Subnet](#update-subnet)
   * [Ship Card Subnet](#ship-card-subnet)
-  * [Register New Fingerprint Flow](#register-new-fingerprint)
+  * [Register New Fingerprint](#register-new-fingerprint)
 - [Idempotent Requests](#idempotent-requests)
 
 ## Initialization
@@ -81,7 +81,7 @@ const user = client.createUser({
     cip_tag: 1,
     is_business: false
   }
-}) || client.getUser('<USER_ID>');
+}, 'testFingerprint', '127.0.0.1') || client.getUser('<USER_ID>', 'testFingerprint');
 ```
 
 ## Client
@@ -142,7 +142,9 @@ client.createUser({
       cip_tag: 1,
       is_business: false
     }
-  }
+  },
+	'testFingerprint',
+	'127.0.0.1'
 )
 .then(( user ) => {
   console.log('user ', user);
