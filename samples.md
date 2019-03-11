@@ -146,7 +146,7 @@ client.createUser({
       is_business: false
     }
   },
-'127.0.0.1'
+  '127.0.0.1'
 )
 .then(( user ) => {
   console.log('user ', user);
@@ -173,10 +173,10 @@ client.createUser(
 	    "is_business": false
 	  }
 	},
-	'127.0.0.1',
+  '127.0.0.1',
 	{
-		fingerprint: 'userSpecificFingerprint',
-		idempotency_key: 'testIdempotencyKey'
+	  fingerprint: 'userSpecificFingerprint',
+	  idempotency_key: 'testIdempotencyKey'
 	}
 )
 .then(( user ) => {
