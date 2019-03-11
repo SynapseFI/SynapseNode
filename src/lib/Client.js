@@ -40,30 +40,19 @@ class Client {
   }
 
   // POST CREATE USER
-  // createUser(bodyParams, idempotency_key = undefined) {
-  //   if (idempotency_key) {
-  //     this.headers = buildHeaders({
-  //       client_id: this.client_id,
-  //       client_secret: this.client_secret,
-  //       fingerprint: this.fingerprint,
-  //       ip_address: this.ip_address,
-  //       idempotency_key
-  //     });
-  //   }
-  //
-  //   return apiRequests.client[createUser]({
-  //     bodyParams,
-  //     clientInfo: this
-  //   })
-  //   .then(async ({ data }) => {
-  //     const user = await new User ({ data, client: this });
-  //     await user._oauthUser({ refresh_token: user.body.refresh_token });
-  //     return user;
-  //   });
-  // }
+  async createUser(bodyParams, ip_address, options = {}) {
+    let fingerprint = this.fingerprint;
+    let idempotency_key;
 
-  // POST CREATE USER
-  async createUser(bodyParams, fingerprint, ip_address, idempotency_key = undefined) {
+    if (options) {
+      if (options.fingerprint) {
+        fingerprint = options.fingerprint;
+      }
+      if (options.idempotency_key) {
+        idempotency_key = options.idempotency_key;
+      }
+    }
+
     const headers = buildHeaders({
       client_id: this.client_id,
       client_secret: this.client_secret,
@@ -97,21 +86,23 @@ class Client {
   }
 
   // GET USER W/ USER_ID
-  // getUser(user_id, full_dehydrate = false) {
-  //   return apiRequests.client[getUser]({
-  //     user_id,
-  //     full_dehydrate,
-  //     clientInfo: this
-  //   })
-  //   .then(async ({ data }) => {
-  //     const user = await new User ({ data, client: this });
-  //     await user._oauthUser({ 'refresh_token': user.body.refresh_token });
-  //     return user;
-  //   });
-  // }
+  async getUser(user_id, options = {}) {
+    let fingerprint = this.fingerprint;
+    let ip_address = this.ip_address;
+    let full_dehydrate = false;
 
-  // GET USER W/ USER_ID
-  async getUser(user_id, fingerprint, ip_address = this.ip_address, full_dehydrate = false) {
+    if (options) {
+      if (options.fingerprint) {
+        fingerprint = options.fingerprint;
+      }
+      if (options.ip_address) {
+        ip_address = options.ip_address;
+      }
+      if (options.full_dehydrate) {
+        full_dehydrate = options.full_dehydrate;
+      }
+    }
+
     const headers = buildHeaders({
       client_id: this.client_id,
       client_secret: this.client_secret,

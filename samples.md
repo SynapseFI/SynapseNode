@@ -55,6 +55,7 @@
 const Synapse = require('synapsenode');
 const Client = Synapse.Client;
 
+# instantiate new client:
 const client = new Client({
   client_id: '<client_id>',
   client_secret: '<client_secret>',
@@ -64,6 +65,7 @@ const client = new Client({
   isProduction: false
 });
 
+# createUser or getUser to access User class methods
 const user = client.createUser({
   logins: [
     {
@@ -81,11 +83,12 @@ const user = client.createUser({
     cip_tag: 1,
     is_business: false
   }
-}, 'testFingerprint', '127.0.0.1') || client.getUser('<USER_ID>', 'testFingerprint');
+}, '127.0.0.1') || client.getUser('<USER_ID>');
 ```
 
 ## Client
 #### Create User
+To create a user - supply the payload and the user IP address:
 ```
 client.createUser({
     logins: [
@@ -143,11 +146,41 @@ client.createUser({
       is_business: false
     }
   },
-	'testFingerprint',
 	'127.0.0.1'
 )
 .then(( user ) => {
   console.log('user ', user);
+});
+```
+If needed, you can pass an options object to set a user specific fingerprint or supply an idempotency key:
+```
+client.createUser(
+	{
+		"logins": [
+	    {
+	      "email": "test@synapsepay.com"
+	    }
+	  ],
+	  "phone_numbers": [
+	    "901.111.1111"
+	  ],
+	  "legal_names": [
+	    "Test User"
+	  ],
+	  "extra": {
+	    "supp_id": "my_user_id",
+	    "cip_tag":1,
+	    "is_business": false
+	  }
+	},
+	'127.0.0.1',
+	{
+		fingerprint: 'userSpecificFingerprint',
+		idempotency_key: 'testIdempotencyKey'
+	}
+)
+.then(( user ) => {
+	console.log('user ', user);
 });
 ```
 #### Get All Users
@@ -168,15 +201,28 @@ client.getAllUsers({
 });
 ```
 #### Get User
+If using a static fingerprint across platform:
 ```
 client.getUser('<USER_ID>')
 .then(( user ) => {
   console.log('user ', user);
 });
 ```
-OR to pass in optional full_dehydrate field:
+If using user specific fingerprints / ip addresses, use the options object to supply those values:
 ```
-client.getUser('<USER_ID>', true)
+client.getUser('<USER_ID>', {
+	fingerprint: 'userSpecificFingerprint',
+	ip_address: '127.0.0.1'
+})
+.then(( user ) => {
+	console.log('user ', user);
+})
+```
+The options object can also be used to pass in the optional user full_dehydrate boolean:
+```
+client.getUser('<USER_ID>', {
+	full_dehydrate: true
+})
 .then(( user ) => {
   console.log('user ', user);
 });
