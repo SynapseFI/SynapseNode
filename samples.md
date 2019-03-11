@@ -216,7 +216,7 @@ client.getUser('<USER_ID>', {
 })
 .then(( user ) => {
 	console.log('user ', user);
-})
+});
 ```
 The options object can also be used to pass in the optional user full_dehydrate boolean:
 ```
@@ -224,7 +224,7 @@ client.getUser('<USER_ID>', {
 	full_dehydrate: true
 })
 .then(( user ) => {
-  console.log('user ', user);
+	console.log('user ', user);
 });
 ```
 #### Get All Platform Transactions
