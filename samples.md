@@ -155,8 +155,8 @@ client.createUser({
 If needed, you can pass an options object to set a user specific fingerprint or supply an idempotency key:
 ```
 client.createUser(
-	{
-		"logins": [
+  {
+	  "logins": [
 	    {
 	      "email": "test@synapsepay.com"
 	    }
@@ -172,15 +172,15 @@ client.createUser(
 	    "cip_tag":1,
 	    "is_business": false
 	  }
-	},
+  },
   '127.0.0.1',
-	{
+  {
 	  fingerprint: 'userSpecificFingerprint',
 	  idempotency_key: 'testIdempotencyKey'
-	}
+  }
 )
 .then(( user ) => {
-	console.log('user ', user);
+  console.log('user ', user);
 });
 ```
 #### Get All Users
