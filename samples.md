@@ -1,8 +1,61 @@
+# Table of Contents
+- [Initialization](#initialization)
+- [Client](#client)
+	* [Create User](#create-user)
+  * [Get All Users](#get-all-users)
+  * [Get User](#get-user)
+  * [Get All Platform Transactions](#get-all-platform-transactions)
+  * [Get All Platform Nodes](#get-all-platform-nodes)
+  * [Get Institutions](#get-institutions)
+  * [Issue Public Key](#issue-public-key)
+  * [Create Subscription](#create-subscription)
+  * [Get All Subscriptions](#get-all-subscriptions)
+  * [Get Subscription](#get-subscription)
+  * [Update Subscription](#update-subscription)
+  * [Locate ATMs](#locate-atms)
+  * [Get Crypto Quotes](#crypto-quotes)
+  * [Get Crypto Market Data](#crypto-market-data)
+  * [Get Webhook Logs](#webhook-logs)
+- [User](#user)
+  * [Add User KYC](#add-user-kyc)
+  * [Delete Existing Document](#delete-existing-document)
+  * [Update User](#update-user)
+  * [Create Node](#create-node)
+  * [Verify ACH-US MFA](#verify-ach-us-mfa)
+  * [Get All User Nodes](#get-all-user-nodes)
+  * [Get Node](#get-node)
+  * [Get User Transactions](#get-user-transactions)
+  * [Trigger Dummy Transactions](#trigger-dummy-transactions)
+  * [Generate UBO Form](#generate-ubo-form)
+  * [Get Statements by User](#get-statements-by-user)
+  * [Get Statements by Node](#get-statements-by-node)
+  * [Ship Debit Card](#ship-debit-card)
+  * [Reset Debit Card](#reset-debit-card)
+  * [Verify Micro-Deposits](#verify-micro-deposits)
+  * [Reinitiate Micro-Deposits](#reinitiate-micro-deposits)
+  * [Update Node](#update-node)
+  * [Delete Node](#delete-node)
+  * [Generate Apple Pay Token](#generate-apple-pay-token)
+  * [Create Transaction](#create-transaction)
+  * [Get Transaction](#get-transaction)
+  * [Get All Node Transactions](#get-all-node-transactions)
+  * [Delete Transaction](#delete-transaction)
+  * [Comment on Status](#comment-on-status)
+  * [Dispute Card Transaction](#dispute-card-transaction)
+  * [Get All Subnets](#get-all-subnets)
+  * [Get Subnet](#get-subnet)
+  * [Create Subnet](#create-subnet)
+  * [Update Subnet](#update-subnet)
+  * [Ship Card Subnet](#ship-card-subnet)
+  * [Register New Fingerprint](#register-new-fingerprint)
+- [Idempotent Requests](#idempotent-requests)
+
 ## Initialization
 ```
 const Synapse = require('synapsenode');
 const Client = Synapse.Client;
 
+# instantiate new client:
 const client = new Client({
   client_id: '<client_id>',
   client_secret: '<client_secret>',
@@ -12,6 +65,7 @@ const client = new Client({
   isProduction: false
 });
 
+# createUser or getUser to access User class methods
 const user = client.createUser({
   logins: [
     {
@@ -29,11 +83,12 @@ const user = client.createUser({
     cip_tag: 1,
     is_business: false
   }
-}) || client.getUser('<USER_ID>');
+}, '127.0.0.1') || client.getUser('<USER_ID>');
 ```
 
-## Samples
+## Client
 #### Create User
+To create a user - supply the payload and the user IP address:
 ```
 client.createUser({
     logins: [
@@ -90,10 +145,42 @@ client.createUser({
       cip_tag: 1,
       is_business: false
     }
-  }
+  },
+	'127.0.0.1'
 )
 .then(( user ) => {
   console.log('user ', user);
+});
+```
+If needed, you can pass an options object to set a user specific fingerprint or supply an idempotency key:
+```
+client.createUser(
+	{
+		"logins": [
+	    {
+	      "email": "test@synapsepay.com"
+	    }
+	  ],
+	  "phone_numbers": [
+	    "901.111.1111"
+	  ],
+	  "legal_names": [
+	    "Test User"
+	  ],
+	  "extra": {
+	    "supp_id": "my_user_id",
+	    "cip_tag":1,
+	    "is_business": false
+	  }
+	},
+	'127.0.0.1',
+	{
+		fingerprint: 'userSpecificFingerprint',
+		idempotency_key: 'testIdempotencyKey'
+	}
+)
+.then(( user ) => {
+	console.log('user ', user);
 });
 ```
 #### Get All Users
@@ -114,15 +201,28 @@ client.getAllUsers({
 });
 ```
 #### Get User
+If using a static fingerprint across platform:
 ```
 client.getUser('<USER_ID>')
 .then(( user ) => {
   console.log('user ', user);
 });
 ```
-OR to pass in optional full_dehydrate field:
+If using user specific fingerprints / ip addresses, use the options object to supply those values:
 ```
-client.getUser('<USER_ID>', true)
+client.getUser('<USER_ID>', {
+	fingerprint: 'userSpecificFingerprint',
+	ip_address: '127.0.0.1'
+})
+.then(( user ) => {
+	console.log('user ', user);
+})
+```
+The options object can also be used to pass in the optional user full_dehydrate boolean:
+```
+client.getUser('<USER_ID>', {
+	full_dehydrate: true
+})
 .then(( user ) => {
   console.log('user ', user);
 });
@@ -302,6 +402,8 @@ client.getWebhookLogs()
   console.log('data ', data);
 });
 ```
+
+## User
 #### Add User KYC
 ```
 user.addUserKyc({
@@ -822,7 +924,7 @@ user.updateSubnet('<NODE_ID>', '<SUBNET_ID>', {
   console.log('data ', data);
 });
 ```
-#### Ship Card
+#### Ship Card Subnet
 ```
 user.shipCard('<NODE_ID>', '<SUBNET_ID>', {
   fee_node_id: '<FEE_NODE_ID>',

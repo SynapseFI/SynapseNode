@@ -22,9 +22,10 @@ const { addQueryParams, replacePathParams } = require('../helpers/buildUrls');
 
 module.exports[createUser] = ({
   bodyParams,
+  headers,
   clientInfo
 }) => {
-  const { host, headers } = clientInfo;
+  const { host } = clientInfo;
 
   // WILL NEED TO IMPLEMENT STATIC ENDPOINTS
   return axios.post(`${host}/users`, bodyParams, { headers });
@@ -52,8 +53,8 @@ module.exports[getAllUsers] = ({
   );
 };
 
-module.exports[getUser] = ({ user_id, full_dehydrate, clientInfo }) => {
-  const { host, headers } = clientInfo;
+module.exports[getUser] = ({ user_id, full_dehydrate, headers, clientInfo }) => {
+  const { host } = clientInfo;
   // REFACTOR TO USE ADD_QUERY_PARAMS
   const url = `${host}/users/${user_id}?full_dehydrate=${full_dehydrate ? 'yes' : 'no'}`;
 
