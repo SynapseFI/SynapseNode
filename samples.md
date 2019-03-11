@@ -156,27 +156,27 @@ If needed, you can pass an options object to set a user specific fingerprint or 
 ```
 client.createUser(
   {
-	  "logins": [
-	    {
-	      "email": "test@synapsepay.com"
-	    }
-	  ],
-	  "phone_numbers": [
-	    "901.111.1111"
-	  ],
-	  "legal_names": [
-	    "Test User"
-	  ],
-	  "extra": {
-	    "supp_id": "my_user_id",
-	    "cip_tag":1,
-	    "is_business": false
-	  }
+    "logins": [
+      {
+        "email": "test@synapsepay.com"
+      }
+    ],
+    "phone_numbers": [
+      "901.111.1111"
+    ],
+    "legal_names": [
+      "Test User"
+    ],
+    "extra": {
+      "supp_id": "my_user_id",
+      "cip_tag":1,
+      "is_business": false
+    }
   },
   '127.0.0.1',
   {
-	  fingerprint: 'userSpecificFingerprint',
-	  idempotency_key: 'testIdempotencyKey'
+    fingerprint: 'userSpecificFingerprint',
+    idempotency_key: 'testIdempotencyKey'
   }
 )
 .then(( user ) => {
