@@ -146,7 +146,7 @@ client.createUser({
       is_business: false
     }
   },
-	'127.0.0.1'
+'127.0.0.1'
 )
 .then(( user ) => {
   console.log('user ', user);
