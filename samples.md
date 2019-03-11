@@ -146,7 +146,7 @@ client.createUser({
       is_business: false
     }
   },
-	'127.0.0.1'
+  '127.0.0.1'
 )
 .then(( user ) => {
   console.log('user ', user);
@@ -155,32 +155,32 @@ client.createUser({
 If needed, you can pass an options object to set a user specific fingerprint or supply an idempotency key:
 ```
 client.createUser(
-	{
-		"logins": [
-	    {
-	      "email": "test@synapsepay.com"
-	    }
-	  ],
-	  "phone_numbers": [
-	    "901.111.1111"
-	  ],
-	  "legal_names": [
-	    "Test User"
-	  ],
-	  "extra": {
-	    "supp_id": "my_user_id",
-	    "cip_tag":1,
-	    "is_business": false
-	  }
-	},
-	'127.0.0.1',
-	{
-		fingerprint: 'userSpecificFingerprint',
-		idempotency_key: 'testIdempotencyKey'
-	}
+  {
+    "logins": [
+      {
+        "email": "test@synapsepay.com"
+      }
+    ],
+    "phone_numbers": [
+      "901.111.1111"
+    ],
+    "legal_names": [
+      "Test User"
+    ],
+    "extra": {
+      "supp_id": "my_user_id",
+      "cip_tag":1,
+      "is_business": false
+    }
+  },
+  '127.0.0.1',
+  {
+    fingerprint: 'userSpecificFingerprint',
+    idempotency_key: 'testIdempotencyKey'
+  }
 )
 .then(( user ) => {
-	console.log('user ', user);
+  console.log('user ', user);
 });
 ```
 #### Get All Users
@@ -211,17 +211,17 @@ client.getUser('<USER_ID>')
 If using user specific fingerprints / ip addresses, use the options object to supply those values:
 ```
 client.getUser('<USER_ID>', {
-	fingerprint: 'userSpecificFingerprint',
-	ip_address: '127.0.0.1'
+  fingerprint: 'userSpecificFingerprint',
+  ip_address: '127.0.0.1'
 })
 .then(( user ) => {
-	console.log('user ', user);
-})
+  console.log('user ', user);
+});
 ```
 The options object can also be used to pass in the optional user full_dehydrate boolean:
 ```
 client.getUser('<USER_ID>', {
-	full_dehydrate: true
+  full_dehydrate: true
 })
 .then(( user ) => {
   console.log('user ', user);
