@@ -211,20 +211,20 @@ client.getUser('<USER_ID>')
 If using user specific fingerprints / ip addresses, use the options object to supply those values:
 ```
 client.getUser('<USER_ID>', {
-	fingerprint: 'userSpecificFingerprint',
-	ip_address: '127.0.0.1'
+  fingerprint: 'userSpecificFingerprint',
+  ip_address: '127.0.0.1'
 })
 .then(( user ) => {
-	console.log('user ', user);
+  console.log('user ', user);
 });
 ```
 The options object can also be used to pass in the optional user full_dehydrate boolean:
 ```
 client.getUser('<USER_ID>', {
-	full_dehydrate: true
+  full_dehydrate: true
 })
 .then(( user ) => {
-	console.log('user ', user);
+  console.log('user ', user);
 });
 ```
 #### Get All Platform Transactions
