@@ -958,7 +958,7 @@ user.verifyFingerprint2FA('<FINGERPRINT_VALUE>', '<VALIDATION_PIN>')
 });
 ```
 #### Idempotent Requests
-POST calls support idempotency for safely retrying requests without accidentally performing the same operation twice. Pass the idempotency key you wish to use as a string as the final argument to the POST call.
+POST calls support idempotency for safely retrying requests without accidentally performing the same operation twice. Pass the idempotency key you wish to use as a string as the final argument to the POST call. The only exception to this is the POST Create User call, where you must supply the idempotency key in the options object as shown in the [Create User](#create-user) section.
 ```
 user.createNode(
   {
