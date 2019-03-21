@@ -1,9 +1,7 @@
 const User = require('../lib/User');
 
 module.exports.checkOptions = (headerObj, options) => {
-  const copy = {
-    ...headerObj
-  };
+  const copy = JSON.parse(JSON.stringify(headerObj))
 
   if (options.fingerprint) {
     copy.fingerprint = options.fingerprint;
