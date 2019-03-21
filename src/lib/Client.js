@@ -20,6 +20,7 @@ const {
 
 const apiRequests = require('../apiReqs/apiRequests');
 const buildHeaders = require('../helpers/buildHeaders');
+const { checkOptions, instantiateUser } = require('../helpers/clientHelpers');
 const User = require('./User');
 
 class Client {
@@ -40,26 +41,19 @@ class Client {
   }
 
   // POST CREATE USER
-  async createUser(bodyParams, ip_address, options = {}) {
-    let fingerprint = this.fingerprint;
-    let idempotency_key;
-
-    if (options) {
-      if (options.fingerprint) {
-        fingerprint = options.fingerprint;
-      }
-      if (options.idempotency_key) {
-        idempotency_key = options.idempotency_key;
-      }
-    }
-
-    const headers = buildHeaders({
+  async createUser(bodyParams, ip_address, options = null) {
+    let headerObj = {
       client_id: this.client_id,
       client_secret: this.client_secret,
-      fingerprint,
-      ip_address,
-      idempotency_key
-    });
+      fingerprint: this.fingerprint,
+      ip_address
+    };
+
+    if (options) {
+      headerObj = checkOptions(headerObj, options);
+    }
+
+    const headers = buildHeaders(headerObj);
 
     const { data } = await apiRequests.client[createUser]({
       bodyParams,
@@ -67,9 +61,7 @@ class Client {
       clientInfo: this
     });
 
-    const user = await new User({ data, fingerprint, ip_address, client: this });
-    await user._oauthUser({ refresh_token: user.body.refresh_token });
-    return user;
+    return instantiateUser({ data, headerObj, client: this });
   }
 
   // GET ALL USERS
@@ -86,40 +78,29 @@ class Client {
   }
 
   // GET USER W/ USER_ID
-  async getUser(user_id, options = {}) {
-    let fingerprint = this.fingerprint;
-    let ip_address = this.ip_address;
-    let full_dehydrate = false;
-
-    if (options) {
-      if (options.fingerprint) {
-        fingerprint = options.fingerprint;
-      }
-      if (options.ip_address) {
-        ip_address = options.ip_address;
-      }
-      if (options.full_dehydrate) {
-        full_dehydrate = options.full_dehydrate;
-      }
-    }
-
-    const headers = buildHeaders({
+  async getUser(user_id, options = null) {
+    let headerObj = {
       client_id: this.client_id,
       client_secret: this.client_secret,
-      fingerprint,
-      ip_address
-    });
+      fingerprint: this.fingerprint,
+      ip_address: this.ip_address,
+      full_dehydrate: false
+    };
+
+    if (options) {
+      headerObj = checkOptions(headerObj, options);
+    }
+
+    const headers = buildHeaders(headerObj);
 
     const { data } = await apiRequests.client[getUser]({
       user_id,
-      full_dehydrate,
+      full_dehydrate: headerObj.full_dehydrate,
       headers,
       clientInfo: this
     });
 
-    const user = await new User ({ data, fingerprint, ip_address, client: this });
-    await user._oauthUser({ refresh_token: user.body.refresh_token });
-    return user;
+    return instantiateUser({ data, headerObj, client: this });
   }
 
   // GET ALL PLATFORM TRANSACTIONS
@@ -160,7 +141,7 @@ class Client {
   }
 
   // POST CREATE SUBSCRIPTION
-  createSubscription(url, scope = ['USERS|POST', 'USER|PATCH', 'NODES|POST', 'NODE|PATCH', 'TRANS|POST', 'TRAN|PATCH'], idempotency_key = undefined) {
+  createSubscription(url, scope = ['USERS|POST', 'USER|PATCH', 'NODES|POST', 'NODE|PATCH', 'TRANS|POST', 'TRAN|PATCH'], idempotency_key = null) {
     if (idempotency_key) {
       this.headers = buildHeaders({
         client_id: this.client_id,

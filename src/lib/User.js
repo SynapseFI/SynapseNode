@@ -44,15 +44,14 @@ const buildHeaders = require('../helpers/buildHeaders');
 class User {
   constructor({
     data,
-    fingerprint,
-    ip_address,
+    headerObj,
     client
   }) {
     this.id = data._id;
     this.body = data;
     this.host = client.host;
-    this.fingerprint = fingerprint;
-    this.ip_address = ip_address;
+    this.fingerprint = headerObj.fingerprint;
+    this.ip_address = headerObj.ip_address;
     this.oauth_key = '';
     this.client = client;
     this.headers = buildHeaders({
@@ -123,7 +122,7 @@ class User {
   }
 
   // POST CREATE NODE
-  createNode(bodyParams = {}, idempotency_key = undefined) {
+  createNode(bodyParams = {}, idempotency_key = null) {
     if (idempotency_key) {
       this.headers = buildHeaders({
         client_id: this.client.client_id,
@@ -143,7 +142,7 @@ class User {
 
   // POST ACH-US MFA
   // submit answer to a mfa question from bank login attempt
-  verifyAchMfa(access_token, mfa_answer, idempotency_key = undefined) {
+  verifyAchMfa(access_token, mfa_answer, idempotency_key = null) {
     if (idempotency_key) {
       this.headers = buildHeaders({
         client_id: this.client.client_id,
@@ -298,7 +297,7 @@ class User {
   }
 
   // POST CREATE TRANSACTION
-  createTransaction(node_id, bodyParams, idempotency_key = undefined) {
+  createTransaction(node_id, bodyParams, idempotency_key = null) {
     if (idempotency_key) {
       this.headers = buildHeaders({
         client_id: this.client.client_id,
@@ -389,7 +388,7 @@ class User {
   }
 
   // POST CREATE SUBNET
-  createSubnet(node_id, bodyParams, idempotency_key = undefined) {
+  createSubnet(node_id, bodyParams, idempotency_key = null) {
     if (idempotency_key) {
       this.headers = buildHeaders({
         client_id: this.client.client_id,
