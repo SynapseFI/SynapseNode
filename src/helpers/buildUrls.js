@@ -17,7 +17,7 @@ module.exports.addQueryParams = ({
   currency,
   foreign_transaction,
   is_credit,
-  subnetid,
+  subnet_id,
   ticker
 }) => {
   const params = [];
@@ -67,8 +67,8 @@ module.exports.addQueryParams = ({
   if (is_credit !== undefined) {
     params.push(`is_credit=${is_credit}`);
   }
-  if (subnetid !== undefined) {
-    params.push(`subnetid=${subnetid}`);
+  if (subnet_id !== undefined) {
+    params.push(`subnetid=${subnet_id}`);
   }
   if (ticker !== undefined) {
     params.push(`ticker=${ticker}`);
