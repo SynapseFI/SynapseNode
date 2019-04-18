@@ -16,6 +16,7 @@
   * [Get Crypto Quotes](#crypto-quotes)
   * [Get Crypto Market Data](#crypto-market-data)
   * [Get Webhook Logs](#webhook-logs)
+	* [Get Trade Market Data](#trade-market-data)
 - [User](#user)
   * [Add User KYC](#add-user-kyc)
   * [Delete Existing Document](#delete-existing-document)
@@ -402,6 +403,15 @@ client.getWebhookLogs()
   console.log('data ', data);
 });
 ```
+#### Trade Market Data
+```
+client.getTradeMarketData({
+	ticker: 'AAPL'
+})
+.then(({ data }) => {
+	console.log('data ', data);
+});
+```
 
 ## User
 #### Add User KYC
@@ -585,9 +595,14 @@ user.triggerDummyTransactions('<NODE_ID>')
   console.log('data ', data);
 });
 ```
-OR to pass in optional query parameter:
+OR to pass in optional query parameters:
 ```
-user.triggerDummyTransactions('<NODE_ID>', true)
+user.triggerDummyTransactions('<NODE_ID>', {
+	foreign_transaction: 'no',
+	is_credit: 'yes',
+	subnet_id: '5cb8ac9e88a3e200d87e1e52',
+	type: 'WIRE'
+})
 .then(({ data }) => {
   console.log('data ', data);
 });
