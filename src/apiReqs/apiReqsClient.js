@@ -15,7 +15,8 @@ const {
   locateAtms,
   getCryptoQuotes,
   getCryptoMarketData,
-  getWebhookLogs
+  getWebhookLogs,
+  getTradeMarketData
 } = require('../constants/apiReqNames');
 
 const { addQueryParams, replacePathParams } = require('../helpers/buildUrls');
@@ -174,6 +175,16 @@ module.exports[getCryptoMarketData] = ({ limit, currency, clientInfo }) => {
 module.exports[getWebhookLogs] = ({ clientInfo }) => {
   const { host, headers } = clientInfo;
   const url = `${host}/subscriptions/logs`;
+
+  return axios.get(url, { headers });
+};
+
+module.exports[getTradeMarketData] = ({ ticker, clientInfo }) => {
+  const { host, headers } = clientInfo;
+  const url = addQueryParams({
+    originalUrl: `${host}/nodes/trade-market-watch`,
+    ticker
+  });
 
   return axios.get(url, { headers });
 };

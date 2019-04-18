@@ -14,7 +14,11 @@ module.exports.addQueryParams = ({
   lon,
   radius,
   limit,
-  currency
+  currency,
+  foreign_transaction,
+  is_credit,
+  subnet_id,
+  ticker
 }) => {
   const params = [];
 
@@ -56,6 +60,18 @@ module.exports.addQueryParams = ({
   }
   if (currency !== undefined) {
     params.push(`currency=${currency}`);
+  }
+  if (foreign_transaction !== undefined) {
+    params.push(`foreign_transaction=${foreign_transaction}`);
+  }
+  if (is_credit !== undefined) {
+    params.push(`is_credit=${is_credit}`);
+  }
+  if (subnet_id !== undefined) {
+    params.push(`subnetid=${subnet_id}`);
+  }
+  if (ticker !== undefined) {
+    params.push(`ticker=${ticker}`);
   }
 
   return params.length === 0 ? originalUrl : originalUrl += `?${params.join('&')}`;
