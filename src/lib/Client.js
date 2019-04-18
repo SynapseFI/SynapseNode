@@ -6,7 +6,6 @@ const {
   getUserTransactions,
   getPlatformNodes,
   getInstitutions,
-  triggerDummyTransactions,
   issuePublicKey,
   createSubscription,
   getAllSubscriptions,
@@ -15,7 +14,8 @@ const {
   locateAtms,
   getCryptoQuotes,
   getCryptoMarketData,
-  getWebhookLogs
+  getWebhookLogs,
+  getTradeMarketData
 } = require('../constants/apiReqNames');
 
 const apiRequests = require('../apiReqs/apiRequests');
@@ -223,6 +223,16 @@ class Client {
   // GET WEBHOOK LOGS
   getWebhookLogs() {
     return apiRequests.client[getWebhookLogs]({
+      clientInfo: this
+    });
+  }
+
+  // GET TRADE MARKET DATA
+  getTradeMarketData(queryParams = {}) {
+    const { ticker } = queryParams;
+
+    return apiRequests.client[getTradeMarketData]({
+      ticker,
       clientInfo: this
     });
   }

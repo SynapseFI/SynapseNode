@@ -197,10 +197,15 @@ class User {
   }
 
   // GET TRIGGER DUMMY TRANSACTIONS
-  triggerDummyTransactions(node_id, is_credit = false) {
+  triggerDummyTransactions(node_id, queryParams = {}) {
+    const { foreign_transaction, is_credit, subnetid, type } = queryParams;
+
     return apiRequests.user[triggerDummyTransactions]({
       node_id,
+      foreign_transaction,
       is_credit,
+      subnetid,
+      type,
       userInfo: this
     });
   }

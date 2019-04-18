@@ -49,5 +49,6 @@ module.exports = {
   getCryptoMarketData: 'getCryptoMarketData',
   getWebhookLogs: 'getWebhookLogs',
   shipCard: 'shipCard',
-  updateIpAddress: 'updateIpAddress'
+  updateIpAddress: 'updateIpAddress',
+  getTradeMarketData: 'getTradeMarketData'
 };
