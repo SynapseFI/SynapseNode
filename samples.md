@@ -15,8 +15,8 @@
   * [Locate ATMs](#locate-atms)
   * [Get Crypto Quotes](#crypto-quotes)
   * [Get Crypto Market Data](#crypto-market-data)
-  * [Get Webhook Logs](#webhook-logs)
 	* [Get Trade Market Data](#trade-market-data)
+  * [Get Webhook Logs](#webhook-logs)
 - [User](#user)
   * [Add User KYC](#add-user-kyc)
   * [Delete Existing Document](#delete-existing-document)
@@ -409,7 +409,7 @@ client.getTradeMarketData({
 	ticker: 'AAPL'
 })
 .then(({ data }) => {
-	console.log('data ', data);
+	console.log('data ', data');
 });
 ```
 
