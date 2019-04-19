@@ -16,7 +16,7 @@
   * [Get Crypto Quotes](#crypto-quotes)
   * [Get Crypto Market Data](#crypto-market-data)
   * [Get Webhook Logs](#webhook-logs)
-	* [Get Trade Market Data](#trade-market-data)
+  * [Get Trade Market Data](#trade-market-data)
 - [User](#user)
   * [Add User KYC](#add-user-kyc)
   * [Delete Existing Document](#delete-existing-document)
@@ -406,11 +406,11 @@ client.getWebhookLogs()
 #### Trade Market Data
 ```
 client.getTradeMarketData({
-	ticker: 'AAPL'
+  ticker: 'AAPL'
 })
 .then(({ data }) => {
-	console.log('data ', data);
-});
+  console.log('data ', data);
+}
 ```
 
 ## User
