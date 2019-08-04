@@ -384,10 +384,12 @@ class User {
   }
 
   // GET SUBNET W/ SUBNET_ID
-  getSubnet(node_id, subnet_id) {
+  getSubnet(node_id, subnet_id, queryParams = {}) {
+    const { full_dehydrate } = queryParams;
     return apiRequests.user[getSubnet]({
       node_id,
       subnet_id,
+      full_dehydrate,
       userInfo: this
     });
   }
