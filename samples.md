@@ -202,6 +202,10 @@ client.getAllUsers({
 });
 ```
 #### Get User
+
+Note that there is no need to authenticate the user through OAuth after you get the user. This 
+library does that for you.
+
 If using a static fingerprint across platform:
 ```
 client.getUser('<USER_ID>')
