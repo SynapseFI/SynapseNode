@@ -102,6 +102,11 @@ describe('User', () => {
       const response = await testUser.triggerDummyTransactions('<NODE_ID>');
       expect(response.status).to.equal(200);
     }));
+
+    it('should trigger dummy transaction with amount', mochaAsync(async () => {
+      const response = await testUser.triggerDummyTransactions('<NODE_ID>', {amount: '<AMOUNT>'});
+      expect(response.status).to.equal(200);
+    }));
   });
 
   describe('patch generate ubo form', () => {

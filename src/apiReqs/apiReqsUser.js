@@ -118,10 +118,11 @@ module.exports[getUserTransactions] = ({ page, per_page, userInfo }) => {
   return axios.get(url, { headers });
 };
 
-module.exports[triggerDummyTransactions] = ({ node_id, foreign_transaction, is_credit, subnet_id, type, userInfo }) => {
+module.exports[triggerDummyTransactions] = ({ node_id, amount, foreign_transaction, is_credit, subnet_id, type, userInfo }) => {
   const { host, headers, id } = userInfo;
   const url = addQueryParams({
     originalUrl: `${host}/users/${id}/nodes/${node_id}/dummy-tran`,
+    amount,
     foreign_transaction,
     is_credit,
     subnet_id,
