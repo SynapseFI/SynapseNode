@@ -2,6 +2,7 @@ const _ = require('lodash');
 
 module.exports.addQueryParams = ({
   originalUrl,
+  amount,
   query,
   page,
   per_page,
@@ -24,6 +25,9 @@ module.exports.addQueryParams = ({
 
   if (query !== undefined) {
     params.push(`query=${query}`);
+  }
+  if (amount !== undefined) {
+    params.push(`amount=${amount}`);
   }
   if (page !== undefined) {
     params.push(`page=${page}`);
