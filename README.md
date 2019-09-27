@@ -1,6 +1,6 @@
 # SynapseNode
 ![npm](https://img.shields.io/npm/v/synapsenode.svg)
-![status](https://img.shields.io/badge/status-beta-yellow.svg)  
+![status](https://img.shields.io/badge/status-beta-yellow.svg)
 Node.js Client Library for SynapseFI REST V3.1 API
 
 ## Code Examples
@@ -9,6 +9,12 @@ Please refer to [samples.md](samples.md) and our [API documentation](https://doc
 ## Setup
 ```
 npm install synapsenode
+```
+
+## Update
+To update to the most recent version of synapsenode
+```
+npm update synapsenode
 ```
 
 ## Initialization

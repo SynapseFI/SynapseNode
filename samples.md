@@ -1,7 +1,7 @@
 # Table of Contents
 - [Initialization](#initialization)
 - [Client](#client)
-	* [Create User](#create-user)
+  * [Create User](#create-user)
   * [Get All Users](#get-all-users)
   * [Get User](#get-user)
   * [Get All Platform Transactions](#get-all-platform-transactions)
@@ -598,10 +598,11 @@ user.triggerDummyTransactions('<NODE_ID>')
 OR to pass in optional query parameters:
 ```
 user.triggerDummyTransactions('<NODE_ID>', {
-	foreign_transaction: 'no',
-	is_credit: 'yes',
-	subnet_id: '5cb8ac9e88a3e200d87e1e52',
-	type: 'WIRE'
+  amount: 1337,
+  foreign_transaction: 'no',
+  is_credit: 'yes',
+  subnet_id: '5cb8ac9e88a3e200d87e1e52',
+  type: 'WIRE'
 })
 .then(({ data }) => {
   console.log('data ', data);
