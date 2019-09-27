@@ -1,6 +1,5 @@
 # SynapseNode
 ![npm](https://img.shields.io/npm/v/synapsenode.svg)
-![status](https://img.shields.io/badge/status-beta-yellow.svg)
 Node.js Client Library for SynapseFI REST V3.1 API
 
 ## Code Examples
