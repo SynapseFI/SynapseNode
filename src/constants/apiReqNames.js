@@ -28,6 +28,7 @@ module.exports = {
   resetCardNode: 'resetCardNode',
   verifyMicroDeposits: 'verifyMicroDeposits',
   reinitiateMicroDeposits: 'reinitiateMicroDeposits',
+  reauthorizeAccount: 'reauthorizeAccount',
   updateNode: 'updateNode',
   deleteNode: 'deleteNode',
   generateApplePayToken: 'generateApplePayToken',
