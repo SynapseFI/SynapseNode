@@ -16,7 +16,8 @@ const {
   getCryptoQuotes,
   getCryptoMarketData,
   getWebhookLogs,
-  getTradeMarketData
+  getTradeMarketData,
+  verifyAddress
 } = require('../constants/apiReqNames');
 
 const { addQueryParams, replacePathParams } = require('../helpers/buildUrls');
@@ -152,6 +153,14 @@ module.exports[locateAtms] = ({ page, per_page, zip, radius, lat, lon, clientInf
   });
 
   return axios.get(url, { headers });
+};
+
+module.exports[verifyAddress] = ({ address_city, address_country_code, address_postal_code, address_street, address_subdivision, clientInfo }) => {
+  const { host, headers } = clientInfo;
+  const reqBody = { address_city, address_country_code, address_postal_code, address_street, address_subdivision };
+  const baseUrl = `${host}/address-verification`;
+
+  return axios.post(baseUrl, reqBody, { headers });
 };
 
 module.exports[getCryptoQuotes] = ({ clientInfo }) => {
