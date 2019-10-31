@@ -29,14 +29,13 @@ class Client {
     client_secret,
     fingerprint,
     ip_address,
-    isProduction
+    host
   }) {
     this.client_id = client_id;
     this.client_secret = client_secret;
     this.fingerprint = fingerprint;
     this.ip_address = ip_address;
-    this.isProduction = isProduction;
-    this.host = isProduction ? 'https://api.synapsefi.com/v3.1' : 'https://uat-api.synapsefi.com/v3.1';
+    this.host = host;
     this.headers = buildHeaders({ client_id, client_secret, fingerprint, ip_address });
   }
 
