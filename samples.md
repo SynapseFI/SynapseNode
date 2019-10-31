@@ -62,8 +62,7 @@ const client = new Client({
   client_secret: '<client_secret>',
   fingerprint: '<fingerprint>',
   ip_address: '<ip_address>',
-  // isProduction boolean determines if production (true) or sandbox (false) endpoint is used
-  isProduction: false
+  host: 'https://uat-api.synapsefi.com/v3.1'
 });
 
 # createUser or getUser to access User class methods

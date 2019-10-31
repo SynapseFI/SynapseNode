@@ -9,7 +9,7 @@ const Helpers = {
     client_secret: process.env.CLIENT_SECRET,
     fingerprint: process.env.FINGERPRINT,
     ip_address: '127.0.0.1',
-    isProduction: false
+    host: 'https://uat-api.synapsefi.com/v3.1'
   })
 };
 
