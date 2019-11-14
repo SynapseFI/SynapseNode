@@ -865,7 +865,9 @@ user.getAllSubnets('<NODE_ID>', {
 ```
 #### Get Subnet
 ```
-user.getSubnet('<NODE_ID>', '<SUBNET_ID>')
+user.getSubnet('<NODE_ID>', '<SUBNET_ID>', {
+  full_dehydrate: true,
+})
 .then(({ data }) => {
   console.log('data ', data);
 });

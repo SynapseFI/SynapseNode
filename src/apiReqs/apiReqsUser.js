@@ -267,9 +267,15 @@ module.exports[getAllSubnets] = ({ node_id, page, per_page, userInfo }) => {
   return axios.get(url, { headers });
 };
 
-module.exports[getSubnet] = ({ node_id, subnet_id, userInfo }) => {
+module.exports[getSubnet] = ({ node_id, subnet_id, full_dehydrate, userInfo }) => {
   const { host, headers, id } = userInfo;
-  const url = `${host}/users/${id}/nodes/${node_id}/subnets/${subnet_id}`;
+  let url = `${host}/users/${id}/nodes/${node_id}/subnets/${subnet_id}`;
+  if (full_dehydrate) {
+    url = addQueryParams({
+      originalUrl: url,
+      full_dehydrate: 'yes',
+    });
+  }
 
   return axios.get(url, { headers });
 };
