@@ -1,3 +1,5 @@
+import { AxiosResponse } from "axios";
+
 export class Client {
   constructor(options: {
     client_id: string;
@@ -20,19 +22,23 @@ export class Client {
     page: number;
     per_page: number;
     show_refresh_tokens: any;
-  });
+  }): Promise<AxiosResponse<any>>;
 
   // GET USER W/ USER_ID
-  async getUser(user_id: string, options: any = null);
+  getUser(user_id: string, options: any = null): Promise<User>;
 
   // GET ALL PLATFORM TRANSACTIONS
-  getPlatformTransactions(queryParams: { page: number; per_page: number } = {});
+  getPlatformTransactions(
+    queryParams: { page: number; per_page: number } = {}
+  ): Promise<AxiosResponse<any>>;
 
   // GET ALL PLATFORM NODES
-  getPlatformNodes(queryParams: { page: number; per_page: number } = {});
+  getPlatformNodes(
+    queryParams: { page: number; per_page: number } = {}
+  ): Promise<AxiosResponse<any>>;
 
   // GET INSTITUTIONS
-  getInstitutions();
+  getInstitutions(): Promise<AxiosResponse<any>>;
 
   // GET ISSUE PUBLIC KEY
   issuePublicKey(
@@ -49,7 +55,7 @@ export class Client {
       "CLIENT|REPORTS",
       "CLIENT|CONTROLS"
     ]
-  );
+  ): Promise<AxiosResponse<any>>;
 
   // POST CREATE SUBSCRIPTION
   createSubscription(
@@ -63,16 +69,21 @@ export class Client {
       "TRAN|PATCH"
     ],
     idempotency_key: string = null
-  );
+  ): Promise<AxiosResponse<any>>;
 
   // GET ALL SUBSCRIPTIONS
-  getAllSubscriptions(queryParams: { page: number; per_page: number } = {});
+  getAllSubscriptions(
+    queryParams: { page: number; per_page: number } = {}
+  ): Promise<AxiosResponse<any>>;
 
   // GET SUBSCRIPTION W/ SUBSCRIPTION_ID
   getSubscription(subscription_id: string);
 
   // PATCH UPDATE SUBSCRIPTION
-  updateSubscription(subscription_id: string, bodyParams: any = {});
+  updateSubscription(
+    subscription_id: string,
+    bodyParams: any = {}
+  ): Promise<AxiosResponse<any>>;
 
   // GET LOCATE ATMS
   locateAtms(
@@ -84,19 +95,23 @@ export class Client {
       lat: any;
       lon: any;
     } = {}
-  );
+  ): Promise<AxiosResponse<any>>;
 
   // GET CRYPTO QUOTES
-  getCryptoQuotes();
+  getCryptoQuotes(): Promise<AxiosResponse<any>>;
 
   // GET CRYPTO MARKET DATA
-  getCryptoMarketData(queryParams: { limit: number; currency: string } = {});
+  getCryptoMarketData(
+    queryParams: { limit: number; currency: string } = {}
+  ): Promise<AxiosResponse<any>>;
 
   // GET WEBHOOK LOGS
-  getWebhookLogs();
+  getWebhookLogs(): Promise<AxiosResponse<any>>;
 
   // GET TRADE MARKET DATA
-  getTradeMarketData(queryParams: { ticker: any } = {});
+  getTradeMarketData(
+    queryParams: { ticker: any } = {}
+  ): Promise<AxiosResponse<any>>;
 }
 export class User {
   id: string;
@@ -119,22 +134,25 @@ export class User {
   });
 
   // PATCH ADD USER KYC
-  addUserKyc(bodyParams: any = {});
+  addUserKyc(bodyParams: any = {}): Promise<AxiosResponse<any>>;
 
   // PATCH DELETE EXISTING DOCUMENT
-  deleteExistingDocument(bodyParams: any = {});
+  deleteExistingDocument(bodyParams: any = {}): Promise<AxiosResponse<any>>;
 
   // PATCH UPDATE USER
-  updateUser(bodyParams: any = {});
+  updateUser(bodyParams: any = {}): Promise<AxiosResponse<any>>;
 
   // RETRIEVE REFRESH TOKEN
-  _grabRefreshToken();
+  _grabRefreshToken(): Promise<string>;
 
   // POST OAUTH USER
-  _oauthUser(bodyParams: any = {});
+  _oauthUser(bodyParams: any = {}): Promise<any>;
 
   // POST CREATE NODE
-  createNode(bodyParams: any = {}, idempotency_key: string = null);
+  createNode(
+    bodyParams: any = {},
+    idempotency_key: string = null
+  ): Promise<AxiosResponse<any>>;
 
   // POST ACH-US MFA
   // submit answer to a mfa question from bank login attempt
@@ -142,21 +160,23 @@ export class User {
     access_token: string,
     mfa_answer: string,
     idempotency_key: string = null
-  );
+  ): Promise<AxiosResponse<any>>;
 
   // GET ALL USER NODES
   getAllUserNodes(
     queryParams: { page: number; per_page: number; type: string } = {}
-  );
+  ): Promise<AxiosResponse<any>>;
 
   // GET NODE W/ NODE_ID
   getNode(
     node_id: string,
     queryParams: { full_dehydrate: "yes" | "no"; force_refresh: any } = {}
-  );
+  ): Promise<AxiosResponse<any>>;
 
   // GET ALL USER TRANSACTIONS
-  getUserTransactions(queryParams: { page: number; per_page: number } = {});
+  getUserTransactions(
+    queryParams: { page: number; per_page: number } = {}
+  ): Promise<AxiosResponse<any>>;
 
   // GET TRIGGER DUMMY TRANSACTIONS
   triggerDummyTransactions(
@@ -168,115 +188,130 @@ export class User {
       subnet_id: string;
       type: string;
     } = {}
-  ) {
-    const {
-      amount,
-      foreign_transaction,
-      is_credit,
-      subnet_id,
-      type
-    } = queryParams;
-
-    return apiRequests.user[triggerDummyTransactions]({
-      node_id,
-      amount,
-      foreign_transaction,
-      is_credit,
-      subnet_id,
-      type,
-      userInfo: this
-    });
-  }
+  ): Promise<AxiosResponse<any>>;
 
   // PATCH GENERATE UBO FORM
-  generateUboForm(bodyParams: any);
+  generateUboForm(bodyParams: any): Promise<AxiosResponse<any>>;
 
   // GET STATEMENTS BY USER
-  getStatementsByUser(queryParams: { page: number; per_page: number } = {});
+  getStatementsByUser(
+    queryParams: { page: number; per_page: number } = {}
+  ): Promise<AxiosResponse<any>>;
 
   // GET STATEMENTS BY NODE
   getStatementsByNode(
     node_id: string,
     queryParams: { page: number; per_page: number } = {}
-  );
+  ): Promise<AxiosResponse<any>>;
 
   // PATCH SHIP DEBIT CARD NODE
-  shipCardNode(node_id: string, bodyParams: any);
+  shipCardNode(node_id: string, bodyParams: any): Promise<AxiosResponse<any>>;
 
   // PATCH RESET DEBIT CARD NODE
-  resetCardNode(node_id: string);
+  resetCardNode(node_id: string): Promise<AxiosResponse<any>>;
 
   // PATCH VERIFY MICRO-DEPOSITS
-  verifyMicroDeposits(node_id: string, bodyParams: any);
+  verifyMicroDeposits(
+    node_id: string,
+    bodyParams: any
+  ): Promise<AxiosResponse<any>>;
 
   // PATCH REINITIATE MICRO-DEPOSITS
-  reinitiateMicroDeposits(node_id: string);
+  reinitiateMicroDeposits(node_id: string): Promise<AxiosResponse<any>>;
 
   // PATCH UPDATE NODE
-  updateNode(node_id: string, bodyParams: any);
+  updateNode(node_id: string, bodyParams: any): Promise<AxiosResponse<any>>;
 
   // DELETE NODE
-  deleteNode(node_id: string);
+  deleteNode(node_id: string): Promise<AxiosResponse<any>>;
 
   // PATCH GENERATE APPLE PAY TOKEN
-  generateApplePayToken(node_id: string, bodyParams: any);
+  generateApplePayToken(
+    node_id: string,
+    bodyParams: any
+  ): Promise<AxiosResponse<any>>;
 
   // POST CREATE TRANSACTION
   createTransaction(
     node_id: string,
     bodyParams: any,
     idempotency_key: string = null
-  );
+  ): Promise<AxiosResponse<any>>;
 
   // GET TRANSACTION W/ TRANSACTION_ID
-  getTransaction(node_id: string, trans_id: string);
+  getTransaction(
+    node_id: string,
+    trans_id: string
+  ): Promise<AxiosResponse<any>>;
 
   // GET ALL NODE TRANSACTIONS
   getAllNodeTransactions(
     node_id: string,
     queryParams: { page: number; per_page: number } = {}
-  );
+  ): Promise<AxiosResponse<any>>;
 
   // DELETE TRANSACTION
-  deleteTransaction(node_id: string, trans_id: string);
+  deleteTransaction(
+    node_id: string,
+    trans_id: string
+  ): Promise<AxiosResponse<any>>;
 
   // PATCH COMMENT ON STATUS
-  commentOnStatus(node_id: string, trans_id: string, bodyParams: any);
+  commentOnStatus(
+    node_id: string,
+    trans_id: string,
+    bodyParams: any
+  ): Promise<AxiosResponse<any>>;
 
   // PATCH DISPUTE CARD TRANSACTION
-  disputeCardTransaction(node_id: string, trans_id: string, bodyParams: any);
+  disputeCardTransaction(
+    node_id: string,
+    trans_id: string,
+    bodyParams: any
+  ): Promise<AxiosResponse<any>>;
 
   // GET ALL SUBNETS
   getAllSubnets(
     node_id: string,
     queryParams: { page: number; per_page: number } = {}
-  );
+  ): Promise<AxiosResponse<any>>;
 
   // GET SUBNET W/ SUBNET_ID
-  getSubnet(node_id: string, subnet_id: string);
+  getSubnet(node_id: string, subnet_id: string): Promise<AxiosResponse<any>>;
 
   // POST CREATE SUBNET
   createSubnet(
     node_id: string,
     bodyParams: any,
     idempotency_key: string = null
-  );
+  ): Promise<AxiosResponse<any>>;
 
   // PATCH UPDATE SUBNET
-  updateSubnet(node_id: string, subnet_id: string, bodyParams: any = {});
+  updateSubnet(
+    node_id: string,
+    subnet_id: string,
+    bodyParams: any = {}
+  ): Promise<AxiosResponse<any>>;
 
   // PATCH SHIP CARD SUBNET
-  shipCard(node_id: string, subnet_id: string, bodyParams: any = {});
+  shipCard(
+    node_id: string,
+    subnet_id: string,
+    bodyParams: any = {}
+  ): Promise<AxiosResponse<any>>;
 
   // POST First call for registering new fingerprint
-  async registerNewFingerprint(fp: string);
+  registerNewFingerprint(fp: string): Promise<AxiosResponse<any>>;
 
   // POST Second call for registering new fingerprint
-  async supplyDevice2FA(fp: string, device: string);
+  supplyDevice2FA(fp: string, device: string): Promise<AxiosResponse<any>>;
 
   // POST Final call for registering new fingerprint
-  async verifyFingerprint2FA(fp: string, validation_pin: string);
+  verifyFingerprint2FA(
+    fp: string,
+    validation_pin: string
+  ): Promise<AxiosResponse<any>>;
 
   // UPDATE USER IP ADDRESS
-  updateIpAddress(ip: string);
+  updateIpAddress(ip: string): any;
 }
