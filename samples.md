@@ -165,82 +165,73 @@ client.createUser(
 .catch(error => console.log(error));
 ```
 #### Get All Users
-```
+```javascript
 client.getAllUsers()
-.then(({ data }) => {
-  console.log('data ', data);
-});
+    .then(({data}) => console.log('DATA\n', data))
+    .catch(error => console.log(error));
 ```
 OR to pass in optional query parameters:
-```
+```javascript
 client.getAllUsers({
   page: 2,
   per_page: 10
 })
-.then(({ data }) => {
-  console.log('data ', data);
-});
+.then(({data}) => console.log('DATA\n', data))
+.catch(error => console.log(error));
 ```
 #### Get User
 If using a static fingerprint across platform:
-```
+```javascript
 client.getUser('<USER_ID>')
-.then(( user ) => {
-  console.log('user ', user);
-});
+    .then(user => console.log('USER\n', user))
+    .catch(error => console.log(error));
 ```
 If using user specific fingerprints / ip addresses, use the options object to supply those values:
-```
+```javascript
 client.getUser('<USER_ID>', {
   fingerprint: 'userSpecificFingerprint',
   ip_address: '127.0.0.1'
 })
-.then(( user ) => {
-  console.log('user ', user);
-});
+.then(user => console.log('USER\n', user))
+.catch(error => console.log(error));
 ```
 The options object can also be used to pass in the optional user full_dehydrate boolean:
-```
+```javascript
 client.getUser('<USER_ID>', {
   full_dehydrate: true
 })
-.then(( user ) => {
-  console.log('user ', user);
-});
+.then(user => console.log('USER\n', user))
+.catch(error => console.log(error));
 ```
 #### Get All Platform Transactions
-```
+```javascript
 client.getPlatformTransactions()
-.then(({ data }) => {
-  console.log('data ', data);
-});
+    .then(({data}) => console.log('DATA\n', data))
+    .catch(error => console.log(error));
 ```
 OR to pass in optional query parameters:
-```
+```javascript
 client.getPlatformTransactions({
   page: 2,
   per_page: 10
 })
-.then(({ data }) => {
-  console.log('data ', data);
-});
+.then(({data}) => console.log('DATA\n', data))
+.catch(error => console.log(error));
 ```
 #### Get All Platform Nodes
-```
+```javascript
 client.getPlatformNodes()
-.then(({ data }) => {
-  console.log('data ', data);
-});
+    .then(({data}) => console.log('DATA\n', data))
+    .catch(error => console.log(error));
 ```
 OR to pass in optional query parameters:
-```
+```javascript
 client.getPlatformNodes({
   page: 2,
   per_page: 10
 })
-.then(({ data }) => {
-  console.log('data ', data);
-});
+.then(({data}) => console.log('DATA\n', data))
+.catch(error => console.log(error));
 ```
 #### Get Institutions
 ```
