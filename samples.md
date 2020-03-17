@@ -52,11 +52,13 @@
 - [Idempotent Requests](#idempotent-requests)
 
 ## Initialization
-```
+```javascript
 const Synapse = require('synapsenode');
 const Client = Synapse.Client;
+```
 
-# instantiate new client:
+# Instantiate new Client:
+```javascript
 const client = new Client({
   client_id: '<client_id>',
   client_secret: '<client_secret>',
@@ -65,32 +67,12 @@ const client = new Client({
   // isProduction boolean determines if production (true) or sandbox (false) endpoint is used
   isProduction: false
 });
-
-# createUser or getUser to access User class methods
-const user = client.createUser({
-  logins: [
-    {
-      email: 'test@synapsepay.com'
-    }
-  ],
-  phone_numbers: [
-    '901.111.1111'
-  ],
-  legal_names: [
-    'Test User'
-  ],
-  extra: {
-    supp_id: 'my_user_id',
-    cip_tag: 1,
-    is_business: false
-  }
-}, '127.0.0.1') || client.getUser('<USER_ID>');
 ```
 
 ## Client
 #### Create User
 To create a user - supply the payload and the user IP address:
-```
+```javascript
 client.createUser({
     logins: [
       {
@@ -149,12 +131,11 @@ client.createUser({
   },
   '127.0.0.1'
 )
-.then(( user ) => {
-  console.log('user ', user);
-});
+.then(user => console.log('USER\n', user))
+.catch(error => console.log(error));
 ```
 If needed, you can pass an options object to set a user specific fingerprint or supply an idempotency key:
-```
+```javascript
 client.createUser(
   {
     "logins": [
@@ -180,9 +161,8 @@ client.createUser(
     idempotency_key: 'testIdempotencyKey'
   }
 )
-.then(( user ) => {
-  console.log('user ', user);
-});
+.then(user => console.log('USER\n', user))
+.catch(error => console.log(error));
 ```
 #### Get All Users
 ```
