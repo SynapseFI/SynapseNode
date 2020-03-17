@@ -57,7 +57,7 @@ const Synapse = require('synapsenode');
 const Client = Synapse.Client;
 ```
 
-# Instantiate new Client:
+## Instantiate new Client:
 ```javascript
 const client = new Client({
   client_id: '<client_id>',
