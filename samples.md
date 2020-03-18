@@ -234,74 +234,66 @@ client.getPlatformNodes({
 .catch(error => console.log(error));
 ```
 #### Get Institutions
-```
+```javascript
 client.getInstitutions()
-.then(({ data }) => {
-  console.log('data ', data);
-});
+    .then(({data}) => console.log('DATA\n', data))
+    .catch(error => console.log(error));
 ```
 #### Issue Public Key
-```
+```javascript
 client.issuePublicKey()
-.then(({ data }) => {
-  console.log('data ', data);
-});
+    .then(({data}) => console.log('DATA\n', data))
+    .catch(error => console.log(error));
 ```
 OR to optionally specify which scopes to issue the public key for:
-```
+```javascript
 client.issuePublicKey([
   'CLIENT|CONTROLS',
   'USER|GET'
 ])
-.then(({ data }) => {
-  console.log('data ', data);
-});
+.then(({data}) => console.log('DATA\n', data))
+.catch(error => console.log(error));
 ```
 #### Create Subscription
-```
+```javascript
 client.createSubscription('<SUBSCRIPTION_URL>')
-.then(({ data }) => {
-  console.log('data ', data);
-});
+    .then(({data}) => console.log('DATA\n', data))
+    .catch(error => console.log(error));
 ```
 OR to specify the scope of the subscription:
-```
+```javascript
 client.createSubscription('<SUBSCRIPTION_URL>', [
   'USER|PATCH',
   'NODE|PATCH',
   'TRAN|PATCH'
 ])
-.then(({ data }) => {
-  console.log('data ', data);
-});
+.then(({data}) => console.log('DATA\n', data))
+.catch(error => console.log(error));
 ```
 #### Get All Subscriptions
-```
+```javascript
 client.getAllSubscriptions()
-.then(({ data }) => {
-  console.log('data ', data);
-});
+    .then(({data}) => console.log('DATA\n', data))
+    .catch(error => console.log(error));
 ```
 OR to pass in optional query parameters:
-```
+```javascript
 client.getAllSubscriptions({
   page: 2,
   per_page: 1
 })
-.then(({ data }) => {
-  console.log('data ', data);
-});
+.then(({data}) => console.log('DATA\n', data))
+.catch(error => console.log(error));
 ```
 #### Get Subscription
-```
+```javascript
 client.getSubscription('<SUBSCRIPTION_ID>')
-.then(({ data }) => {
-  console.log('data ', data);
-});
+    .then(({data}) => console.log('DATA\n', data))
+    .catch(error => console.log(error));
 ```
 #### Update Subscription
 To update the scope of subscription:
-```
+```javascript
 client.updateSubscription('<SUBSCRIPTION_ID>', {
   scope: [
     'USER|PATCH',
@@ -309,84 +301,75 @@ client.updateSubscription('<SUBSCRIPTION_ID>', {
     'TRAN|PATCH'
   ]
 })
-.then(({ data }) => {
-  console.log('data ', data);
-});
+.then(({data}) => console.log('DATA\n', data))
+.catch(error => console.log(error));
 ```
 To unsubscribe from webhooks:
-```
+```javascript
 client.updateSubscription('<SUBSCRIPTION_ID>', {
   is_active: false
 })
-.then(({ data }) => {
-  console.log('data ', data);
-});
+.then(({data}) => console.log('DATA\n', data))
+.catch(error => console.log(error));
 ```
 #### Locate ATMs
-```
+```javascript
 client.locateAtms({
   zip: 94114
 })
-.then(({ data }) => {
-  console.log('data ', data);
-});
+.then(({data}) => console.log('DATA\n', data))
+.catch(error => console.log(error));
 ```
 OR to pass in optional query parameters:
-```
+```javascript
 client.locateAtms({
   zip: 94114,
   page: 2,
   radius: 5,
   per_page: 5
 })
-.then(({ data }) => {
-  console.log('data ', data);
-});
+.then(({data}) => console.log('DATA\n', data))
+.catch(error => console.log(error));
 ```
 #### Crypto Quotes
-```
+```javascript
 client.getCryptoQuotes()
-.then(({ data }) => {
-  console.log('data ', data);
-});
+    .then(({data}) => console.log('DATA\n', data))
+    .catch(error => console.log(error));
 ```
 #### Crypto Market Data
-```
+```javascript
 client.getCryptoMarketData()
-.then(({ data }) => {
-  console.log('data ', data);
-});
+    .then(({data}) => console.log('DATA\n', data))
+    .catch(error => console.log(error));
 ```
 OR to pass in optional query parameters:
-```
+```javascript
 client.getCryptoMarketData({
   currency: 'ETH',
   limit: 1
 })
-.then(({ data }) => {
-  console.log('data ', data);
-});
+.then(({data}) => console.log('DATA\n', data))
+.catch(error => console.log(error));
 ```
 #### Webhook Logs
-```
+```javascript
 client.getWebhookLogs()
-.then(({ data }) => {
-  console.log('data ', data);
-});
+    .then(({data}) => console.log('DATA\n', data))
+    .catch(error => console.log(error));
 ```
 #### Trade Market Data
-```
+```javascript
 client.getTradeMarketData({
   ticker: 'AAPL'
 })
-.then(({ data }) => {
-  console.log('data ', data);
-}
+.then(({data}) => console.log('DATA\n', data))
+.catch(error => console.log(error));
 ```
 
 ## User
 #### Add User KYC
-```
+```javascript
 user.addUserKyc({
   documents:[{
     email: 'test@test.com',
@@ -418,37 +401,34 @@ user.addUserKyc({
     }]
   }]
 })
-.then(({ data }) => {
-  console.log('data ', data);
-});
+.then(({data}) => console.log('DATA\n', data))
+.catch(error => console.log(error));
 ```
 #### Delete Existing Document
-```
+```javascript
 user.deleteExistingDocument({
   documents: [{
     id: '<DOC_ID>',
     permission_scope: 'DELETE_DOCUMENT'
   }]
 })
-.then(({ data }) => {
-  console.log('data ', data);
-});
+.then(({data}) => console.log('DATA\n', data))
+.catch(error => console.log(error));
 ```
 #### Update User
 To update user's base document:
-```
+```javascript
 user.updateUser({
   documents: [{
     id: '<BASE_DOC_ID>',
     email: 'test2@synapsefi.com'
   }]
 })
-.then(({ data }) => {
-  console.log('data ', data);
-});
+.then(({data}) => console.log('DATA\n', data))
+.catch(error => console.log(error));
 ```
 To update user's sub-document:
-```
+```javascript
 user.updateUser({
   documents: [{
     id: '<BASE_DOC_ID>',
@@ -459,12 +439,11 @@ user.updateUser({
     }]
   }]
 })
-.then(({ data }) => {
-  console.log('data ', data);
-});
+.then(({data}) => console.log('DATA\n', data))
+.catch(error => console.log(error));
 ```
 To verify user's MFA:
-```
+```javascript
 user.updateUser({
   documents: [{
     id: '<BASE_DOC_ID>',
@@ -476,98 +455,87 @@ user.updateUser({
     }]
   }]
 })
-.then(({ data }) => {
-  console.log('data ', data);
-});
+.then(({data}) => console.log('DATA\n', data))
+.catch(error => console.log(error));
 ```
 To lock/remove user:
-```
+```javascript
 user.updateUser({
   permission: 'MAKE-IT-GO-AWAY'
 })
-.then(({ data }) => {
-  console.log('data ', data);
-})
+.then(({data}) => console.log('DATA\n', data))
+.catch(error => console.log(error));
 ```
 #### Create Node
-```
+```javascript
 user.createNode({
   type: 'DEPOSIT-US',
   info: {
     nickname: 'Test Checking'
   }
 })
-.then(({ data }) => {
-  console.log('data ', data);
-});
+.then(({data}) => console.log('DATA\n', data))
+.catch(error => console.log(error));
 ```
 #### Verify ACH-US MFA
-```
+```javascript
 user.verifyAchMfa('<access_token>', '<mfa_answer>')
-.then(({ data }) => {
-  console.log('data ', data);
-});
+    .then(({data}) => console.log('DATA\n', data))
+    .catch(error => console.log(error));
 ```
 #### Get All User Nodes
-```
+```javascript
 user.getAllUserNodes()
-.then(({ data }) => {
-  console.log('data ', data);
-});
+    .then(({data}) => console.log('DATA\n', data))
+    .catch(error => console.log(error));
 ```
 OR to pass in optional query parameters:
-```
+```javascript
 user.getAllUserNodes({
   page: 1,
   per_page: 5,
   type: 'ACH-US'
 })
-.then(({ data }) => {
-  console.log('data ', data);
-});
+.then(({data}) => console.log('DATA\n', data))
+.catch(error => console.log(error));
 ```
 #### Get Node
-```
+```javascript
 user.getNode('<NODE_ID>')
-.then(({ data }) => {
-  console.log('data ', data);
-});
+    .then(({data}) => console.log('DATA\n', data))
+    .catch(error => console.log(error));
 ```
 OR to pass in optional query parameters:
-```
+```javascript
 user.getNode('<NODE_ID>', {
   'full_dehydrate': 'yes'
 })
-.then(({ data }) => {
-  console.log('data ', data);
-});
+.then(({data}) => console.log('DATA\n', data))
+.catch(error => console.log(error));
 ```
 #### Get User Transactions
-```
+```javascript
 user.getUserTransactions()
-.then(({ data }) => {
-  console.log('data ', data);
-});
+    .then(({data}) => console.log('DATA\n', data))
+    .catch(error => console.log(error));
 ```
 OR to pass in optional query parameters:
-```
+```javascript
 user.getUserTransactions({
   page: 2,
   per_page: 10
 })
-.then(({ data }) => {
-  console.log('data ', data);
-});
+.then(({data}) => console.log('DATA\n', data))
+.catch(error => console.log(error));
 ```
 #### Trigger Dummy Transactions
-```
+```javascript
 user.triggerDummyTransactions('<NODE_ID>')
-.then(({ data }) => {
-  console.log('data ', data);
-});
+    .then(({data}) => console.log('DATA\n', data))
+    .catch(error => console.log(error));
 ```
 OR to pass in optional query parameters:
-```
+```javascript
 user.triggerDummyTransactions('<NODE_ID>', {
   amount: 1337,
   foreign_transaction: 'no',
@@ -575,12 +543,11 @@ user.triggerDummyTransactions('<NODE_ID>', {
   subnet_id: '5cb8ac9e88a3e200d87e1e52',
   type: 'WIRE'
 })
-.then(({ data }) => {
-  console.log('data ', data);
-});
+.then(({data}) => console.log('DATA\n', data))
+.catch(error => console.log(error));
 ```
 #### Generate UBO Form
-```
+```javascript
 user.generateUboForm({
   entity_info: {
     cryptocurrency: true,
@@ -617,105 +584,93 @@ user.generateUboForm({
     }
   ]
 })
-.then(({ data }) => {
-  console.log('data ', data);
-});
+.then(({data}) => console.log('DATA\n', data))
+.catch(error => console.log(error));
 ```
 #### Get Statements by User
-```
+```javascript
 user.getStatementsByUser()
-.then(({ data }) => {
-  console.log('data ', data);
-});
+    .then(({data}) => console.log('DATA\n', data))
+    .catch(error => console.log(error));
 ```
 OR to pass in optional query parameters:
-```
+```javascript
 user.getStatementsByUser({
   page: 2,
   per_page: 1
 })
-.then(({ data }) => {
-  console.log('data ', data);
-});
+.then(({data}) => console.log('DATA\n', data))
+.catch(error => console.log(error));
 ```
 #### Get Statements by Node
-```
+```javascript
 user.getStatementsByNode('<NODE_ID>')
-.then(({ data }) => {
-  console.log('data ', data);
-});
+    .then(({data}) => console.log('DATA\n', data))
+    .catch(error => console.log(error));
 ```
 OR to pass in optional query parameters:
-```
+```javascript
 user.getStatementsByNode('<NODE_ID>', {
   page: 2,
   per_page: 1
 })
-.then(({ data }) => {
-  console.log('data ', data);
-});
+.then(({data}) => console.log('DATA\n', data))
+.catch(error => console.log(error));
 ```
 #### Ship Debit Card
-```
+```javascript
 user.shipCardNode('<NODE_ID>', {
   fee_node_id: '<FEE_NODE_ID>'
 })
-.then(({ data }) => {
-  console.log('data ', data);
-});
+.then(({data}) => console.log('DATA\n', data))
+.catch(error => console.log(error));
 ```
 #### Reset Debit Card
-```
+```javascript
 user.resetCardNode('<NODE_ID>')
-.then(({ data }) => {
-  console.log('data ', data);
-});
+    .then(({data}) => console.log('DATA\n', data))
+    .catch(error => console.log(error));
 ```
 #### Verify Micro-Deposits
-```
+```javascript
 user.verifyMicroDeposits('<NODE_ID>', {
   micro: [0.1, 0.1]
 })
-.then(({ data }) => {
-  console.log('data ', data);
-});
+.then(({data}) => console.log('DATA\n', data))
+.catch(error => console.log(error));
 ```
 #### Reinitiate Micro-Deposits
-```
+```javascript
 user.reinitiateMicroDeposits('<NODE_ID>')
-.then(({ data }) => {
-  console.log('data ', data);
-});
+    .then(({data}) => console.log('DATA\n', data))
+    .catch(error => console.log(error));
 ```
 #### Update Node
-```
+```javascript
 user.updateNode('<NODE_ID>', {
   allowed: 'INACTIVE'
 })
-.then(({ data }) => {
-  console.log('data ', data);
-});
+.then(({data}) => console.log('DATA\n', data))
+.catch(error => console.log(error));
 ```
 #### Delete Node
-```
+```javascript
 user.deleteNode('<NODE_ID>')
-.then(({ data }) => {
-  console.log('data ', data);
-});
+    .then(({data}) => console.log('DATA\n', data))
+    .catch(error => console.log(error));
 ```
 #### Generate Apple Pay Token
-```
+```javascript
 user.generateApplePayToken('<NODE_ID>', {
   certificate: 'your applepay cert',
   nonce: '9c02xxx2',
   nonce_signature: '4082f883ae62d0700c283e225ee9d286713ef74'
 })
-.then(({ data }) => {
-  console.log('data ', data);
-});
+.then(({data}) => console.log('DATA\n', data))
+.catch(error => console.log(error));
 ```
 #### Create Transaction
-```
+```javascript
 user.createTransaction('<NODE_ID>', {
   to: {
     type: 'ACH-US',
@@ -730,12 +685,11 @@ user.createTransaction('<NODE_ID>', {
     note: 'Test transaction'
   }
 })
-.then(({ data }) => {
-  console.log('data ', data);
-});
+.then(({data}) => console.log('DATA\n', data))
+.catch(error => console.log(error));
 ```
 OR to pass in optional idempotency key:
-```
+```javascript
 user.createTransaction(
   '<NODE_ID>',
   {
@@ -754,145 +708,129 @@ user.createTransaction(
   },
   '<IDEMPOTENCY_KEY>'
 )
-.then(({ data }) => {
-  console.log('data ', data);
-});
+.then(({data}) => console.log('DATA\n', data))
+.catch(error => console.log(error));
 ```
 #### Get Transaction
-```
+```javascript
 user.getTransaction('<NODE_ID>', '<TRANSACTION_ID>')
-.then(({ data }) => {
-  console.log('data ', data);
-});
+    .then(({data}) => console.log('DATA\n', data))
+    .catch(error => console.log(error));
 ```
 #### Get All Node Transactions
-```
+```javascript
 user.getAllNodeTransactions('<NODE_ID>')
-.then(({ data }) => {
-  console.log('data ', data);
-});
+    .then(({data}) => console.log('DATA\n', data))
+    .catch(error => console.log(error));
 ```
 OR to pass in optional query parameters:
-```
+```javascript
 user.getAllNodeTransactions('<NODE_ID>', {
   page: 2,
   per_page: 5
 })
-.then(({ data }) => {
-  console.log('data ', data);
-});
+.then(({data}) => console.log('DATA\n', data))
+.catch(error => console.log(error));
 ```
 #### Delete Transaction
-```
+```javascript
 user.deleteTransaction('<NODE_ID>', '<TRANSACTION_ID>')
-.then(({ data }) => {
-  console.log('data ', data);
-});
+    .then(({data}) => console.log('DATA\n', data))
+    .catch(error => console.log(error));
 ```
 #### Comment on Status
-```
+```javascript
 user.commentOnStatus('<NODE_ID>', '<TRANSACTION_ID>', {
   comment: 'add comment'
 })
-.then(({ data }) => {
-  console.log('data ', data);
-});
+.then(({data}) => console.log('DATA\n', data))
+.catch(error => console.log(error));
 ```
 #### Dispute Card Transaction
 For charge backs:
-```
+```javascript
 user.disputeCardTransaction('<NODE_ID>', '<TRANSACTION_ID>', {
   dispute_reason: 'CHARGE_BACK'
 })
-.then(({ data }) => {
-  console.log('data ', data);
-});
+.then(({data}) => console.log('DATA\n', data))
+.catch(error => console.log(error));
 ```
 For charged twice:
-```
+```javascript
 user.disputeCardTransaction('<NODE_ID>', '<TRANSACTION_ID>', {
   dispute_reason: 'CHARGED_TWICE'
 })
-.then(({ data }) => {
-  console.log('data ', data);
-});
+.then(({data}) => console.log('DATA\n', data))
+.catch(error => console.log(error));
 ```
 #### Get All Subnets
-```
+```javascript
 user.getAllSubnets('<NODE_ID>')
-.then(({ data }) => {
-  console.log('data ', data);
-});
+    .then(({data}) => console.log('DATA\n', data))
+    .catch(error => console.log(error));
 ```
 OR to pass in optional query parameters:
-```
+```javascript
 user.getAllSubnets('<NODE_ID>', {
   page: 2,
   per_page: 1
 })
-.then(({ data }) => {
-  console.log('data ', data);
-});
+.then(({data}) => console.log('DATA\n', data))
+.catch(error => console.log(error));
 ```
 #### Get Subnet
-```
+```javascript
 user.getSubnet('<NODE_ID>', '<SUBNET_ID>', {
   full_dehydrate: true,
 })
-.then(({ data }) => {
-  console.log('data ', data);
-});
+.then(({data}) => console.log('DATA\n', data))
+.catch(error => console.log(error));
 ```
 #### Create Subnet
 To issue account / routing number:
-```
+```javascript
 user.createSubnet('<NODE_ID>', {
   nickname: 'Test AC/RT'
 })
-.then(({ data }) => {
-  console.log('data ', data);
-});
+.then(({data}) => console.log('DATA\n', data))
+.catch(error => console.log(error));
 ```
 To issue debit card:
-```
+```javascript
 user.createSubnet('<NODE_ID>', {
   nickname: 'My Debit Card',
   account_class: 'DEBIT_CARD'
 })
-.then(({ data }) => {
-  console.log('data ', data);
-});
+.then(({data}) => console.log('DATA\n', data))
+.catch(error => console.log(error));
 ```
 #### Update Subnet
 To activate card number:
-```
+```javascript
 user.updateSubnet('<NODE_ID>', '<SUBNET_ID>', {
   status: 'ACTIVE'
 })
-.then(({ data }) => {
-  console.log('data ', data);
-});
+.then(({data}) => console.log('DATA\n', data))
+.catch(error => console.log(error));
 ```
 To deactivate card number:
-```
+```javascript
 user.updateSubnet('<NODE_ID>', '<SUBNET_ID>', {
   status: 'INACTIVE'
 })
-.then(({ data }) => {
-  console.log('data ', data);
-});
+.then(({data}) => console.log('DATA\n', data))
+.catch(error => console.log(error));
 ```
 To set pin for card:
-```
+```javascript
 user.updateSubnet('<NODE_ID>', '<SUBNET_ID>', {
   card_pin: 'mlMKMv5+ekyw9M5AtqUBZxgdzj+GEjzddp93qSPw6uRXGpdNiNulVZxcbH1gGGiwEU9UeOwGmgiMaQsDkpbuh3SWY6IxSiPNHI9ryY8z/z+d8MXockQxsKnl1B+ekcLAXx9s2RZM7T6Nfoa+ABGwRV7aFGt91NYaolA0tfU1981J9juB/iljm9cz5JUKDPCxZbn+LW1f4O/5Pt3fDX9Nrre/HsuHtgc7OIu6XTvg1FCm+ds3AkFdHA0dw1aW4j5biXWVEkNpb01PIicANYXtO/AusqH8udBLh0GIU/xNSTzipk/M2hUqoTZdOo7Hu8UZgLbWUEpv7hAAY2tfu/ymsA=='
 })
-.then(({ data }) => {
-  console.log('data ', data);
-});
+.then(({data}) => console.log('DATA\n', data))
+.catch(error => console.log(error));
 ```
 To update card preferences:
-```
+```javascript
 user.updateSubnet('<NODE_ID>', '<SUBNET_ID>', {
   preferences: {
     allow_foreign_transactions: true,
@@ -900,55 +838,49 @@ user.updateSubnet('<NODE_ID>', '<SUBNET_ID>', {
     daily_transaction_limit: 1000
   }
 })
-.then(({ data }) => {
-  console.log('data ', data);
-});
+.then(({data}) => console.log('DATA\n', data))
+.catch(error => console.log(error));
 ```
 To delete card:
-```
+```javascript
 user.updateSubnet('<NODE_ID>', '<SUBNET_ID>', {
   status: 'TERMINATED'
 })
-.then(({ data }) => {
-  console.log('data ', data);
-});
+.then(({data}) => console.log('DATA\n', data))
+.catch(error => console.log(error));
 ```
 #### Ship Card Subnet
-```
+```javascript
 user.shipCard('<NODE_ID>', '<SUBNET_ID>', {
   fee_node_id: '<FEE_NODE_ID>',
   expedite: false,
   card_style_id: '555'
 })
-.then(({ data }) => {
-  console.log('data ', data);
-});
+.then(({data}) => console.log('DATA\n', data))
+.catch(error => console.log(error));
 ```
 #### Register New Fingerprint
 ##### Step 1
-```
+```javascript
 user.registerNewFingerprint('<FINGERPRINT_VALUE>')
-.then(({ data }) => {
-  console.log('data ', data);
-});
+    .then(({data}) => console.log('DATA\n', data))
+    .catch(error => console.log(error));
 ```
 ##### Step 2
-```
+```javascript
 user.supplyDevice2FA('<FINGERPRINT_VALUE>', '<2FA_DEVICE>')
-.then(({ data }) => {
-  console.log('data ', data);
-});
+    .then(({data}) => console.log('DATA\n', data))
+    .catch(error => console.log(error));
 ```
 ##### Step 3
-```
+```javascript
 user.verifyFingerprint2FA('<FINGERPRINT_VALUE>', '<VALIDATION_PIN>')
-.then(({ data }) => {
-  console.log('data ', data);
-});
+    .then(({data}) => console.log('DATA\n', data))
+    .catch(error => console.log(error));
 ```
 #### Idempotent Requests
 POST calls support idempotency for safely retrying requests without accidentally performing the same operation twice. Pass the idempotency key you wish to use as a string as the final argument to the POST call. The only exception to this is the POST Create User call, where you must supply the idempotency key in the options object as shown in the [Create User](#create-user) section.
-```
+```javascript
 user.createNode(
   {
     type: 'DEPOSIT-US',
@@ -957,5 +889,7 @@ user.createNode(
     }
   },
   '<IDEMPOTENCY_KEY>'
-);
+)
+.then(({data}) => console.log('DATA\n', data))
+.catch(error => console.log(error));
 ```
