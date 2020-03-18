@@ -19,7 +19,7 @@ npm update synapsenode
 
 ## Initialization
 Require and configure dotenv:
-```
+```javascript
 require('dotenv').config()
 ```
 Create a .env file at the root directory and add the following variables to it:
@@ -29,7 +29,7 @@ CLIENT_SECRET=<YOUR_CLIENT_SECRET>
 FINGERPRINT=<YOUR_FINGERPRINT>
 ```
 Initialize new Client:
-```
+```javascript
 const Synapse = require('synapsenode');
 const Client = Synapse.Client;
 
