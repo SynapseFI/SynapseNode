@@ -45,6 +45,7 @@ module.exports = {
   supplyDevice2FA: 'supplyDevice2FA',
   verifyFingerprint2FA: 'verifyFingerprint2FA',
   locateAtms: 'locateAtms',
+  verifyAddress: 'verifyAddress',
   getCryptoQuotes: 'getCryptoQuotes',
   getCryptoMarketData: 'getCryptoMarketData',
   getWebhookLogs: 'getWebhookLogs',
