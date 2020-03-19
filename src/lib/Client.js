@@ -15,7 +15,8 @@ const {
   getCryptoQuotes,
   getCryptoMarketData,
   getWebhookLogs,
-  getTradeMarketData
+  getTradeMarketData,
+  verifyAddress
 } = require('../constants/apiReqNames');
 
 const apiRequests = require('../apiReqs/apiRequests');
@@ -201,6 +202,20 @@ class Client {
       clientInfo: this
     });
   }
+
+  // GET Verify Address
+    verifyAddress(queryParams = {}) {
+      const { address_city, address_country_code, address_postal_code, address_street, address_subdivision } = queryParams;
+
+      return apiRequests.client[verifyAddress]({
+        address_city,
+        address_country_code,
+        address_postal_code,
+        address_street,
+        address_subdivision,
+        clientInfo: this
+      });
+    }
 
   // GET CRYPTO QUOTES
   getCryptoQuotes() {
