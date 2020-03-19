@@ -70,8 +70,20 @@ const client = new Client({
 ```
 
 ## Client
+#### Verify Address
+To verify an address - supply the payload
+```javascript
+client.verifyAddress({
+    "address_street": "101 2nd st ste 1500",
+    "address_city": "san francisco",
+    "address_subdivision": "CA",
+    "address_country_code": "US",
+    "address_postal_code": "94105"
+})
+.then(({data}) => console.log('DATA\n', data))
+.catch(error => console.log(error));
+```
 #### Create User
-To create a user - supply the payload and the user IP address:
 ```javascript
 client.createUser({
     logins: [
