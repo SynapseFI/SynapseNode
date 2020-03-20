@@ -20,7 +20,7 @@
     "synapsefi",
     "synapsepay"
   ],
-  "author": "",
+  "author": "synapse",
   "license": "MIT",
   "devDependencies": {
     "axios": "^0.18.0",
@@ -48,5 +48,16 @@
   "dependencies": {
     "dotenv": "^6.2.0",
     "axios": "^0.18.0"
-  }
+  },
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SynapseFI/SynapseNode.git"
+  },
+  "bugs": {
+    "url": "https://github.com/SynapseFI/SynapseNode/issues"
+  },
+  "homepage": "https://github.com/SynapseFI/SynapseNode#readme"
 }
