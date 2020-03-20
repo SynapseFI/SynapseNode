@@ -1,0 +1,7 @@
+node_modules
+temp.js
+keys_dev.js
+synapse-base-control.json
+test.js
+.env
+.DS_Store
