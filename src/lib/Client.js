@@ -106,11 +106,12 @@ class Client {
 
   // GET ALL PLATFORM TRANSACTIONS
   getPlatformTransactions(queryParams = {}) {
-    const { page, per_page } = queryParams;
+    const { page, per_page, filter } = queryParams;
 
     return apiRequests.client[getPlatformTransactions]({
       page,
       per_page,
+      filter,
       clientInfo: this
     });
   }

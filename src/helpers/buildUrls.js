@@ -6,6 +6,7 @@ module.exports.addQueryParams = ({
   query,
   page,
   per_page,
+  filter,
   show_refresh_tokens,
   full_dehydrate,
   force_refresh,
@@ -34,6 +35,9 @@ module.exports.addQueryParams = ({
   }
   if (per_page !== undefined) {
     params.push(`per_page=${per_page}`);
+  }
+  if (filter !== undefined) {
+    params.push(`filter=${filter}`);
   }
   if (show_refresh_tokens !== undefined) {
     params.push(`show_refresh_tokens=${show_refresh_tokens}`);

@@ -225,7 +225,8 @@ OR to pass in optional query parameters:
 ```javascript
 client.getPlatformTransactions({
   page: 2,
-  per_page: 10
+  per_page: 10,
+  filter: '{"supp_id": "supp_1234"}'
 })
 .then(({data}) => console.log('DATA\n', data))
 .catch(error => console.log(error));
