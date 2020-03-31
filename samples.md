@@ -241,7 +241,8 @@ OR to pass in optional query parameters:
 ```javascript
 client.getPlatformNodes({
   page: 2,
-  per_page: 10
+  per_page: 10,
+  filter: '{"id": "12345"}'
 })
 .then(({data}) => console.log('DATA\n', data))
 .catch(error => console.log(error));
@@ -536,7 +537,8 @@ OR to pass in optional query parameters:
 ```javascript
 user.getUserTransactions({
   page: 2,
-  per_page: 10
+  per_page: 10,
+  filter: '{"id": "1245"}'
 })
 .then(({data}) => console.log('DATA\n', data))
 .catch(error => console.log(error));
@@ -740,7 +742,8 @@ OR to pass in optional query parameters:
 ```javascript
 user.getAllNodeTransactions('<NODE_ID>', {
   page: 2,
-  per_page: 5
+  per_page: 5,
+  filter: '{"id": "12345"}'
 })
 .then(({data}) => console.log('DATA\n', data))
 .catch(error => console.log(error));

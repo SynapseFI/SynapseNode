@@ -79,13 +79,14 @@ module.exports[getPlatformTransactions] = ({ page, per_page, filter, clientInfo 
   );
 };
 
-module.exports[getPlatformNodes] = ({ page, per_page, clientInfo }) => {
+module.exports[getPlatformNodes] = ({ page, per_page, filter, clientInfo }) => {
   const { host, headers } = clientInfo;
   const url = addQueryParams({
     // STATIC ENDPOINT
     originalUrl: `${host}/nodes`,
     page,
-    per_page
+    per_page,
+    filter
   });
 
   return axios.get(url, { headers });

@@ -118,11 +118,12 @@ class Client {
 
   // GET ALL PLATFORM NODES
   getPlatformNodes(queryParams = {}) {
-    const { page, per_page } = queryParams;
+    const { page, per_page, filter } = queryParams;
 
     return apiRequests.client[getPlatformNodes]({
       page,
       per_page,
+      filter,
       clientInfo: this
     });
   }
