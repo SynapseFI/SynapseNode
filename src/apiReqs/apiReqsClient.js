@@ -64,7 +64,7 @@ module.exports[getUser] = ({ user_id, full_dehydrate, headers, clientInfo }) => 
   return axios.get(url, { headers });
 };
 
-module.exports[getPlatformTransactions] = ({ page, per_page, clientInfo }) => {
+module.exports[getPlatformTransactions] = ({ page, per_page, filter, clientInfo }) => {
   const { host, headers } = clientInfo;
 
   return axios.get(
@@ -72,19 +72,21 @@ module.exports[getPlatformTransactions] = ({ page, per_page, clientInfo }) => {
       // STATIC ENDPOINT
       originalUrl: `${host}/trans`,
       page,
-      per_page
+      per_page,
+      filter
     }),
     { headers }
   );
 };
 
-module.exports[getPlatformNodes] = ({ page, per_page, clientInfo }) => {
+module.exports[getPlatformNodes] = ({ page, per_page, filter, clientInfo }) => {
   const { host, headers } = clientInfo;
   const url = addQueryParams({
     // STATIC ENDPOINT
     originalUrl: `${host}/nodes`,
     page,
-    per_page
+    per_page,
+    filter
   });
 
   return axios.get(url, { headers });

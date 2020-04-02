@@ -106,13 +106,14 @@ module.exports[getNode] = ({ node_id, full_dehydrate, force_refresh, userInfo })
   return axios.get(url, { headers });
 };
 
-module.exports[getUserTransactions] = ({ page, per_page, userInfo }) => {
+module.exports[getUserTransactions] = ({ page, per_page, filter, userInfo }) => {
   const { host, headers, id } = userInfo;
   const url = addQueryParams({
     // STATIC ENDPOINT
     originalUrl: `${host}/users/${id}/trans`,
     page,
-    per_page
+    per_page,
+    filter
   });
 
   return axios.get(url, { headers });
@@ -224,12 +225,13 @@ module.exports[getTransaction] = ({ node_id, trans_id, userInfo }) => {
   return axios.get(url, { headers });
 };
 
-module.exports[getAllNodeTransactions] = ({ node_id, trans_id, page, per_page, userInfo }) => {
+module.exports[getAllNodeTransactions] = ({ node_id, trans_id, page, per_page, filter, userInfo }) => {
   const { host, headers, id } = userInfo;
   const url = addQueryParams({
     originalUrl: `${host}/users/${id}/nodes/${node_id}/trans`,
     page,
-    per_page
+    per_page,
+    filter
   });
 
   return axios.get(url, { headers });
