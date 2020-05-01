@@ -99,9 +99,12 @@ module.exports[getInstitutions] = ({ clientInfo }) => {
   return axios.get(url, { headers });
 };
 
-module.exports[issuePublicKey] = ({ scope, clientInfo }) => {
+module.exports[issuePublicKey] = ({ scope, clientInfo, userId }) => {
   const { host, headers } = clientInfo;
-  const url = `${host}/client?issue_public_key=yes&scope=${scope.join()}`;
+  let url = `${host}/client?issue_public_key=yes&scope=${scope.join()}`;
+  if(userId) {
+    url += `&user_id=${userId}`
+  }
 
   return axios.get(url, { headers });
 };
