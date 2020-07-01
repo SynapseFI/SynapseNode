@@ -84,9 +84,9 @@ client.verifyAddress({
 .catch(error => console.log(error));
 ```
 #### Verify Routing Number
-To verify an address - supply the payload
+To verify a routing number - supply the payload
 ```javascript
-client.verifyAddress({
+client.verifyRoutingNumber({
     "routing_num": "084008426",
     "type": "ACH-US"
 })
