@@ -16,7 +16,8 @@ const {
   getCryptoMarketData,
   getWebhookLogs,
   getTradeMarketData,
-  verifyAddress
+  verifyAddress,
+  verifyRoutingNumber
 } = require('../constants/apiReqNames');
 
 const apiRequests = require('../apiReqs/apiRequests');
@@ -219,6 +220,16 @@ class Client {
         clientInfo: this
       });
     }
+
+  // GET Verify Routing Number
+    verifyRoutingNumber(queryParams = {}) {
+      const {routing_num, type } = queryParams;
+      return apiRequests.client[verifyRoutingNumber]({
+        routing_num,
+        type,
+        clientInfo: this
+      });
+    }    
 
   // GET CRYPTO QUOTES
   getCryptoQuotes() {

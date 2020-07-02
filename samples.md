@@ -83,6 +83,16 @@ client.verifyAddress({
 .then(({data}) => console.log('DATA\n', data))
 .catch(error => console.log(error));
 ```
+#### Verify Routing Number
+To verify a routing number - supply the payload
+```javascript
+client.verifyRoutingNumber({
+    "routing_num": "084008426",
+    "type": "ACH-US"
+})
+.then(({data}) => console.log('DATA\n', data))
+.catch(error => console.log(error));
+```
 #### Create User
 ```javascript
 client.createUser({

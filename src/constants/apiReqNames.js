@@ -51,5 +51,6 @@ module.exports = {
   getWebhookLogs: 'getWebhookLogs',
   shipCard: 'shipCard',
   updateIpAddress: 'updateIpAddress',
-  getTradeMarketData: 'getTradeMarketData'
+  getTradeMarketData: 'getTradeMarketData',
+  verifyRoutingNumber: 'verifyRoutingNumber'
 };

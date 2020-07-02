@@ -17,7 +17,8 @@ const {
   getCryptoMarketData,
   getWebhookLogs,
   getTradeMarketData,
-  verifyAddress
+  verifyAddress,
+  verifyRoutingNumber
 } = require('../constants/apiReqNames');
 
 const { addQueryParams, replacePathParams } = require('../helpers/buildUrls');
@@ -201,4 +202,11 @@ module.exports[getTradeMarketData] = ({ ticker, clientInfo }) => {
   });
 
   return axios.get(url, { headers });
+};
+
+module.exports[verifyRoutingNumber] = ({ routing_num, type, clientInfo}) => {
+  const { host, headers } = clientInfo;
+  const reqBody = { routing_num, type };
+  const baseUrl = `${host}/routing-number-verification`;
+  return axios.post(baseUrl, reqBody, { headers });
 };
