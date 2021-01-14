@@ -34,8 +34,8 @@ module.exports[createUser] = ({
   // Consider using Infinity, see also: https://github.com/axios/axios/issues/1362#issuecomment-523624913
   const config = {
     "headers": headers,
-    "maxContentLength": 30 * 1,048,576,  // 30MiB is configured by the server.
-    "maxBodyLength": 30 * 1,048,576
+    "maxContentLength": 30 * 1048576,  // 30MiB is configured by the server.
+    "maxBodyLength": 30 * 1048576
   };
   return axios.post(`${host}/users`, bodyParams, config);
 };
