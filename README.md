@@ -4,7 +4,7 @@
 Node.js Client Library for SynapseFI REST V3.1 API
 
 ## Code Examples
-Please refer to [samples.md](samples.md) and our [API documentation](https://docs.synapsefi.com) for examples.
+Please refer to [samples.md](https://github.com/SynapseFI/SynapseNode/blob/master/samples.md) and our [API documentation](https://docs.synapsefi.com) for examples.
 
 ## Setup
 ```
