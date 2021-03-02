@@ -54,8 +54,12 @@ module.exports[deleteExistingDocument] = ({ bodyParams, userInfo }) => {
 
 module.exports[updateUser] = ({ bodyParams, userInfo }) => {
   const { host, headers, id } = userInfo;
-
-  return axios.patch(`${host}/users/${id}`, bodyParams, { headers });
+  const config = {
+    "headers": headers,
+    "maxContentLength": 30 * 1048576,  // 30MiB is configured by the server.
+    "maxBodyLength": 30 * 1048576
+  };
+  return axios.patch(`${host}/users/${id}`, bodyParams, config);
 };
 
 module.exports[_oauthUser] = ({ bodyParams, userInfo }) => {
@@ -254,8 +258,12 @@ module.exports[commentOnStatus] = ({ node_id, trans_id, bodyParams, userInfo }) 
 module.exports[disputeCardTransaction] = ({ node_id, trans_id, bodyParams, userInfo }) => {
   const { host, headers, id } = userInfo;
   const url = `${host}/users/${id}/nodes/${node_id}/trans/${trans_id}/dispute`;
-
-  return axios.patch(url, bodyParams, { headers });
+  const config = {
+    "headers": headers,
+    "maxContentLength": 30 * 1048576,  // 30MiB is configured by the server.
+    "maxBodyLength": 30 * 1048576
+  };
+  return axios.patch(url, bodyParams, config);
 };
 
 module.exports[getAllSubnets] = ({ node_id, page, per_page, userInfo }) => {
