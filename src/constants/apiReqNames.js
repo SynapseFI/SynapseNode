@@ -52,5 +52,6 @@ module.exports = {
   shipCard: 'shipCard',
   updateIpAddress: 'updateIpAddress',
   getTradeMarketData: 'getTradeMarketData',
-  verifyRoutingNumber: 'verifyRoutingNumber'
+  verifyRoutingNumber: 'verifyRoutingNumber',
+  createBatchTransactions: 'createBatchTransactions',
 };

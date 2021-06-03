@@ -35,7 +35,8 @@ const {
   shipCard,
   registerNewFingerprint,
   supplyDevice2FA,
-  verifyFingerprint2FA
+  verifyFingerprint2FA,
+  createBatchTransactions,
 } = require('../constants/apiReqNames');
 
 const { addQueryParams, replacePathParams } = require('../helpers/buildUrls');
@@ -218,6 +219,13 @@ module.exports[generateApplePayToken] = ({ node_id, bodyParams, userInfo }) => {
 module.exports[createTransaction] = ({ node_id, bodyParams, userInfo }) => {
   const { host, headers, id } = userInfo;
   const url = `${host}/users/${id}/nodes/${node_id}/trans`;
+
+  return axios.post(url, bodyParams, { headers });
+};
+
+module.exports[createBatchTransactions] = ({ node_id, bodyParams, userInfo }) => {
+  const { host, headers, id } = userInfo;
+  const url = `${host}/users/${id}/nodes/${node_id}/batch-trans`;
 
   return axios.post(url, bodyParams, { headers });
 };

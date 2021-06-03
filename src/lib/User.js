@@ -35,7 +35,8 @@ const {
   supplyDevice2FA,
   verifyFingerprint2FA,
   getUser,
-  updateIpAddress
+  updateIpAddress,
+  createBatchTransactions,
 } = require('../constants/apiReqNames');
 
 const apiRequests = require('../apiReqs/apiRequests');
@@ -317,6 +318,29 @@ class User {
     }
 
     return apiRequests.user[createTransaction]({
+      node_id,
+      bodyParams,
+      userInfo: this
+    });
+  }
+
+  /**
+   * 
+   * @param {String} node_id required: id of node on which to create bulk transactions
+   * @param {Object} bodyParams required: body of post request, must have transactions key, which is an array of transaction objects
+   * @param {Array} bodyParams.transactions
+   * 
+   * @returns Promise
+   * 
+   * Idempotency keys can be provided for each transaction, inside each transaction object's `extra` key.
+   * 
+   * e.g. `{ transactions: [{ extra: { idempotency_key: 'idemPotKeyStr' } }] }`
+   * 
+   * [Batch Transaction Docs]{@link https://docs.synapsefi.com/api-references/transactions/create-batch-transactions}
+   * [Trans Object Details]{@link https://docs.synapsefi.com/api-references/transactions/transaction-object-details}
+   */
+  createBatchTransactions(node_id, bodyParams) {
+    return apiRequests.user[createBatchTransactions]({
       node_id,
       bodyParams,
       userInfo: this

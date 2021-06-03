@@ -5,4 +5,5 @@ keys_dev.js
 synapse-base-control.json
 test.js
 .env
-.DS_Store
+.DS_Store.dev
+.dev
