@@ -6,3 +6,4 @@ synapse-base-control.json
 test.js
 .env
 .DS_Store
+.dev

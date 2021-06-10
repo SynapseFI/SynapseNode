@@ -38,6 +38,7 @@
   * [Delete Node](#delete-node)
   * [Generate Apple Pay Token](#generate-apple-pay-token)
   * [Create Transaction](#create-transaction)
+  * [Create Batch Transaction](#create-batch-transaction)
   * [Get Transaction](#get-transaction)
   * [Get All Node Transactions](#get-all-node-transactions)
   * [Delete Transaction](#delete-transaction)
@@ -736,6 +737,47 @@ user.createTransaction(
 .then(({data}) => console.log('DATA\n', data))
 .catch(error => console.log(error));
 ```
+#### Create Batch Transaction
+```javascript
+user.createBatchTransactions('<NODE_ID>', {
+    transactions: [
+    {
+      "to": {
+        "type": "DEPOSIT-US",
+        "id": "5f69275098021636016189ad"
+      },
+      "amount": {
+        "amount": 34,
+        "currency": "USD"
+      },
+      "extra": {
+        "ip": "127.0.0.1",
+        "note": "Banking Fees",
+        "idempotency_key": "testidp1"
+      }
+    },
+    {
+      "to": {
+        "type": "DEPOSIT-US",
+        "id": "5f69275098021636016189ad"
+      },
+      "amount": {
+        "amount": 77,
+        "currency": "USD"
+      },
+      "extra": {
+        "ip": "127.0.0.1",
+        "note": "something for 77 dollars US",
+        "idempotency_key": "testidp2"
+      }
+    }
+  ]
+})
+.then(({data}) => console.log('DATA\n', data))
+.catch(error => console.log(error));
+```
+* <em>Idempotency key is optional</em>
+
 #### Get Transaction
 ```javascript
 user.getTransaction('<NODE_ID>', '<TRANSACTION_ID>')
