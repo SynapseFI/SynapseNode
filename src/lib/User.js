@@ -468,7 +468,7 @@ class User {
    * GET ALL CARD SHIPMENTS
    * @param {String} node_id required: id of node belonging to the subnet
    * @param {String} subnet_id required: id of card subnet for the card shipments
-   * @param {Object} bodyParams optional: body of post request, can contain page and per_page keys indicating the amount of card shipments returned  
+   * @param {Object} queryParams optional: body of post request, can contain page and per_page keys indicating the amount of card shipments returned  
    * 
    * @returns Promise
    * 
