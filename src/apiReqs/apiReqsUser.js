@@ -37,6 +37,9 @@ const {
   supplyDevice2FA,
   verifyFingerprint2FA,
   createBatchTransactions,
+  getAllCardShipments,
+  getCardShipment,
+  deleteCardShipment,
 } = require('../constants/apiReqNames');
 
 const { addQueryParams, replacePathParams } = require('../helpers/buildUrls');
@@ -318,6 +321,18 @@ module.exports[shipCard] = ({ node_id, subnet_id, bodyParams, userInfo }) => {
 
   return axios.patch(url, bodyParams, { headers });
 };
+
+module.exports[getAllCardShipments] = ({ node_id, subnet_id, page, per_page, userInfo }) => {
+  const { host, headers, id } = userInfo;
+  const url = addQueryParams({
+    originalUrl : `${host}/users/${id}/nodes/${node_id}/subnets/${subnet_id}/ship`,
+    page,
+    per_page
+  }) 
+  console.log(url)
+  return axios.get(url, { headers });
+};
+
 
 module.exports[registerNewFingerprint] = ({ refresh_token, userInfo }) => {
   const { host, headers, id } = userInfo;

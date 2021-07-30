@@ -37,6 +37,7 @@ const {
   getUser,
   updateIpAddress,
   createBatchTransactions,
+  getAllCardShipments,
 } = require('../constants/apiReqNames');
 
 const apiRequests = require('../apiReqs/apiRequests');
@@ -459,6 +460,19 @@ class User {
       bodyParams,
       userInfo: this
     });
+  }
+
+  // GET ALL CARD SHIPMENTS
+
+  getAllCardShipments(node_id, subnet_id, queryParams={}) {
+    const { page, per_page } = queryParams 
+    return apiRequests.user[getAllCardShipments]({
+      node_id, 
+      subnet_id,
+      page,
+      per_page,
+      userInfo: this
+    })
   }
 
   // POST First call for registering new fingerprint
