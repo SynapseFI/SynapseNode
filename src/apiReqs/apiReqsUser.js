@@ -329,10 +329,24 @@ module.exports[getAllCardShipments] = ({ node_id, subnet_id, page, per_page, use
     page,
     per_page
   }) 
-  console.log(url)
   return axios.get(url, { headers });
 };
 
+module.exports[getCardShipment] = ({ node_id, subnet_id, shipment_id, userInfo}) => {
+  const { host, headers, id } = userInfo;
+  const url = addQueryParams({
+    originalUrl : `${host}/users/${id}/nodes/${node_id}/subnets/${subnet_id}/ship/${shipment_id}`
+  }) 
+  return axios.get(url, { headers });
+};
+
+module.exports[deleteCardShipment] = ({ node_id, subnet_id, shipment_id, userInfo}) => {
+  const { host, headers, id } = userInfo;
+  const url = addQueryParams({
+    originalUrl : `${host}/users/${id}/nodes/${node_id}/subnets/${subnet_id}/ship/${shipment_id}`
+  }) 
+  return axios.get(url, { headers });
+};
 
 module.exports[registerNewFingerprint] = ({ refresh_token, userInfo }) => {
   const { host, headers, id } = userInfo;
