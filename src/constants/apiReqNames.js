@@ -54,4 +54,7 @@ module.exports = {
   getTradeMarketData: 'getTradeMarketData',
   verifyRoutingNumber: 'verifyRoutingNumber',
   createBatchTransactions: 'createBatchTransactions',
+  getAllCardShipments: 'getAllCardShipments',
+  getCardShipment: 'getCardShipment',
+  deleteCardShipment: 'deleteCardShipment',
 };

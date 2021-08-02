@@ -37,6 +37,9 @@ const {
   supplyDevice2FA,
   verifyFingerprint2FA,
   createBatchTransactions,
+  getAllCardShipments,
+  getCardShipment,
+  deleteCardShipment,
 } = require('../constants/apiReqNames');
 
 const { addQueryParams, replacePathParams } = require('../helpers/buildUrls');
@@ -317,6 +320,32 @@ module.exports[shipCard] = ({ node_id, subnet_id, bodyParams, userInfo }) => {
   const url = `${host}/users/${id}/nodes/${node_id}/subnets/${subnet_id}/ship`;
 
   return axios.patch(url, bodyParams, { headers });
+};
+
+module.exports[getAllCardShipments] = ({ node_id, subnet_id, page, per_page, userInfo }) => {
+  const { host, headers, id } = userInfo;
+  const url = addQueryParams({
+    originalUrl : `${host}/users/${id}/nodes/${node_id}/subnets/${subnet_id}/ship`,
+    page,
+    per_page
+  }) 
+  return axios.get(url, { headers });
+};
+
+module.exports[getCardShipment] = ({ node_id, subnet_id, shipment_id, userInfo}) => {
+  const { host, headers, id } = userInfo;
+  const url = addQueryParams({
+    originalUrl : `${host}/users/${id}/nodes/${node_id}/subnets/${subnet_id}/ship/${shipment_id}`
+  }) 
+  return axios.get(url, { headers });
+};
+
+module.exports[deleteCardShipment] = ({ node_id, subnet_id, shipment_id, userInfo}) => {
+  const { host, headers, id } = userInfo;
+  const url = addQueryParams({
+    originalUrl : `${host}/users/${id}/nodes/${node_id}/subnets/${subnet_id}/ship/${shipment_id}`
+  }) 
+  return axios.get(url, { headers });
 };
 
 module.exports[registerNewFingerprint] = ({ refresh_token, userInfo }) => {

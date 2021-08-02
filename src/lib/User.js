@@ -37,6 +37,9 @@ const {
   getUser,
   updateIpAddress,
   createBatchTransactions,
+  getAllCardShipments,
+  getCardShipment,
+  deleteCardShipment
 } = require('../constants/apiReqNames');
 
 const apiRequests = require('../apiReqs/apiRequests');
@@ -459,6 +462,68 @@ class User {
       bodyParams,
       userInfo: this
     });
+  }
+
+  /**
+   * GET ALL CARD SHIPMENTS
+   * @param {String} node_id required: id of node belonging to the subnet
+   * @param {String} subnet_id required: id of card subnet for the card shipments
+   * @param {Object} queryParams optional: body of post request, can contain page and per_page keys indicating the amount of card shipments returned  
+   * 
+   * @returns Promise
+   * 
+   * 
+   * [Get Card Shipment Docs]{@link https://docs.synapsefi.com/api-references/shipments/view-all-subnet-shipments}
+   */
+  getAllCardShipments(node_id, subnet_id, queryParams={}) {
+    const { page, per_page } = queryParams 
+    return apiRequests.user[getAllCardShipments]({
+      node_id, 
+      subnet_id,
+      page,
+      per_page,
+      userInfo: this
+    })
+  }
+
+  /**
+   * GET A SINGLE CARD SHIPMENT
+   * @param {String} node_id required: id of node belonging to the subnet
+   * @param {String} subnet_id required: id of card subnet for the card shipments
+   * @param {Object} shipment_id requred: id of card shipment  
+   * 
+   * @returns Promise
+   * 
+   * 
+   * [Get Card Shipment Docs]{@link https://docs.synapsefi.com/api-references/shipments/view-shipment}
+   */
+  getCardShipment(node_id, subnet_id, shipment_id) {
+    return apiRequests.user[getCardShipment]({
+      node_id, 
+      subnet_id,
+      shipment_id,
+      userInfo: this
+    })
+  }
+
+  /**
+   * DELETE A SINGLE CARD SHIPMENT
+   * @param {String} node_id required: id of node belonging to the subnet
+   * @param {String} subnet_id required: id of card subnet for the card shipments
+   * @param {Object} shipment_id requred: id of card shipment  
+   * 
+   * @returns Promise
+   * 
+   * 
+   * [Get Card Shipment Docs]{@link https://docs.synapsefi.com/api-references/shipments/cancel-shipment}
+   */
+  deleteCardShipment(node_id, subnet_id, shipment_id) {
+    return apiRequests.user[deleteCardShipment]({
+      node_id, 
+      subnet_id,
+      shipment_id,
+      userInfo: this
+    })
   }
 
   // POST First call for registering new fingerprint

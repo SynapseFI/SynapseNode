@@ -49,6 +49,9 @@
   * [Create Subnet](#create-subnet)
   * [Update Subnet](#update-subnet)
   * [Ship Card Subnet](#ship-card-subnet)
+  * [Get All Card Subnet Shipments](#get-all-card-subnet-shipments)
+  * [Get Card Subnet Shipment](#get-card-subnet-shipment)
+  * [Delete Card Subnet Shipment](#delete-card-subnet-shipment)
   * [Register New Fingerprint](#register-new-fingerprint)
 - [Idempotent Requests](#idempotent-requests)
 
@@ -927,6 +930,28 @@ user.shipCard('<NODE_ID>', '<SUBNET_ID>', {
 .then(({data}) => console.log('DATA\n', data))
 .catch(error => console.log(error));
 ```
+#### Get All Card Subnet Shipments
+```javascript
+user.getAllCardShipments('<NODE_ID>', '<SUBNET_ID>', {
+  per_page: 10,
+  page = 1
+})
+.then(({data}) => console.log('DATA\n', data))
+.catch(error => console.log(error));
+```
+#### Get Card Subnet Shipment
+```javascript
+user.getCardShipment('<NODE_ID>', '<SUBNET_ID>', '<SHIPMENT_ID>' )
+.then(({data}) => console.log('DATA\n', data))
+.catch(error => console.log(error));
+```
+#### Delete Card Subnet Shipment
+```javascript
+user.deleteCardShipment('<NODE_ID>', '<SUBNET_ID>', '<SHIPMENT_ID>')
+.then(({data}) => console.log('DATA\n', data))
+.catch(error => console.log(error));
+```
+
 #### Register New Fingerprint
 ##### Step 1
 ```javascript
