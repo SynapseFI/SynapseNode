@@ -84,7 +84,7 @@ module.exports[swapDuplicateUsers] = ({ bodyParams, userInfo }) => {
   const config = {
     "headers": headers
   };
-  return axios.patch(`${host}/users/${id}`, bodyParams, config);
+  return axios.patch(`${host}/users/${id}/swap-duplicate-users`, bodyParams, config);
 };
 
 module.exports[_oauthUser] = ({ bodyParams, userInfo }) => {
