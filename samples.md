@@ -510,7 +510,6 @@ user.swapDuplicateUsers("6186069048d2fd5ba26f38ee")
 .then(({data}) => console.log('DATA\n', data))
 .catch(error => console.log(error));
 ```
-  * [Swap Duplicate User](#swap-duplicate-user)
 #### Create Node
 ```javascript
 user.createNode({
