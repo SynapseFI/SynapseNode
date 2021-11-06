@@ -4,6 +4,7 @@ const {
   addUserKyc,
   deleteExistingDocument,
   updateUser,
+  swapDuplicateUsers,
   _grabRefreshToken,
   _oauthUser,
   createNode,
@@ -62,6 +63,14 @@ module.exports[updateUser] = ({ bodyParams, userInfo }) => {
     "headers": headers,
     "maxContentLength": 30 * 1048576,  // 30MiB is configured by the server.
     "maxBodyLength": 30 * 1048576
+  };
+  return axios.patch(`${host}/users/${id}`, bodyParams, config);
+};
+
+module.exports[swapDuplicateUsers] = ({ bodyParams, userInfo }) => {
+  const { host, headers, id } = userInfo;
+  const config = {
+    "headers": headers
   };
   return axios.patch(`${host}/users/${id}`, bodyParams, config);
 };
