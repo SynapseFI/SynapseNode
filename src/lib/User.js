@@ -2,6 +2,8 @@ const {
   addUserKyc,
   deleteExistingDocument,
   updateUser,
+  getUserDuplicates,
+  swapDuplicateUsers,
   _grabRefreshToken,
   _oauthUser,
   createNode,
@@ -89,6 +91,38 @@ class User {
       bodyParams,
       userInfo: this
     });
+  }
+  
+  /**
+   * GET ALL USER DUPLICATES 
+   * 
+   * @returns Promise
+   * 
+   * [Get User Duplicates Docs]{@link https://docs.synapsefi.com/api-references/users/manage-duplicates#example-request}
+   */
+  getUserDuplicates() {
+    const { page, per_page } = queryParams 
+    return apiRequests.user[getUserDuplicates]({
+      userInfo: this
+    })
+  }
+
+  /**
+   * SWAP DUPLICATE USER
+   * @param {String} swap_to_user_id required: User ID you'd like to swap the open status with
+   * 
+   * @returns Promise
+   * 
+   * [Swap Duplicate User Docs]{@link https://docs.synapsefi.com/api-references/users/manage-duplicates#example-request-1}
+   */
+  swapDuplicateUsers(swap_to_user_id) {
+    bodyParams = {
+      "swap_to_user_id":swap_to_user_id
+    }
+    return apiRequests.user[swapDuplicateUsers]({
+      bodyParams,
+      userInfo: this
+    })
   }
 
   // RETRIEVE REFRESH TOKEN

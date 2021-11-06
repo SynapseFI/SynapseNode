@@ -21,6 +21,8 @@
   * [Add User KYC](#add-user-kyc)
   * [Delete Existing Document](#delete-existing-document)
   * [Update User](#update-user)
+  * [Get User Duplicates](#get-user-duplicates)
+  * [Swap Duplicate User](#swap-duplicate-user)
   * [Create Node](#create-node)
   * [Verify ACH-US MFA](#verify-ach-us-mfa)
   * [Get All User Nodes](#get-all-user-nodes)
@@ -491,6 +493,20 @@ To lock/remove user:
 user.updateUser({
   permission: 'MAKE-IT-GO-AWAY'
 })
+.then(({data}) => console.log('DATA\n', data))
+.catch(error => console.log(error));
+```
+#### Get User Duplicates
+To get all user's duplicate instances:
+```javascript
+user.getUserDuplicates()
+.then(({data}) => console.log('DATA\n', data))
+.catch(error => console.log(error));
+```
+#### Swap Duplicate User
+To swap one closed user profile with another in instances of duplicate profile:
+```javascript
+user.swapDuplicateUsers("6186069048d2fd5ba26f38ee")
 .then(({data}) => console.log('DATA\n', data))
 .catch(error => console.log(error));
 ```
