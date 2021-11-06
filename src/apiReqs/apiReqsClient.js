@@ -4,6 +4,7 @@ const {
   createUser,
   getAllUsers,
   getUser,
+  getUserDuplicates,
   getPlatformTransactions,
   getPlatformNodes,
   getInstitutions,
@@ -66,6 +67,15 @@ module.exports[getUser] = ({ user_id, full_dehydrate, headers, clientInfo }) => 
   const { host } = clientInfo;
   // REFACTOR TO USE ADD_QUERY_PARAMS
   const url = `${host}/users/${user_id}?full_dehydrate=${full_dehydrate ? 'yes' : 'no'}`;
+
+  // REFACTOR TO USE REPLACE_PATH_PARAMS
+  return axios.get(url, { headers });
+};
+
+module.exports[getUserDuplicates] = ({ user_id, headers, clientInfo }) => {
+  const { host } = clientInfo;
+  // REFACTOR TO USE ADD_QUERY_PARAMS
+  const url = `${host}/users/${user_id}/get-duplicates`;
 
   // REFACTOR TO USE REPLACE_PATH_PARAMS
   return axios.get(url, { headers });
