@@ -4,6 +4,7 @@ const {
   addUserKyc,
   deleteExistingDocument,
   updateUser,
+  getUserDuplicates,
   swapDuplicateUsers,
   _grabRefreshToken,
   _oauthUser,
@@ -65,6 +66,17 @@ module.exports[updateUser] = ({ bodyParams, userInfo }) => {
     "maxBodyLength": 30 * 1048576
   };
   return axios.patch(`${host}/users/${id}`, bodyParams, config);
+};
+
+module.exports[getUserDuplicates] = ({ userInfo }) => {
+  const { host, headers, id } = userInfo;
+  const url = addQueryParams({
+    originalUrl: `${host}/users/${id}/get-duplicates`,
+    full_dehydrate,
+    force_refresh
+  });
+  
+  return axios.get(url, { headers });
 };
 
 module.exports[swapDuplicateUsers] = ({ bodyParams, userInfo }) => {
