@@ -15,6 +15,8 @@ module.exports = {
   addUserKyc: 'addUserKyc',
   deleteExistingDocument: 'deleteExistingDocument',
   updateUser: 'updateUser',
+  getUserDuplicates: 'getUserDuplicates',
+  swapDuplicateUsers: 'swapDuplicateUsers',
   _grabRefreshToken: '_grabRefreshToken',
   _oauthUser: '_oauthUser',
   createNode: 'createNode',
