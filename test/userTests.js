@@ -209,6 +209,13 @@ describe('User', () => {
     }));
   });
 
+  describe('patch reauthorize account', () => {
+    it('should reauthoirze account', mochaAsync(async () => {
+      const response = await testUser.reauthorizeAccount('<NODE_ID>');
+      expect(response.status).to.equal(200);
+    }));
+  });
+
   describe('patch update node', () => {
     it('should update node', mochaAsync(async () => {
       const response = await testUser.updateNode('<NODE_ID>', {

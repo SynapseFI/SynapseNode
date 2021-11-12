@@ -19,6 +19,7 @@ const {
   resetCardNode,
   verifyMicroDeposits,
   reinitiateMicroDeposits,
+  reauthorizeAccount,
   updateNode,
   deleteNode,
   generateApplePayToken,
@@ -315,6 +316,14 @@ class User {
     });
   }
 
+  // PATCH REAUTHORIZE ACCOUNT
+  reauthorizeAccount(node_id) {
+    return apiRequests.user[reauthorizeAccount]({
+      node_id,
+      userInfo: this
+    });
+  }  
+  
   // PATCH UPDATE NODE
   updateNode(node_id, bodyParams) {
     return apiRequests.user[updateNode]({

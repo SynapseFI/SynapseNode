@@ -21,6 +21,7 @@ const {
   resetCardNode,
   verifyMicroDeposits,
   reinitiateMicroDeposits,
+  reauthorizeAccount,
   updateNode,
   deleteNode,
   generateApplePayToken,
@@ -218,6 +219,13 @@ module.exports[reinitiateMicroDeposits] = ({ node_id, userInfo }) => {
 
   return axios.patch(url, {}, { headers });
 };
+
+module.exports[reauthorizeAccount] = ({ node_id, userInfo }) => {
+  const { host, headers, id } = userInfo;
+  const url = `${host}/users/${id}/nodes/${node_id}?reauth=yes`;
+
+  return axios.patch(url, {}, { headers });
+}
 
 module.exports[updateNode] = ({ node_id, bodyParams, userInfo }) => {
   const { host, headers, id } = userInfo;

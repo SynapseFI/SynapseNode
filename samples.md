@@ -690,6 +690,13 @@ user.reinitiateMicroDeposits('<NODE_ID>')
     .then(({data}) => console.log('DATA\n', data))
     .catch(error => console.log(error));
 ```
+#### Reauthorize Account
+```
+user.reauthorizeAccount('<NODE_ID>')
+.then(({ data }) => {
+  console.log('data ', data);
+});
+```
 #### Update Node
 ```javascript
 user.updateNode('<NODE_ID>', {
