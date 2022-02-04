@@ -1,6 +1,6 @@
 {
   "name": "synapsenode",
-  "version": "1.2.19",
+  "version": "1.2.20",
   "description": "Node.js Library for SynapseFI API v3.1 Rest",
   "main": "dist/index.js",
   "files": [
@@ -23,7 +23,7 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.25.0",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
     "babel-eslint": "^8.2.6",
@@ -42,11 +42,11 @@
     "randomatic": "^3.1.1"
   },
   "peerDependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.25.0",
     "lodash": "^4.17.10"
   },
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.25.0",
     "dotenv": "^6.2.0"
   }
 }
