@@ -194,7 +194,7 @@ class Client {
 
   // GET LOCATE ATMS
   locateAtms(queryParams = {}) {
-    const { page, per_page, zip, radius, lat, lon } = queryParams;
+    const { page, per_page, zip, radius, lat, lon, atm_network_type } = queryParams;
 
     return apiRequests.client[locateAtms]({
       page,
@@ -203,6 +203,7 @@ class Client {
       radius,
       lat,
       lon,
+      atm_network_type,
       clientInfo: this
     });
   }
