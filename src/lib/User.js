@@ -32,6 +32,7 @@ const {
   getSubnet,
   createSubnet,
   updateSubnet,
+  pushToMobileWallet,
   shipCard,
   registerNewFingerprint,
   supplyDevice2FA,
@@ -481,6 +482,16 @@ class User {
   // PATCH UPDATE SUBNET
   updateSubnet(node_id, subnet_id, bodyParams = {}) {
     return apiRequests.user[updateSubnet]({
+      node_id,
+      subnet_id,
+      bodyParams,
+      userInfo: this
+    });
+  }
+
+  // POST PUSH CARD SUBNET
+  pushToMobileWallet(node_id, subnet_id, bodyParams={}) {
+    return apiRequests.user[pushToMobileWallet]({
       node_id,
       subnet_id,
       bodyParams,

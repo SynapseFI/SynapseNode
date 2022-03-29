@@ -34,6 +34,7 @@ const {
   getSubnet,
   createSubnet,
   updateSubnet,
+  pushToMobileWallet,
   shipCard,
   registerNewFingerprint,
   supplyDevice2FA,
@@ -335,6 +336,14 @@ module.exports[updateSubnet] = ({ node_id, subnet_id, bodyParams, userInfo }) =>
 
   return axios.patch(url, bodyParams, { headers });
 };
+
+module.exports[pushToMobileWallet] = ({ node_id, subnet_id, bodyParams, userInfo }) => {
+  const { host, headers, id } = userInfo;
+  const url = `${host}/users/${id}/nodes/${node_id}/subnets/${subnet_id}/push`;
+
+  return axios.post(url, bodyParams, { headers });
+};
+
 
 module.exports[shipCard] = ({ node_id, subnet_id, bodyParams, userInfo }) => {
   const { host, headers, id } = userInfo;
