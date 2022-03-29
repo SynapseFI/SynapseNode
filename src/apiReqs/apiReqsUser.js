@@ -245,7 +245,7 @@ module.exports[generateECashBarcode] = ({ node_id, bodyParams, userInfo }) => {
   const { host, headers, id } = userInfo;
   const url = `${host}/users/${id}/nodes/${node_id}/barcode`;
 
-    return axios.post(url, bodyParams, { headers });
+  return axios.post(url, bodyParams, { headers });
 };
 
 module.exports[createTransaction] = ({ node_id, bodyParams, userInfo }) => {
