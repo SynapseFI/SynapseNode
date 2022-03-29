@@ -22,6 +22,7 @@ const {
   updateNode,
   deleteNode,
   generateApplePayToken,
+  generateECashBarcode,
   createTransaction,
   getTransaction,
   getAllNodeTransactions,
@@ -337,6 +338,21 @@ class User {
     return apiRequests.user[generateApplePayToken]({
       node_id,
       bodyParams,
+      userInfo: this
+    });
+  }
+
+  // POST GENERATE ECASH BARCODE
+  generateECashBarcode(node_id, amount, currency, retailer_id) {
+    return apiRequests.user[generateECashBarcode]({
+      node_id,
+      bodyParams: {
+        amount: {
+          amount,
+          currency,
+        },
+        retailer_id,
+      },
       userInfo: this
     });
   }

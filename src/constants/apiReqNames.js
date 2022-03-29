@@ -33,6 +33,7 @@ module.exports = {
   updateNode: 'updateNode',
   deleteNode: 'deleteNode',
   generateApplePayToken: 'generateApplePayToken',
+  generateECashBarcode: 'generateECashBarcode',
   createTransaction: 'createTransaction',
   getTransaction: 'getTransaction',
   getAllNodeTransactions: 'getAllNodeTransactions',
