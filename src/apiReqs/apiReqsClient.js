@@ -152,7 +152,7 @@ module.exports[updateSubscription] = ({ subscription_id, bodyParams, clientInfo}
   return axios.patch(url, reqBody, { headers });
 };
 
-module.exports[locateAtms] = ({ page, per_page, zip, radius, lat, lon, clientInfo }) => {
+module.exports[locateAtms] = ({ page, per_page, zip, radius, lat, lon, atm_network_type, clientInfo }) => {
   const { host, headers } = clientInfo;
   const url = addQueryParams({
     originalUrl: `${host}/nodes/atms`,
@@ -161,7 +161,8 @@ module.exports[locateAtms] = ({ page, per_page, zip, radius, lat, lon, clientInf
     zip,
     radius,
     lat,
-    lon
+    lon,
+    atm_network_type
   });
 
   return axios.get(url, { headers });

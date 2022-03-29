@@ -15,6 +15,7 @@ module.exports.addQueryParams = ({
   lat,
   lon,
   radius,
+  atm_network_type,
   limit,
   currency,
   foreign_transaction,
@@ -62,6 +63,9 @@ module.exports.addQueryParams = ({
   }
   if (radius !== undefined) {
     params.push(`radius=${radius}`);
+  }
+  if (atm_network_type !== undefined) {
+    params.push(`atm_network_type=${atm_network_type}`);
   }
   if (limit !== undefined) {
     params.push(`limit=${limit}`);
