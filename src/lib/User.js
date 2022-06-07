@@ -100,7 +100,7 @@ class User {
    * 
    * [Get User Duplicates Docs]{@link https://docs.synapsefi.com/api-references/users/manage-duplicates#example-request}
    */
-  getUserDuplicates() {
+  getUserDuplicates(queryParams = {}) {
     const { page, per_page } = queryParams 
     return apiRequests.user[getUserDuplicates]({
       userInfo: this
