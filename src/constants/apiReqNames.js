@@ -43,6 +43,7 @@ module.exports = {
   getSubnet: 'getSubnet',
   createSubnet: 'createSubnet',
   updateSubnet: 'updateSubnet',
+  pushToMobileWallet: 'pushToMobileWallet',
   registerNewFingerprint: 'registerNewFingerprint',
   supplyDevice2FA: 'supplyDevice2FA',
   verifyFingerprint2FA: 'verifyFingerprint2FA',
