@@ -375,7 +375,7 @@ module.exports[deleteCardShipment] = ({ node_id, subnet_id, shipment_id, userInf
   const url = addQueryParams({
     originalUrl : `${host}/users/${id}/nodes/${node_id}/subnets/${subnet_id}/ship/${shipment_id}`
   }) 
-  return axios.get(url, { headers });
+  return axios.delete(url, { headers });
 };
 
 module.exports[registerNewFingerprint] = ({ refresh_token, userInfo }) => {
