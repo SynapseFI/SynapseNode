@@ -1,4 +1,6 @@
-const {
+import { IHeadersObject, IHeadersValues, IQueryParams } from "../interfaces/helpers";
+
+import {
   addUserKyc,
   deleteExistingDocument,
   updateUser,
@@ -43,12 +45,22 @@ const {
   getAllCardShipments,
   getCardShipment,
   deleteCardShipment
-} = require('../constants/apiReqNames');
+} from '../constants/apiReqNames';
 
-const apiRequests = require('../apiReqs/apiRequests');
-const buildHeaders = require('../helpers/buildHeaders');
+import Client from './Client';
+import apiRequests from '../apiReqs/apiRequests';
+import buildHeaders from '../helpers/buildHeaders';
 
 class User {
+  id: string;
+  body: any;
+  host: string;
+  fingerprint: string;
+  ip_address: string;
+  oauth_key: string;
+  client: Client;
+  headers: IHeadersObject;
+
   constructor({
     data,
     headerObj,
@@ -102,7 +114,6 @@ class User {
    * [Get User Duplicates Docs]{@link https://docs.synapsefi.com/api-references/users/manage-duplicates#example-request}
    */
   getUserDuplicates() {
-    const { page, per_page } = queryParams 
     return apiRequests.user[getUserDuplicates]({
       userInfo: this
     })
@@ -117,9 +128,7 @@ class User {
    * [Swap Duplicate User Docs]{@link https://docs.synapsefi.com/api-references/users/manage-duplicates#example-request-1}
    */
   swapDuplicateUsers(swap_to_user_id) {
-    bodyParams = {
-      "swap_to_user_id":swap_to_user_id
-    }
+    const bodyParams = { swap_to_user_id };
     return apiRequests.user[swapDuplicateUsers]({
       bodyParams,
       userInfo: this
@@ -201,7 +210,7 @@ class User {
   }
 
   // GET ALL USER NODES
-  getAllUserNodes(queryParams = {}) {
+  getAllUserNodes(queryParams: IQueryParams = {}) {
     const { page, per_page, type } = queryParams;
 
     return apiRequests.user[getAllUserNodes]({
@@ -213,7 +222,7 @@ class User {
   }
 
   // GET NODE W/ NODE_ID
-  getNode(node_id, queryParams = {}) {
+  getNode(node_id, queryParams: IQueryParams = {}) {
     const { full_dehydrate, force_refresh } = queryParams;
 
     return apiRequests.user[getNode]({
@@ -225,7 +234,7 @@ class User {
   }
 
   // GET ALL USER TRANSACTIONS
-  getUserTransactions(queryParams = {}) {
+  getUserTransactions(queryParams: IQueryParams = {}) {
     const { page, per_page, filter } = queryParams;
 
     return apiRequests.user[getUserTransactions]({
@@ -237,7 +246,7 @@ class User {
   }
 
   // GET TRIGGER DUMMY TRANSACTIONS
-  triggerDummyTransactions(node_id, queryParams = {}) {
+  triggerDummyTransactions(node_id, queryParams: IQueryParams = {}) {
     const { amount, foreign_transaction, is_credit, subnet_id, type } = queryParams;
 
     return apiRequests.user[triggerDummyTransactions]({
@@ -260,7 +269,7 @@ class User {
   }
 
   // GET STATEMENTS BY USER
-  getStatementsByUser(queryParams = {}) {
+  getStatementsByUser(queryParams: IQueryParams = {}) {
     const { page, per_page } = queryParams;
 
     return apiRequests.user[getStatementsByUser]({
@@ -271,7 +280,7 @@ class User {
   }
 
   // GET STATEMENTS BY NODE
-  getStatementsByNode(node_id, queryParams = {}) {
+  getStatementsByNode(node_id, queryParams: IQueryParams = {}) {
     const { page, per_page } = queryParams;
 
     return apiRequests.user[getStatementsByNode]({
@@ -284,7 +293,7 @@ class User {
 
   // PATCH SHIP DEBIT CARD NODE
   shipCardNode(node_id, bodyParams) {
-    return apiRequests.user[shipDebitCard]({
+    return apiRequests.user[shipCardNode]({
       node_id,
       bodyParams,
       userInfo: this
@@ -293,7 +302,7 @@ class User {
 
   // PATCH RESET DEBIT CARD NODE
   resetCardNode(node_id) {
-    return apiRequests.user[resetDebitCard]({
+    return apiRequests.user[resetCardNode]({
       node_id,
       userInfo: this
     });
@@ -395,7 +404,7 @@ class User {
   }
 
   // GET ALL NODE TRANSACTIONS
-  getAllNodeTransactions(node_id, queryParams = {}) {
+  getAllNodeTransactions(node_id, queryParams: IQueryParams = {}) {
     const { page, per_page, filter } = queryParams;
 
     return apiRequests.user[getAllNodeTransactions]({
@@ -437,7 +446,7 @@ class User {
   }
 
   // GET ALL SUBNETS
-  getAllSubnets(node_id, queryParams = {}) {
+  getAllSubnets(node_id, queryParams: IQueryParams = {}) {
     const { page, per_page } = queryParams;
 
     return apiRequests.user[getAllSubnets]({
@@ -449,7 +458,7 @@ class User {
   }
 
   // GET SUBNET W/ SUBNET_ID
-  getSubnet(node_id, subnet_id, queryParams = {}) {
+  getSubnet(node_id, subnet_id, queryParams: IQueryParams = {}) {
     const { full_dehydrate } = queryParams;
     return apiRequests.user[getSubnet]({
       node_id,
@@ -520,7 +529,7 @@ class User {
    * 
    * [Get Card Shipment Docs]{@link https://docs.synapsefi.com/api-references/shipments/view-all-subnet-shipments}
    */
-  getAllCardShipments(node_id, subnet_id, queryParams={}) {
+  getAllCardShipments(node_id, subnet_id, queryParams: IQueryParams = {}) {
     const { page, per_page } = queryParams 
     return apiRequests.user[getAllCardShipments]({
       node_id, 
@@ -644,4 +653,4 @@ class User {
   }
 }
 
-module.exports = User;
+export default User;

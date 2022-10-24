@@ -1,4 +1,4 @@
-const User = require('../lib/User');
+import User from '../lib/User';
 
 module.exports.checkOptions = (headerObj, options) => {
   const copy = JSON.parse(JSON.stringify(headerObj))

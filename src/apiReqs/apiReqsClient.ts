@@ -1,6 +1,6 @@
-const axios = require('axios');
+import axios from 'axios';
 
-const {
+import {
   createUser,
   getAllUsers,
   getUser,
@@ -19,9 +19,9 @@ const {
   getTradeMarketData,
   verifyAddress,
   verifyRoutingNumber
-} = require('../constants/apiReqNames');
+} from '../constants/apiReqNames';
 
-const { addQueryParams, replacePathParams } = require('../helpers/buildUrls');
+import { addQueryParams } from '../helpers/buildUrls';
 
 module.exports[createUser] = ({
   bodyParams,
@@ -45,7 +45,7 @@ module.exports[getAllUsers] = ({
   page,
   per_page,
   show_refresh_tokens,
-  clientInfo
+  clientInfo,
 }) => {
   const { host, headers } = clientInfo;
 

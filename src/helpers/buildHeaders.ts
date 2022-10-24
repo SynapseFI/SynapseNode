@@ -1,21 +1,30 @@
-const getHeaderGateway = ({ client_id, client_secret }) => {
+import { IHeadersObject, IHeadersValues } from '../interfaces/helpers';
+
+const getHeaderGateway = ({ client_id, client_secret }: Partial<IHeadersValues>): string => {
   if (client_id && client_secret) return `${client_id}|${client_secret}`;
   if (client_id && !client_secret) return client_id;
   if (!client_id && client_secret) return `|${client_secret}`;
   return 'xxx|xxx';
 };
 
-const getHeaderUser = ({ oauth_key, fingerprint }) => {
+const getHeaderUser = ({ oauth_key, fingerprint }: Partial<IHeadersValues>): string => {
   if (oauth_key && fingerprint) return `${oauth_key}|${fingerprint}`;
   if (oauth_key && !fingerprint) return oauth_key;
   if (!oauth_key && fingerprint) return `|${fingerprint}`;
   return 'xxx|xxx';
 };
 
-module.exports = ({ client_id, client_secret, oauth_key, fingerprint, ip_address, idempotency_key }) => {
-  const headers = {
+const buildHeaders = ({
+  client_id,
+  client_secret,
+  oauth_key,
+  fingerprint,
+  ip_address,
+  idempotency_key,
+}: Partial<IHeadersValues>): IHeadersObject => {
+  const headers: IHeadersObject = {
     'Content-Type': 'application/json',
-    'X-SP-USER-IP': ip_address || '127.0.0.1'
+    'X-SP-USER-IP': ip_address || '127.0.0.1',
   };
 
   if (client_id || client_secret) {
@@ -32,3 +41,5 @@ module.exports = ({ client_id, client_secret, oauth_key, fingerprint, ip_address
 
   return headers;
 };
+
+export default buildHeaders;

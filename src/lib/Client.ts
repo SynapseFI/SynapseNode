@@ -1,4 +1,4 @@
-const {
+import {
   createUser,
   getAllUsers,
   getUser,
@@ -18,14 +18,22 @@ const {
   getTradeMarketData,
   verifyAddress,
   verifyRoutingNumber
-} = require('../constants/apiReqNames');
+} from '../constants/apiReqNames';
 
-const apiRequests = require('../apiReqs/apiRequests');
-const buildHeaders = require('../helpers/buildHeaders');
+import apiRequests from '../apiReqs/apiRequests';
+import buildHeaders from '../helpers/buildHeaders';
 const { checkOptions, instantiateUser } = require('../helpers/clientHelpers');
-const User = require('./User');
+import { IHeadersObject, IQueryParams } from '../interfaces/helpers';
 
 class Client {
+  client_id: string;
+  client_secret: string;
+  fingerprint: string;
+  ip_address: string;
+  host: string;
+  isProduction: boolean;
+  headers: IHeadersObject;
+
   constructor({
     client_id,
     client_secret,
@@ -67,7 +75,7 @@ class Client {
   }
 
   // GET ALL USERS
-  getAllUsers(queryParams = {}) {
+  getAllUsers(queryParams: IQueryParams = {}) {
     const { query, page, per_page, show_refresh_tokens } = queryParams;
 
     return apiRequests.client[getAllUsers]({
@@ -106,7 +114,7 @@ class Client {
   }
 
   // GET ALL PLATFORM TRANSACTIONS
-  getPlatformTransactions(queryParams = {}) {
+  getPlatformTransactions(queryParams: IQueryParams = {}) {
     const { page, per_page, filter } = queryParams;
 
     return apiRequests.client[getPlatformTransactions]({
@@ -118,7 +126,7 @@ class Client {
   }
 
   // GET ALL PLATFORM NODES
-  getPlatformNodes(queryParams = {}) {
+  getPlatformNodes(queryParams: IQueryParams = {}) {
     const { page, per_page, filter } = queryParams;
 
     return apiRequests.client[getPlatformNodes]({
@@ -165,7 +173,7 @@ class Client {
   }
 
   // GET ALL SUBSCRIPTIONS
-  getAllSubscriptions(queryParams = {}) {
+  getAllSubscriptions(queryParams: IQueryParams = {}) {
     const { page, per_page } = queryParams;
 
     return apiRequests.client[getAllSubscriptions]({
@@ -193,7 +201,7 @@ class Client {
   }
 
   // GET LOCATE ATMS
-  locateAtms(queryParams = {}) {
+  locateAtms(queryParams: IQueryParams = {}) {
     const { page, per_page, zip, radius, lat, lon } = queryParams;
 
     return apiRequests.client[locateAtms]({
@@ -208,8 +216,14 @@ class Client {
   }
 
   // GET Verify Address
-    verifyAddress(queryParams = {}) {
-      const { address_city, address_country_code, address_postal_code, address_street, address_subdivision } = queryParams;
+    verifyAddress(queryParams: IQueryParams = {}) {
+      const {
+        address_city,
+        address_country_code,
+        address_postal_code,
+        address_street,
+        address_subdivision
+      } = queryParams;
 
       return apiRequests.client[verifyAddress]({
         address_city,
@@ -222,7 +236,7 @@ class Client {
     }
 
   // GET Verify Routing Number
-    verifyRoutingNumber(queryParams = {}) {
+    verifyRoutingNumber(queryParams: IQueryParams = {}) {
       const {routing_num, type } = queryParams;
       return apiRequests.client[verifyRoutingNumber]({
         routing_num,
@@ -239,7 +253,7 @@ class Client {
   }
 
   // GET CRYPTO MARKET DATA
-  getCryptoMarketData(queryParams = {}) {
+  getCryptoMarketData(queryParams: IQueryParams = {}) {
     const { limit, currency } = queryParams;
 
     return apiRequests.client[getCryptoMarketData]({
@@ -257,7 +271,7 @@ class Client {
   }
 
   // GET TRADE MARKET DATA
-  getTradeMarketData(queryParams = {}) {
+  getTradeMarketData(queryParams: IQueryParams = {}) {
     const { ticker } = queryParams;
 
     return apiRequests.client[getTradeMarketData]({
@@ -267,4 +281,4 @@ class Client {
   }
 }
 
-module.exports = Client;
+export default Client;

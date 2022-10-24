@@ -1,6 +1,6 @@
-const axios = require('axios');
+import axios from 'axios';
 
-const {
+import {
   addUserKyc,
   deleteExistingDocument,
   updateUser,
@@ -43,9 +43,9 @@ const {
   getAllCardShipments,
   getCardShipment,
   deleteCardShipment,
-} = require('../constants/apiReqNames');
+} from '../constants/apiReqNames';
 
-const { addQueryParams, replacePathParams } = require('../helpers/buildUrls');
+import { addQueryParams } from '../helpers/buildUrls';
 
 module.exports[addUserKyc] = ({ bodyParams, userInfo }) => {
   const { host, headers, id } = userInfo;
@@ -73,8 +73,8 @@ module.exports[getUserDuplicates] = ({ userInfo }) => {
   const { host, headers, id } = userInfo;
   const url = addQueryParams({
     originalUrl: `${host}/users/${id}/get-duplicates`,
-    full_dehydrate,
-    force_refresh
+    full_dehydrate: 'yes',
+    force_refresh: 'yes',
   });
   
   return axios.get(url, { headers });
