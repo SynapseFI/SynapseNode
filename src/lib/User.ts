@@ -1,4 +1,5 @@
 import { IHeadersObject, IHeadersValues, IQueryParams } from "../interfaces/helpers";
+import axios from 'axios';
 
 import {
   addUserKyc,
@@ -49,7 +50,8 @@ import {
 
 import Client from './Client';
 import apiRequests from '../apiReqs/apiRequests';
-import buildHeaders from '../helpers/buildHeaders';
+import buildHeaders, { makePostPatchConfig } from '../helpers/buildHeaders';
+import { addQueryParams } from "../helpers/buildUrls";
 
 class User {
   id: string;
@@ -84,26 +86,25 @@ class User {
 
   // PATCH ADD USER KYC
   addUserKyc(bodyParams = {}) {
-    return apiRequests.user[addUserKyc]({
-      bodyParams,
-      userInfo: this
-    });
+    const { host, headers, id } = this;
+    const url = `${host}/users/${id}`;
+    return axios.patch(url, bodyParams, { headers });
   }
 
   // PATCH DELETE EXISTING DOCUMENT
   deleteExistingDocument(bodyParams = {}) {
-    return apiRequests.user[deleteExistingDocument]({
-      bodyParams,
-      userInfo: this
-    });
+    const { host, headers, id } = this;
+    const url = `${host}/users/${id}`;
+    return axios.patch(url, bodyParams, { headers });
   }
 
   // PATCH UPDATE USER
   updateUser(bodyParams = {}) {
-    return apiRequests.user[updateUser]({
-      bodyParams,
-      userInfo: this
-    });
+    const { host, headers, id } = this;
+    const url = `${host}/users/${id}`;
+    const config = makePostPatchConfig(headers);
+
+    return axios.patch(url, bodyParams, config);
   }
   
   /**
@@ -114,9 +115,14 @@ class User {
    * [Get User Duplicates Docs]{@link https://docs.synapsefi.com/api-references/users/manage-duplicates#example-request}
    */
   getUserDuplicates() {
-    return apiRequests.user[getUserDuplicates]({
-      userInfo: this
+    const { host, headers, id } = this;
+    const originalUrl = `${host}/users/${id}/get-duplicates`;
+    const urlWithParams = addQueryParams({
+      originalUrl,
+      full_dehydrate: 'yes',
+      force_refresh: 'yes',
     })
+    return axios.get(urlWithParams, { headers });
   }
 
   /**
@@ -128,45 +134,44 @@ class User {
    * [Swap Duplicate User Docs]{@link https://docs.synapsefi.com/api-references/users/manage-duplicates#example-request-1}
    */
   swapDuplicateUsers(swap_to_user_id) {
+    const { host, headers, id } = this;
     const bodyParams = { swap_to_user_id };
-    return apiRequests.user[swapDuplicateUsers]({
-      bodyParams,
-      userInfo: this
-    })
+    const url = `${host}/users/${id}/swap-duplicate-users`;
+
+    return axios.patch(url, bodyParams, { headers })
   }
 
   // RETRIEVE REFRESH TOKEN
   _grabRefreshToken() {
-    return apiRequests.client[getUser]({
-      user_id: this.id,
-      full_dehydrate: 'no',
-      headers: this.headers,
-      clientInfo: this.client
-    })
-    .then(({ data }) => {
-      return data.refresh_token;
-    });
+    const { host, id, headers } = this;
+    const url = `${host}/users/${id}?full_dehydrate=no`
+    return axios
+      .get(url, { headers })
+      .then(({ data }) => {
+        return data.refresh_token;
+      })
   }
 
   // POST OAUTH USER
   _oauthUser(bodyParams = {}) {
-    return apiRequests.user[_oauthUser]({
-      bodyParams,
-      userInfo: this
-    })
-    .then(({ data }) => {
-      this.oauth_key = data.oauth_key;
+    const { host, id, headers } = this;
+    const url = `${host}/oauth/${id}`;
+    return axios
+      .post(url, bodyParams, { headers })
+      .then(({ data }) => {
+        this.oauth_key = data.oauth_key;
 
-      this.headers = buildHeaders({
-        client_id: this.client.client_id,
-        client_secret: this.client.client_secret,
-        fingerprint: this.fingerprint,
-        ip_address: this.ip_address,
-        oauth_key: this.oauth_key
-      });
+        const updatedHeaders = buildHeaders({
+          client_id: this.client.client_id,
+          client_secret: this.client.client_secret,
+          fingerprint: this.fingerprint,
+          ip_address: this.ip_address,
+          oauth_key: this.oauth_key,
+        })
 
-      return data;
-    });
+        this.headers = updatedHeaders;
+        return data;
+      })
   }
 
   // POST CREATE NODE
@@ -182,10 +187,9 @@ class User {
       });
     }
 
-    return apiRequests.user[createNode]({
-      bodyParams,
-      userInfo: this
-    });
+    const { host, headers, id } = this;
+    const url = `${host}/users/${id}/nodes`;
+    return axios.post(url, bodyParams, { headers });
   }
 
   // POST ACH-US MFA
@@ -202,153 +206,172 @@ class User {
       });
     }
 
-    return apiRequests.user[verifyAchMfa]({
-      access_token,
-      mfa_answer,
-      userInfo: this
-    });
+    const { host, headers, id } = this;
+    const url = `${host}/users/${id}/nodes`;
+    return axios.post(url, { access_token, mfa_answer }, { headers });
   }
 
   // GET ALL USER NODES
   getAllUserNodes(queryParams: IQueryParams = {}) {
     const { page, per_page, type } = queryParams;
-
-    return apiRequests.user[getAllUserNodes]({
+    const { host, headers, id } = this;
+    const originalUrl = `${host}/users/${id}/nodes`;
+    const urlWithParams = addQueryParams({
+      originalUrl,
       page,
       per_page,
       type,
-      userInfo: this
     });
+
+    return axios.get(urlWithParams, { headers });
   }
 
   // GET NODE W/ NODE_ID
   getNode(node_id, queryParams: IQueryParams = {}) {
     const { full_dehydrate, force_refresh } = queryParams;
+    const { host, headers, id } = this;
+    const originalUrl = `${host}/users/${id}/nodes/${node_id}`;
 
-    return apiRequests.user[getNode]({
-      node_id,
-      full_dehydrate,
-      force_refresh,
-      userInfo: this
+    const urlWithParams = addQueryParams({
+      originalUrl,
+      full_dehydrate: full_dehydrate ? 'yes' : 'no',
+      force_refresh: force_refresh ? 'yes' : 'no',
     });
+
+    return axios.get(urlWithParams, { headers });
   }
 
   // GET ALL USER TRANSACTIONS
   getUserTransactions(queryParams: IQueryParams = {}) {
     const { page, per_page, filter } = queryParams;
+    const { host, headers, id } = this;
+    const originalUrl = `${host}/users/${id}/trans`;
 
-    return apiRequests.user[getUserTransactions]({
+    const urlWithParams = addQueryParams({
+      originalUrl,
       page,
       per_page,
       filter,
-      userInfo: this
-    });
+    })
+
+    return axios.get(urlWithParams, { headers });
   }
 
   // GET TRIGGER DUMMY TRANSACTIONS
   triggerDummyTransactions(node_id, queryParams: IQueryParams = {}) {
-    const { amount, foreign_transaction, is_credit, subnet_id, type } = queryParams;
+    const {
+      amount,
+      foreign_transaction,
+      is_credit,
+      subnet_id,
+      type
+    } = queryParams;
 
-    return apiRequests.user[triggerDummyTransactions]({
-      node_id,
+    const { host, headers, id } = this;
+    const originalUrl = `${host}/users/${id}/nodes/${node_id}/dummy-tran`;
+
+    const urlWithParams = addQueryParams({
+      originalUrl,
       amount,
       foreign_transaction,
       is_credit,
       subnet_id,
       type,
-      userInfo: this
     });
+
+    return axios.get(urlWithParams, { headers });
   }
 
   // PATCH GENERATE UBO FORM
   generateUboForm(bodyParams) {
-    return apiRequests.user[generateUboForm]({
-      bodyParams,
-      userInfo: this
-    });
+    const { host, headers, id } = this;
+    const url = `${host}/users/${id}/ubo`;
+    return axios.patch(url, bodyParams, { headers });
   }
 
   // GET STATEMENTS BY USER
   getStatementsByUser(queryParams: IQueryParams = {}) {
     const { page, per_page } = queryParams;
+    const { host, headers, id } = this;
+    const originalUrl = `${host}/users/${id}/statements`;
 
-    return apiRequests.user[getStatementsByUser]({
+    const urlWithParams = addQueryParams({
+      originalUrl,
       page,
       per_page,
-      userInfo: this
-    });
+    })
+
+    return axios.get(urlWithParams, { headers });
   }
 
   // GET STATEMENTS BY NODE
   getStatementsByNode(node_id, queryParams: IQueryParams = {}) {
     const { page, per_page } = queryParams;
+    const { host, headers, id } = this;
+    const originalUrl = `${host}/users/${id}/nodes/${node_id}/statements`;
 
-    return apiRequests.user[getStatementsByNode]({
-      node_id,
+    const urlWithParams = addQueryParams({
+      originalUrl,
       page,
       per_page,
-      userInfo: this
     });
+
+    return axios.get(urlWithParams, { headers });
   }
 
   // PATCH SHIP DEBIT CARD NODE
   shipCardNode(node_id, bodyParams) {
-    return apiRequests.user[shipCardNode]({
-      node_id,
-      bodyParams,
-      userInfo: this
-    });
+    const { host, headers, id } = this;
+    const url = `${host}/users/${id}/nodes/${node_id}?ship=yes`;
+    return axios.patch(url, bodyParams, { headers });
   }
 
   // PATCH RESET DEBIT CARD NODE
   resetCardNode(node_id) {
-    return apiRequests.user[resetCardNode]({
-      node_id,
-      userInfo: this
-    });
+    const { host, headers, id } = this;
+    const url = `${host}/users/${id}/nodes/${node_id}?reset=yes`;
+
+    return axios.patch(url, {}, { headers });
   }
 
   // PATCH VERIFY MICRO-DEPOSITS
   verifyMicroDeposits(node_id, bodyParams) {
-    return apiRequests.user[verifyMicroDeposits]({
-      node_id,
-      bodyParams,
-      userInfo: this
-    });
+    const { host, headers, id } = this;
+    const url = `${host}/users/${id}/nodes/${node_id}`;
+
+    return axios.patch(url, bodyParams, { headers });
   }
 
   // PATCH REINITIATE MICRO-DEPOSITS
   reinitiateMicroDeposits(node_id) {
-    return apiRequests.user[reinitiateMicroDeposits]({
-      node_id,
-      userInfo: this
-    });
+    const { host, headers, id } = this;
+    const url = `${host}/users/${id}/nodes/${node_id}?resend_micro=yes`;
+
+    return axios.patch(url, {}, { headers });
   }
 
   // PATCH UPDATE NODE
   updateNode(node_id, bodyParams) {
-    return apiRequests.user[updateNode]({
-      node_id,
-      bodyParams,
-      userInfo: this
-    });
+    const { host, headers, id } = this;
+    const url = `${host}/users/${id}/nodes/${node_id}`;
+
+    return axios.patch(url, bodyParams, { headers });
   }
 
   // DELETE NODE
   deleteNode(node_id) {
-    return apiRequests.user[deleteNode]({
-      node_id,
-      userInfo: this
-    });
+    const { host, headers, id } = this;
+    const url = `${host}/users/${id}/nodes/${node_id}`;
+
+    return axios.delete(url, { headers });
   }
 
   // PATCH GENERATE APPLE PAY TOKEN
   generateApplePayToken(node_id, bodyParams) {
-    return apiRequests.user[generateApplePayToken]({
-      node_id,
-      bodyParams,
-      userInfo: this
-    });
+    const { host, headers, id } = this;
+    const url = `${host}/users/${id}/nodes/${node_id}/applepay`;
+
+    return axios.patch(url, bodyParams, { headers });
   }
 
   // POST CREATE TRANSACTION
@@ -364,11 +387,10 @@ class User {
       });
     }
 
-    return apiRequests.user[createTransaction]({
-      node_id,
-      bodyParams,
-      userInfo: this
-    });
+    const { host, headers, id } = this;
+    const url = `${host}/users/${id}/nodes/${node_id}/trans`;
+
+    return axios.post(url, bodyParams, { headers });
   }
 
   /**
@@ -387,85 +409,87 @@ class User {
    * [Trans Object Details]{@link https://docs.synapsefi.com/api-references/transactions/transaction-object-details}
    */
   createBatchTransactions(node_id, bodyParams) {
-    return apiRequests.user[createBatchTransactions]({
-      node_id,
-      bodyParams,
-      userInfo: this
-    });
+    const { host, headers, id } = this;
+    const url = `${host}/users/${id}/nodes/${node_id}/batch-trans`;
+
+    return axios.post(url, bodyParams, { headers });
   }
 
   // GET TRANSACTION W/ TRANSACTION_ID
   getTransaction(node_id, trans_id) {
-    return apiRequests.user[getTransaction]({
-      node_id,
-      trans_id,
-      userInfo: this
-    });
+    const { host, headers, id } = this;
+    const url = `${host}/users/${id}/nodes/${node_id}/trans/${trans_id}`;
+
+    return axios.get(url, { headers });
   }
 
   // GET ALL NODE TRANSACTIONS
   getAllNodeTransactions(node_id, queryParams: IQueryParams = {}) {
     const { page, per_page, filter } = queryParams;
+    const { host, headers, id } = this;
+    const originalUrl = `${host}/users/${id}/nodes/${node_id}/trans`;
 
-    return apiRequests.user[getAllNodeTransactions]({
-      node_id,
+    const urlWithParams = addQueryParams({
+      originalUrl,
       page,
       per_page,
       filter,
-      userInfo: this
     });
+
+    return axios.get(urlWithParams, { headers });
   }
 
   // DELETE TRANSACTION
   deleteTransaction(node_id, trans_id) {
-    return apiRequests.user[deleteTransaction]({
-      node_id,
-      trans_id,
-      userInfo: this
-    });
+    const { host, headers, id } = this;
+    const url = `${host}/users/${id}/nodes/${node_id}/trans/${trans_id}`;
+
+    return axios.delete(url, { headers });
   }
 
   // PATCH COMMENT ON STATUS
   commentOnStatus(node_id, trans_id, bodyParams) {
-    return apiRequests.user[commentOnStatus]({
-      node_id,
-      trans_id,
-      bodyParams,
-      userInfo: this
-    });
+    const { host, headers, id } = this;
+    const url = `${host}/users/${id}/nodes/${node_id}/trans/${trans_id}`;
+
+    return axios.patch(url, bodyParams, { headers });
   }
 
   // PATCH DISPUTE CARD TRANSACTION
   disputeCardTransaction(node_id, trans_id, bodyParams) {
-    return apiRequests.user[disputeCardTransaction]({
-      node_id,
-      trans_id,
-      bodyParams,
-      userInfo: this
-    });
+    const { host, headers, id } = this;
+    const url = `${host}/users/${id}/nodes/${node_id}/trans/${trans_id}/dispute`;
+    const config = makePostPatchConfig(headers);
+    return axios.patch(url, bodyParams, config);
   }
 
   // GET ALL SUBNETS
   getAllSubnets(node_id, queryParams: IQueryParams = {}) {
     const { page, per_page } = queryParams;
+    const { host, headers, id } = this;
+    const originalUrl = `${host}/users/${id}/nodes/${node_id}/subnets`;
 
-    return apiRequests.user[getAllSubnets]({
-      node_id,
+    const urlWithParams = addQueryParams({
+      originalUrl,
       page,
-      per_page,
-      userInfo: this
+      per_page
     });
+
+    return axios.get(urlWithParams, { headers });
   }
 
   // GET SUBNET W/ SUBNET_ID
   getSubnet(node_id, subnet_id, queryParams: IQueryParams = {}) {
     const { full_dehydrate } = queryParams;
-    return apiRequests.user[getSubnet]({
-      node_id,
-      subnet_id,
-      full_dehydrate,
-      userInfo: this
+    const { host, headers, id } = this;
+    let originalUrl = `${host}/users/${id}/nodes/${node_id}/subnets/${subnet_id}`;
+
+    const urlWithParams = addQueryParams({
+      originalUrl,
+      full_dehydrate: full_dehydrate ? 'yes' : 'no',
     });
+
+    return axios.get(urlWithParams, { headers });
   }
 
   // POST CREATE SUBNET
@@ -481,41 +505,34 @@ class User {
       });
     }
 
-    return apiRequests.user[createSubnet]({
-      node_id,
-      bodyParams,
-      userInfo: this
-    });
+    const { host, headers, id } = this;
+    const url = `${host}/users/${id}/nodes/${node_id}/subnets`;
+
+    return axios.post(url, bodyParams, { headers });
   }
 
   // PATCH UPDATE SUBNET
   updateSubnet(node_id, subnet_id, bodyParams = {}) {
-    return apiRequests.user[updateSubnet]({
-      node_id,
-      subnet_id,
-      bodyParams,
-      userInfo: this
-    });
+    const { host, headers, id } = this;
+    const url = `${host}/users/${id}/nodes/${node_id}/subnets/${subnet_id}`;
+
+    return axios.patch(url, bodyParams, { headers });
   }
 
   // POST PUSH CARD SUBNET
   pushToMobileWallet(node_id, subnet_id, bodyParams={}) {
-    return apiRequests.user[pushToMobileWallet]({
-      node_id,
-      subnet_id,
-      bodyParams,
-      userInfo: this
-    });
+    const { host, headers, id } = this;
+    const url = `${host}/users/${id}/nodes/${node_id}/subnets/${subnet_id}/push`;
+
+    return axios.post(url, bodyParams, { headers });
   }
 
   // PATCH SHIP CARD SUBNET
   shipCard(node_id, subnet_id, bodyParams ={}) {
-    return apiRequests.user[shipCard]({
-      node_id,
-      subnet_id,
-      bodyParams,
-      userInfo: this
-    });
+    const { host, headers, id } = this;
+    const url = `${host}/users/${id}/nodes/${node_id}/subnets/${subnet_id}/ship`;
+
+    return axios.patch(url, bodyParams, { headers });
   }
 
   /**
@@ -530,14 +547,17 @@ class User {
    * [Get Card Shipment Docs]{@link https://docs.synapsefi.com/api-references/shipments/view-all-subnet-shipments}
    */
   getAllCardShipments(node_id, subnet_id, queryParams: IQueryParams = {}) {
-    const { page, per_page } = queryParams 
-    return apiRequests.user[getAllCardShipments]({
-      node_id, 
-      subnet_id,
+    const { page, per_page } = queryParams;
+    const { host, headers, id } = this;
+    const originalUrl = `${host}/users/${id}/nodes/${node_id}/subnets/${subnet_id}/ship`;
+
+    const urlWithParams = addQueryParams({
+      originalUrl,
       page,
       per_page,
-      userInfo: this
     })
+
+    return axios.get(urlWithParams, { headers });
   }
 
   /**
@@ -552,12 +572,9 @@ class User {
    * [Get Card Shipment Docs]{@link https://docs.synapsefi.com/api-references/shipments/view-shipment}
    */
   getCardShipment(node_id, subnet_id, shipment_id) {
-    return apiRequests.user[getCardShipment]({
-      node_id, 
-      subnet_id,
-      shipment_id,
-      userInfo: this
-    })
+    const { host, headers, id } = this;
+    const url = `${host}/users/${id}/nodes/${node_id}/subnets/${subnet_id}/ship/${shipment_id}`;
+    return axios.get(url, { headers });
   }
 
   /**
@@ -572,16 +589,13 @@ class User {
    * [Get Card Shipment Docs]{@link https://docs.synapsefi.com/api-references/shipments/cancel-shipment}
    */
   deleteCardShipment(node_id, subnet_id, shipment_id) {
-    return apiRequests.user[deleteCardShipment]({
-      node_id, 
-      subnet_id,
-      shipment_id,
-      userInfo: this
-    })
+    const { host, headers, id } = this;
+    const url = `${host}/users/${id}/nodes/${node_id}/subnets/${subnet_id}/ship/${shipment_id}`;
+    return axios.delete(url, { headers });
   }
 
   // POST First call for registering new fingerprint
-  async registerNewFingerprint(fp) {
+  async registerNewFingerprint(fp: string) {
     const refresh_token = await this._grabRefreshToken();
 
     this.fingerprint = fp;
@@ -593,14 +607,13 @@ class User {
       oauth_key: this.oauth_key
     });
 
-    return apiRequests.user[registerNewFingerprint]({
-      refresh_token,
-      userInfo: this
-    });
+    const { host, headers, id } = this;
+    const url = `${host}/oauth/${id}`;
+    return axios.post(url, { refresh_token }, { headers });
   }
 
   // POST Second call for registering new fingerprint
-  async supplyDevice2FA(fp, device) {
+  async supplyDevice2FA(fp: string, device: string) {
     const refresh_token = await this._grabRefreshToken();
 
     this.fingerprint = fp;
@@ -612,15 +625,17 @@ class User {
       oauth_key: this.oauth_key
     });
 
-    return apiRequests.user[supplyDevice2FA]({
-      device,
-      refresh_token,
-      userInfo: this
-    });
+    const { host, headers, id } = this;
+    const url = `${host}/oauth/${id}`;
+    return axios.post(
+      url,
+      { refresh_token, phone_number: device },
+      { headers }
+    );
   }
 
   // POST Final call for registering new fingerprint
-  async verifyFingerprint2FA(fp, validation_pin) {
+  async verifyFingerprint2FA(fp: string, validation_pin: string) {
     const refresh_token = await this._grabRefreshToken();
 
     this.fingerprint = fp;
@@ -632,11 +647,13 @@ class User {
       oauth_key: this.oauth_key
     });
 
-    return apiRequests.user[verifyFingerprint2FA]({
-      validation_pin,
-      refresh_token,
-      userInfo: this
-    });
+    const { host, headers, id } = this;
+    const url = `${host}/oauth/${id}`;
+    return axios.post(
+      url,
+      { refresh_token, validation_pin },
+      { headers }
+    );
   }
 
   // UPDATE USER IP ADDRESS

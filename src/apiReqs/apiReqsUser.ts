@@ -47,18 +47,21 @@ import {
 
 import { addQueryParams } from '../helpers/buildUrls';
 
+// DONE
 module.exports[addUserKyc] = ({ bodyParams, userInfo }) => {
   const { host, headers, id } = userInfo;
 
   return axios.patch(`${host}/users/${id}`, bodyParams, { headers });
 };
 
+// DONE
 module.exports[deleteExistingDocument] = ({ bodyParams, userInfo }) => {
   const { host, headers, id } = userInfo;
 
   return axios.patch(`${host}/users/${id}`, bodyParams, { headers });
 };
 
+// DONE
 module.exports[updateUser] = ({ bodyParams, userInfo }) => {
   const { host, headers, id } = userInfo;
   const config = {
@@ -69,6 +72,8 @@ module.exports[updateUser] = ({ bodyParams, userInfo }) => {
   return axios.patch(`${host}/users/${id}`, bodyParams, config);
 };
 
+
+// DONE
 module.exports[getUserDuplicates] = ({ userInfo }) => {
   const { host, headers, id } = userInfo;
   const url = addQueryParams({
@@ -80,6 +85,7 @@ module.exports[getUserDuplicates] = ({ userInfo }) => {
   return axios.get(url, { headers });
 };
 
+// DONE
 module.exports[swapDuplicateUsers] = ({ bodyParams, userInfo }) => {
   const { host, headers, id } = userInfo;
   const config = {
@@ -88,18 +94,21 @@ module.exports[swapDuplicateUsers] = ({ bodyParams, userInfo }) => {
   return axios.patch(`${host}/users/${id}/swap-duplicate-users`, bodyParams, config);
 };
 
+// DONE
 module.exports[_oauthUser] = ({ bodyParams, userInfo }) => {
   const { host, headers, id } = userInfo;
 
   return axios.post(`${host}/oauth/${id}`, bodyParams, { headers });
 };
 
+// DONE
 module.exports[createNode] = ({ bodyParams, userInfo }) => {
   const { host, headers, id } = userInfo;
 
   return axios.post(`${host}/users/${id}/nodes`, bodyParams, { headers });
 };
 
+// DONE
 module.exports[verifyAchMfa] = ({ access_token, mfa_answer, userInfo }) => {
   const { host, headers, id} = userInfo;
 
@@ -113,6 +122,7 @@ module.exports[verifyAchMfa] = ({ access_token, mfa_answer, userInfo }) => {
   );
 };
 
+// DONE
 module.exports[getAllUserNodes] = ({ page, per_page, type, userInfo }) => {
   const { host, headers, id } = userInfo;
   const url = addQueryParams({
@@ -125,6 +135,7 @@ module.exports[getAllUserNodes] = ({ page, per_page, type, userInfo }) => {
   return axios.get(url, { headers });
 };
 
+// DONE
 module.exports[getNode] = ({ node_id, full_dehydrate, force_refresh, userInfo }) => {
   const { host, headers, id } = userInfo;
   const url = addQueryParams({
@@ -136,6 +147,7 @@ module.exports[getNode] = ({ node_id, full_dehydrate, force_refresh, userInfo })
   return axios.get(url, { headers });
 };
 
+// DONE
 module.exports[getUserTransactions] = ({ page, per_page, filter, userInfo }) => {
   const { host, headers, id } = userInfo;
   const url = addQueryParams({
@@ -149,6 +161,7 @@ module.exports[getUserTransactions] = ({ page, per_page, filter, userInfo }) => 
   return axios.get(url, { headers });
 };
 
+// DONE
 module.exports[triggerDummyTransactions] = ({ node_id, amount, foreign_transaction, is_credit, subnet_id, type, userInfo }) => {
   const { host, headers, id } = userInfo;
   const url = addQueryParams({
@@ -163,6 +176,7 @@ module.exports[triggerDummyTransactions] = ({ node_id, amount, foreign_transacti
   return axios.get(url, { headers });
 };
 
+// DONE
 module.exports[generateUboForm] = ({ bodyParams, userInfo }) => {
   const { host, headers, id } = userInfo;
   const url = `${host}/users/${id}/ubo`;
@@ -170,6 +184,7 @@ module.exports[generateUboForm] = ({ bodyParams, userInfo }) => {
   return axios.patch(url, bodyParams, { headers });
 };
 
+// DONE
 module.exports[getStatementsByUser] = ({ page, per_page, userInfo }) => {
   const { host, headers, id } = userInfo;
   const url = addQueryParams({
@@ -181,6 +196,7 @@ module.exports[getStatementsByUser] = ({ page, per_page, userInfo }) => {
   return axios.get(url, { headers });
 };
 
+// DONE
 module.exports[getStatementsByNode] = ({ node_id, page, per_page, userInfo }) => {
   const { host, headers, id } = userInfo;
   const url = addQueryParams({
@@ -192,6 +208,7 @@ module.exports[getStatementsByNode] = ({ node_id, page, per_page, userInfo }) =>
   return axios.get(url, { headers });
 };
 
+// DONE
 module.exports[shipCardNode] = ({ node_id, bodyParams, userInfo }) => {
   const { host, headers, id } = userInfo;
   const url = `${host}/users/${id}/nodes/${node_id}?ship=yes`;
@@ -199,6 +216,7 @@ module.exports[shipCardNode] = ({ node_id, bodyParams, userInfo }) => {
   return axios.patch(url, bodyParams, { headers });
 };
 
+// DONE
 module.exports[resetCardNode] = ({ node_id, userInfo }) => {
   const { host, headers, id } = userInfo;
   const url = `${host}/users/${id}/nodes/${node_id}?reset=yes`;
@@ -206,6 +224,7 @@ module.exports[resetCardNode] = ({ node_id, userInfo }) => {
   return axios.patch(url, {}, { headers });
 };
 
+// DONE
 module.exports[verifyMicroDeposits] = ({ node_id, bodyParams, userInfo }) => {
   const { host, headers, id } = userInfo;
   const url = `${host}/users/${id}/nodes/${node_id}`;
@@ -213,6 +232,7 @@ module.exports[verifyMicroDeposits] = ({ node_id, bodyParams, userInfo }) => {
   return axios.patch(url, bodyParams, { headers });
 };
 
+// DONE
 module.exports[reinitiateMicroDeposits] = ({ node_id, userInfo }) => {
   const { host, headers, id } = userInfo;
   const url = `${host}/users/${id}/nodes/${node_id}?resend_micro=yes`;
@@ -220,6 +240,7 @@ module.exports[reinitiateMicroDeposits] = ({ node_id, userInfo }) => {
   return axios.patch(url, {}, { headers });
 };
 
+// DONE
 module.exports[updateNode] = ({ node_id, bodyParams, userInfo }) => {
   const { host, headers, id } = userInfo;
   const url = `${host}/users/${id}/nodes/${node_id}`;
@@ -227,6 +248,7 @@ module.exports[updateNode] = ({ node_id, bodyParams, userInfo }) => {
   return axios.patch(url, bodyParams, { headers });
 };
 
+// DONE
 module.exports[deleteNode] = ({ node_id, userInfo }) => {
   const { host, headers, id } = userInfo;
   const url = `${host}/users/${id}/nodes/${node_id}`;
@@ -234,6 +256,7 @@ module.exports[deleteNode] = ({ node_id, userInfo }) => {
   return axios.delete(url, { headers });
 };
 
+// DONE
 module.exports[generateApplePayToken] = ({ node_id, bodyParams, userInfo }) => {
   const { host, headers, id } = userInfo;
   const url = `${host}/users/${id}/nodes/${node_id}/applepay`;
@@ -241,6 +264,7 @@ module.exports[generateApplePayToken] = ({ node_id, bodyParams, userInfo }) => {
   return axios.patch(url, bodyParams, { headers });
 };
 
+// DONE
 module.exports[createTransaction] = ({ node_id, bodyParams, userInfo }) => {
   const { host, headers, id } = userInfo;
   const url = `${host}/users/${id}/nodes/${node_id}/trans`;
@@ -248,6 +272,7 @@ module.exports[createTransaction] = ({ node_id, bodyParams, userInfo }) => {
   return axios.post(url, bodyParams, { headers });
 };
 
+// DONE
 module.exports[createBatchTransactions] = ({ node_id, bodyParams, userInfo }) => {
   const { host, headers, id } = userInfo;
   const url = `${host}/users/${id}/nodes/${node_id}/batch-trans`;
@@ -255,6 +280,7 @@ module.exports[createBatchTransactions] = ({ node_id, bodyParams, userInfo }) =>
   return axios.post(url, bodyParams, { headers });
 };
 
+// DONE
 module.exports[getTransaction] = ({ node_id, trans_id, userInfo }) => {
   const { host, headers, id } = userInfo;
   const url = `${host}/users/${id}/nodes/${node_id}/trans/${trans_id}`;
@@ -262,6 +288,7 @@ module.exports[getTransaction] = ({ node_id, trans_id, userInfo }) => {
   return axios.get(url, { headers });
 };
 
+// DONE
 module.exports[getAllNodeTransactions] = ({ node_id, trans_id, page, per_page, filter, userInfo }) => {
   const { host, headers, id } = userInfo;
   const url = addQueryParams({
@@ -274,6 +301,7 @@ module.exports[getAllNodeTransactions] = ({ node_id, trans_id, page, per_page, f
   return axios.get(url, { headers });
 };
 
+// DONE
 module.exports[deleteTransaction] = ({ node_id, trans_id, userInfo }) => {
   const { host, headers, id } = userInfo;
   const url = `${host}/users/${id}/nodes/${node_id}/trans/${trans_id}`;
@@ -281,6 +309,7 @@ module.exports[deleteTransaction] = ({ node_id, trans_id, userInfo }) => {
   return axios.delete(url, { headers });
 };
 
+// DONE
 module.exports[commentOnStatus] = ({ node_id, trans_id, bodyParams, userInfo }) => {
   const { host, headers, id } = userInfo;
   const url = `${host}/users/${id}/nodes/${node_id}/trans/${trans_id}`;
@@ -288,6 +317,7 @@ module.exports[commentOnStatus] = ({ node_id, trans_id, bodyParams, userInfo }) 
   return axios.patch(url, bodyParams, { headers });
 };
 
+// DONE
 module.exports[disputeCardTransaction] = ({ node_id, trans_id, bodyParams, userInfo }) => {
   const { host, headers, id } = userInfo;
   const url = `${host}/users/${id}/nodes/${node_id}/trans/${trans_id}/dispute`;
@@ -299,6 +329,7 @@ module.exports[disputeCardTransaction] = ({ node_id, trans_id, bodyParams, userI
   return axios.patch(url, bodyParams, config);
 };
 
+// DONE
 module.exports[getAllSubnets] = ({ node_id, page, per_page, userInfo }) => {
   const { host, headers, id } = userInfo;
   const url = addQueryParams({
@@ -310,6 +341,7 @@ module.exports[getAllSubnets] = ({ node_id, page, per_page, userInfo }) => {
   return axios.get(url, { headers });
 };
 
+// DONE
 module.exports[getSubnet] = ({ node_id, subnet_id, full_dehydrate, userInfo }) => {
   const { host, headers, id } = userInfo;
   let url = `${host}/users/${id}/nodes/${node_id}/subnets/${subnet_id}`;
@@ -323,6 +355,7 @@ module.exports[getSubnet] = ({ node_id, subnet_id, full_dehydrate, userInfo }) =
   return axios.get(url, { headers });
 };
 
+// DONE
 module.exports[createSubnet] = ({ node_id, bodyParams, userInfo }) => {
   const { host, headers, id } = userInfo;
   const url = `${host}/users/${id}/nodes/${node_id}/subnets`;
@@ -330,6 +363,7 @@ module.exports[createSubnet] = ({ node_id, bodyParams, userInfo }) => {
   return axios.post(url, bodyParams, { headers });
 };
 
+// DONE
 module.exports[updateSubnet] = ({ node_id, subnet_id, bodyParams, userInfo }) => {
   const { host, headers, id } = userInfo;
   const url = `${host}/users/${id}/nodes/${node_id}/subnets/${subnet_id}`;
@@ -337,6 +371,7 @@ module.exports[updateSubnet] = ({ node_id, subnet_id, bodyParams, userInfo }) =>
   return axios.patch(url, bodyParams, { headers });
 };
 
+// DONE
 module.exports[pushToMobileWallet] = ({ node_id, subnet_id, bodyParams, userInfo }) => {
   const { host, headers, id } = userInfo;
   const url = `${host}/users/${id}/nodes/${node_id}/subnets/${subnet_id}/push`;
@@ -344,7 +379,7 @@ module.exports[pushToMobileWallet] = ({ node_id, subnet_id, bodyParams, userInfo
   return axios.post(url, bodyParams, { headers });
 };
 
-
+// DONE
 module.exports[shipCard] = ({ node_id, subnet_id, bodyParams, userInfo }) => {
   const { host, headers, id } = userInfo;
   const url = `${host}/users/${id}/nodes/${node_id}/subnets/${subnet_id}/ship`;
@@ -352,6 +387,7 @@ module.exports[shipCard] = ({ node_id, subnet_id, bodyParams, userInfo }) => {
   return axios.patch(url, bodyParams, { headers });
 };
 
+// DONE
 module.exports[getAllCardShipments] = ({ node_id, subnet_id, page, per_page, userInfo }) => {
   const { host, headers, id } = userInfo;
   const url = addQueryParams({
@@ -362,6 +398,7 @@ module.exports[getAllCardShipments] = ({ node_id, subnet_id, page, per_page, use
   return axios.get(url, { headers });
 };
 
+// DONE
 module.exports[getCardShipment] = ({ node_id, subnet_id, shipment_id, userInfo}) => {
   const { host, headers, id } = userInfo;
   const url = addQueryParams({
@@ -370,14 +407,16 @@ module.exports[getCardShipment] = ({ node_id, subnet_id, shipment_id, userInfo})
   return axios.get(url, { headers });
 };
 
+// DONE
 module.exports[deleteCardShipment] = ({ node_id, subnet_id, shipment_id, userInfo}) => {
   const { host, headers, id } = userInfo;
   const url = addQueryParams({
     originalUrl : `${host}/users/${id}/nodes/${node_id}/subnets/${subnet_id}/ship/${shipment_id}`
   }) 
-  return axios.get(url, { headers });
+  return axios.delete(url, { headers });
 };
 
+// DONE
 module.exports[registerNewFingerprint] = ({ refresh_token, userInfo }) => {
   const { host, headers, id } = userInfo;
 
@@ -390,6 +429,7 @@ module.exports[registerNewFingerprint] = ({ refresh_token, userInfo }) => {
   );
 };
 
+// DONE
 module.exports[supplyDevice2FA] = ({ device, refresh_token, userInfo }) => {
   const { host, headers, id } = userInfo;
 
@@ -403,6 +443,7 @@ module.exports[supplyDevice2FA] = ({ device, refresh_token, userInfo }) => {
   );
 };
 
+// DONE
 module.exports[verifyFingerprint2FA] = ({ validation_pin, refresh_token, userInfo }) => {
   const { host, headers, id } = userInfo;
 

@@ -45,4 +45,5 @@ export interface IHeadersObject {
   'X-SP-GATEWAY'?: string;
   'X-SP-USER'?: string;
   'X-SP-IDEMPOTENCY-KEY'?: string;
+  [index: string]: string | undefined;
 }

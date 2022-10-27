@@ -1,3 +1,4 @@
+import { AxiosRequestConfig } from 'axios';
 import { IHeadersObject, IHeadersValues } from '../interfaces/helpers';
 
 const getHeaderGateway = ({ client_id, client_secret }: Partial<IHeadersValues>): string => {
@@ -41,5 +42,15 @@ const buildHeaders = ({
 
   return headers;
 };
+
+export const makePostPatchConfig = (
+  headers: IHeadersObject
+): Partial<AxiosRequestConfig> => {
+  return {
+    "headers": headers,
+    "maxContentLength": 30 * 1048576,  // 30MiB is configured by the server.
+    "maxBodyLength": 30 * 1048576
+  };
+}
 
 export default buildHeaders;
