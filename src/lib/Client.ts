@@ -77,7 +77,17 @@ class Client {
 
   // POST CREATE USER
   async createUser(bodyParams, ip_address, options = null) {
-    let headerObj = checkOptions({ ...this.headers, ip_address }, options);
+    let headerObj = {
+      client_id: this.client_id,
+      client_secret: this.client_secret,
+      fingerprint: this.fingerprint,
+      ip_address: this.ip_address,
+      full_dehydrate: false
+    };
+
+    if (options) {
+      headerObj = checkOptions(headerObj, options);
+    }
 
     const headers = buildHeaders(headerObj);
     const config = makePostPatchConfig(headers);
@@ -105,7 +115,17 @@ class Client {
 
   // GET USER W/ USER_ID
   async getUser(user_id, options: { [index: string]: string } | null = null) {
-    let headerObj = checkOptions(this.headers, options);
+    let headerObj = {
+      client_id: this.client_id,
+      client_secret: this.client_secret,
+      fingerprint: this.fingerprint,
+      ip_address: this.ip_address,
+      full_dehydrate: false
+    };
+
+    if (options) {
+      headerObj = checkOptions(headerObj, options);
+    }
 
     const headers = buildHeaders(headerObj);
     const { host } = this;
