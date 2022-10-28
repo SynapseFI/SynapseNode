@@ -281,7 +281,7 @@ class Client {
   // GET TRADE MARKET DATA
   getTradeMarketData(queryParams: IQueryParams = {}) {
     const { ticker } = queryParams;
-    const { host, headers } = clientInfo;
+    const { host, headers } = this;
     const originalUrl = `${host}/nodes/trade-market-watch`;
 
     const url = addQueryParams({ originalUrl, ticker });
