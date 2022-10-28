@@ -21,9 +21,11 @@ import {
 } from '../constants/apiReqNames';
 
 import apiRequests from '../apiReqs/apiRequests';
-import buildHeaders from '../helpers/buildHeaders';
-const { checkOptions, instantiateUser } = require('../helpers/clientHelpers');
+import buildHeaders, { makePostPatchConfig } from '../helpers/buildHeaders';
+import { checkOptions, instantiateUser } from '../helpers/clientHelpers';
 import { IHeadersObject, IQueryParams } from '../interfaces/helpers';
+import axios from 'axios';
+import { addQueryParams } from '../helpers/buildUrls';
 
 class Client {
   client_id: string;
@@ -33,6 +35,8 @@ class Client {
   host: string;
   isProduction: boolean;
   headers: IHeadersObject;
+  _default_public_key_scopes: string[];
+  _default_subscription_scopes: string[];
 
   constructor({
     client_id,
@@ -48,113 +52,127 @@ class Client {
     this.isProduction = isProduction;
     this.host = isProduction ? 'https://api.synapsefi.com/v3.1' : 'https://uat-api.synapsefi.com/v3.1';
     this.headers = buildHeaders({ client_id, client_secret, fingerprint, ip_address });
+    this._default_public_key_scopes = [
+      'OAUTH|POST',
+      'USERS|POST',
+      'USERS|GET',
+      'USER|GET',
+      'USER|PATCH',
+      'SUBSCRIPTIONS|GET',
+      'SUBSCRIPTIONS|POST',
+      'SUBSCRIPTION|GET',
+      'SUBSCRIPTION|PATCH',
+      'CLIENT|REPORTS',
+      'CLIENT|CONTROLS',
+    ];
+    this._default_subscription_scopes = [
+      'USERS|POST',
+      'USER|PATCH',
+      'NODES|POST',
+      'NODE|PATCH',
+      'TRANS|POST',
+      'TRAN|PATCH',
+    ];
   }
 
   // POST CREATE USER
   async createUser(bodyParams, ip_address, options = null) {
-    let headerObj = {
-      client_id: this.client_id,
-      client_secret: this.client_secret,
-      fingerprint: this.fingerprint,
-      ip_address
-    };
-
-    if (options) {
-      headerObj = checkOptions(headerObj, options);
-    }
+    let headerObj = checkOptions({ ...this.headers, ip_address }, options);
 
     const headers = buildHeaders(headerObj);
-
-    const { data } = await apiRequests.client[createUser]({
-      bodyParams,
-      headers,
-      clientInfo: this
-    });
+    const config = makePostPatchConfig(headers);
+    const { data } = await axios.post(`${this.host}/users`, bodyParams, config);
 
     return instantiateUser({ data, headerObj, client: this });
-  }
+  };
 
   // GET ALL USERS
   getAllUsers(queryParams: IQueryParams = {}) {
     const { query, page, per_page, show_refresh_tokens } = queryParams;
+    const { host, headers } = this;
+    const originalUrl = `${host}/users`;
 
-    return apiRequests.client[getAllUsers]({
+    const urlWithParams = addQueryParams({
+      originalUrl,
       query,
       page,
       per_page,
       show_refresh_tokens,
-      clientInfo: this
-    });
-  }
+    })
+
+    return axios.get(urlWithParams, { headers });
+  };
 
   // GET USER W/ USER_ID
-  async getUser(user_id, options = null) {
-    let headerObj = {
-      client_id: this.client_id,
-      client_secret: this.client_secret,
-      fingerprint: this.fingerprint,
-      ip_address: this.ip_address,
-      full_dehydrate: false
-    };
-
-    if (options) {
-      headerObj = checkOptions(headerObj, options);
-    }
+  async getUser(user_id, options: { [index: string]: string } | null = null) {
+    let headerObj = checkOptions(this.headers, options);
 
     const headers = buildHeaders(headerObj);
+    const { host } = this;
+    const originalUrl = `${host}/users/${user_id}`
 
-    const { data } = await apiRequests.client[getUser]({
-      user_id,
-      full_dehydrate: headerObj.full_dehydrate,
-      headers,
-      clientInfo: this
-    });
+    const full_dehydrate = options?.full_dehydrate ? 'yes' : 'no';
+    const urlWithParams = addQueryParams({ originalUrl, full_dehydrate });
+    const { data } = await axios.get(urlWithParams, { headers });
 
     return instantiateUser({ data, headerObj, client: this });
-  }
+  };
 
   // GET ALL PLATFORM TRANSACTIONS
   getPlatformTransactions(queryParams: IQueryParams = {}) {
     const { page, per_page, filter } = queryParams;
-
-    return apiRequests.client[getPlatformTransactions]({
+    const { host, headers } = this;
+    const originalUrl = `${host}/trans`;
+    const urlWithParams = addQueryParams({
+      originalUrl,
       page,
       per_page,
       filter,
-      clientInfo: this
     });
-  }
+
+    return axios.get(urlWithParams, { headers });
+  };
 
   // GET ALL PLATFORM NODES
   getPlatformNodes(queryParams: IQueryParams = {}) {
     const { page, per_page, filter } = queryParams;
+    const { host, headers } = this;
+    const originalUrl = `${host}/nodes`;
 
-    return apiRequests.client[getPlatformNodes]({
+    const urlWithParams = addQueryParams({
+      originalUrl,
       page,
       per_page,
       filter,
-      clientInfo: this
     });
-  }
+
+    return axios.get(urlWithParams, { headers });
+  };
 
   // GET INSTITUTIONS
   getInstitutions() {
-    return apiRequests.client[getInstitutions]({
-      clientInfo: this
-    });
-  }
+    const { host, headers } = this;
+    const url = `${host}/institutions`
+    return axios.get(url, { headers });
+  };
 
   // GET ISSUE PUBLIC KEY
-  issuePublicKey(scope = ['OAUTH|POST', 'USERS|POST', 'USERS|GET', 'USER|GET', 'USER|PATCH', 'SUBSCRIPTIONS|GET', 'SUBSCRIPTIONS|POST', 'SUBSCRIPTION|GET', 'SUBSCRIPTION|PATCH', 'CLIENT|REPORTS', 'CLIENT|CONTROLS'], userId = null) {
-    return apiRequests.client[issuePublicKey]({
-      scope,
-      clientInfo: this,
-      userId
-    });
-  }
+  issuePublicKey(scope = this._default_public_key_scopes, userId: string | null = null) {
+    const { host, headers } = this;
+    let url = `${host}/client?issue_public_key=yes&scope=${scope.join()}`;
+    if (userId) {
+      url = url += `&user_id=${userId}`;
+    };
+
+    return axios.get(url, { headers });
+  };
 
   // POST CREATE SUBSCRIPTION
-  createSubscription(url, scope = ['USERS|POST', 'USER|PATCH', 'NODES|POST', 'NODE|PATCH', 'TRANS|POST', 'TRAN|PATCH'], idempotency_key = null) {
+  createSubscription(
+    subscriptionUrl: string,
+    scope: string[] = this._default_subscription_scopes,
+    idempotency_key: string | null = null
+  ) {
     if (idempotency_key) {
       this.headers = buildHeaders({
         client_id: this.client_id,
@@ -165,120 +183,110 @@ class Client {
       });
     }
 
-    return apiRequests.client[createSubscription]({
-      url,
-      scope,
-      clientInfo: this
-    });
-  }
+    const { host, headers } = this;
+    const url = `${host}/subscriptions`;
+    const bodyParams = { url: subscriptionUrl, scope };
+
+    return axios.post(url, bodyParams, { headers });
+  };
 
   // GET ALL SUBSCRIPTIONS
   getAllSubscriptions(queryParams: IQueryParams = {}) {
     const { page, per_page } = queryParams;
+    const { host, headers } = this;
+    const originalUrl = `${host}/subscriptions`;
 
-    return apiRequests.client[getAllSubscriptions]({
-      page,
-      per_page,
-      clientInfo: this
-    });
-  }
+    const urlWithParams = addQueryParams({ originalUrl, page, per_page });
+
+    return axios.get(urlWithParams, { headers });
+  };
 
   // GET SUBSCRIPTION W/ SUBSCRIPTION_ID
   getSubscription(subscription_id) {
-    return apiRequests.client[getSubscription]({
-      subscription_id,
-      clientInfo: this
-    });
-  }
+    const { host, headers } = this;
+    const url = `${host}/subscriptions/${subscription_id}`;
+    return axios.get(url, { headers });
+  };
 
   // PATCH UPDATE SUBSCRIPTION
   updateSubscription(subscription_id, bodyParams = {}) {
-    return apiRequests.client[updateSubscription]({
-      subscription_id,
-      bodyParams,
-      clientInfo: this
-    });
-  }
+    const { host, headers } = this;
+    const url = `${host}/subscriptions/${subscription_id}`;
+    return axios.post(url, bodyParams, { headers });
+  };
 
   // GET LOCATE ATMS
   locateAtms(queryParams: IQueryParams = {}) {
     const { page, per_page, zip, radius, lat, lon } = queryParams;
+    const { host, headers } = this;
+    const originalUrl = `${host}/nodes/atms`;
 
-    return apiRequests.client[locateAtms]({
+    const urlWithParams = addQueryParams({
+      originalUrl,
       page,
       per_page,
       zip,
       radius,
       lat,
       lon,
-      clientInfo: this
     });
-  }
+
+    return axios.get(urlWithParams, { headers });
+  };
 
   // GET Verify Address
-    verifyAddress(queryParams: IQueryParams = {}) {
-      const {
-        address_city,
-        address_country_code,
-        address_postal_code,
-        address_street,
-        address_subdivision
-      } = queryParams;
-
-      return apiRequests.client[verifyAddress]({
-        address_city,
-        address_country_code,
-        address_postal_code,
-        address_street,
-        address_subdivision,
-        clientInfo: this
-      });
-    }
+  // TODO: BETTER TYPING FOR POST PATCH REQUEST BODIES
+  // SEE API REQ FILE FOR DETAILS
+  verifyAddress(bodyParams: IQueryParams = {}) {
+    const { host, headers } = this;
+    const url = `${host}/address-verification`;
+    return axios.post(url, bodyParams, { headers });
+  };
 
   // GET Verify Routing Number
-    verifyRoutingNumber(queryParams: IQueryParams = {}) {
-      const {routing_num, type } = queryParams;
-      return apiRequests.client[verifyRoutingNumber]({
-        routing_num,
-        type,
-        clientInfo: this
-      });
-    }    
+  // TODO: BETTER TYPING FOR POST PATCH REQUEST BODIES
+  // SEE API REQ FILE FOR DETAILS
+  verifyRoutingNumber(bodyParams: IQueryParams = {}) {
+    const { host, headers } = this;
+    const url = `${host}/routing-number-verification`;
+    return axios.post(url, bodyParams, { headers });
+  };
 
   // GET CRYPTO QUOTES
   getCryptoQuotes() {
-    return apiRequests.client[getCryptoQuotes]({
-      clientInfo: this
-    });
-  }
+    const { host, headers } = this;
+    const url = `${host}/nodes/crypto-quotes`;
+
+    return axios.get(url, { headers });
+  };
 
   // GET CRYPTO MARKET DATA
   getCryptoMarketData(queryParams: IQueryParams = {}) {
     const { limit, currency } = queryParams;
+    const { host, headers } = this;
+    const originalUrl = `${host}/nodes/crypto-market-watch`;
 
-    return apiRequests.client[getCryptoMarketData]({
-      limit,
-      currency,
-      clientInfo: this
-    });
-  }
+    const urlWithParams = addQueryParams({ originalUrl, limit, currency });
+    return axios.get(urlWithParams, { headers });
+  };
 
   // GET WEBHOOK LOGS
   getWebhookLogs() {
-    return apiRequests.client[getWebhookLogs]({
-      clientInfo: this
-    });
-  }
+    const { host, headers } = this;
+    const url = `${host}/subscriptions/logs`;
+
+    return axios.get(url, { headers });
+  };
 
   // GET TRADE MARKET DATA
   getTradeMarketData(queryParams: IQueryParams = {}) {
     const { ticker } = queryParams;
+    const { host, headers } = clientInfo;
+    const originalUrl = `${host}/nodes/trade-market-watch`;
 
-    return apiRequests.client[getTradeMarketData]({
-      ticker,
-      clientInfo: this
-    });
-  }
+    const url = addQueryParams({ originalUrl, ticker });
+    return axios.get(url, { headers });
+  };
 }
 
 export default Client;

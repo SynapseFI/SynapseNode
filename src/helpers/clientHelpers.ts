@@ -1,6 +1,6 @@
 import User from '../lib/User';
 
-module.exports.checkOptions = (headerObj, options) => {
+export const checkOptions = (headerObj, options) => {
   const copy = JSON.parse(JSON.stringify(headerObj))
 
   if (options.fingerprint) {
@@ -19,7 +19,7 @@ module.exports.checkOptions = (headerObj, options) => {
   return copy;
 };
 
-module.exports.instantiateUser = async ({ data, headerObj, client }) => {
+export const instantiateUser = async ({ data, headerObj, client }) => {
   const user = await new User ({ data, headerObj, client });
   await user._oauthUser({ refresh_token: user.body.refresh_token });
   return user;
