@@ -1,3 +1,6 @@
+import { IHeadersObject } from '../interfaces/helpers';
+import { IUserObject } from '../interfaces/user';
+import Client from '../lib/Client';
 import User from '../lib/User';
 
 export const checkOptions = (headerObj, options) => {
@@ -19,7 +22,15 @@ export const checkOptions = (headerObj, options) => {
   return copy;
 };
 
-export const instantiateUser = async ({ data, headerObj, client }) => {
+export const instantiateUser = async ({
+  data,
+  headerObj,
+  client
+}: {
+  data: IUserObject,
+  headerObj: any,
+  client: Client
+}): Promise<User> => {
   const user = await new User ({ data, headerObj, client });
   await user._oauthUser({ refresh_token: user.body.refresh_token });
   return user;

@@ -1,7 +1,2 @@
-import Client from './lib/Client';
-import User from './lib/User';
-
-module.exports = {
-  Client,
-  User
-};
+export {default as Client } from './lib/Client';
+export {default as User } from './lib/User';

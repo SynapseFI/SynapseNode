@@ -23,10 +23,18 @@ import {
 import apiRequests from '../apiReqs/apiRequests';
 import buildHeaders, { makePostPatchConfig } from '../helpers/buildHeaders';
 import { checkOptions, instantiateUser } from '../helpers/clientHelpers';
-import { IHeadersObject, IQueryParams } from '../interfaces/helpers';
-import axios from 'axios';
+import { IDeliverabilityObject, IGetAtmLocationsResponse, IHeadersObject, IHeadersOptions, IQueryParams, IVerifiedRoutingNum } from '../interfaces/helpers';
+import axios, { AxiosResponse } from 'axios';
 import { addQueryParams } from '../helpers/buildUrls';
+import { IGetUsersResponse, IUserObject } from '../interfaces/user';
+import User from './User';
+import { IGetTransactionsApiResponse } from '../interfaces/transaction';
+import { IGetNodesApiResponse } from '../interfaces/node';
+import { IGetSubscriptionsApiResponse, ISubscriptionObject } from '../interfaces/subscription';
 
+/**
+ * LITERALLY ANYTHING
+ */
 class Client {
   client_id: string;
   client_secret: string;
@@ -75,8 +83,21 @@ class Client {
     ];
   }
 
-  // POST CREATE USER
-  async createUser(bodyParams, ip_address, options = null) {
+  /**
+   * @description POST call to create a new user.
+   * @param bodyParams payload with user details for create user call.
+   * @param ip_address ip address of the user
+   * @param options TODO
+   * @returns newly created user object instantiated with SynapseNode library
+   *
+   * {@link [User Object Details](https://docs.synapsefi.com/api-references/users/user-object-details)}
+   * {@link [Create User](https://docs.synapsefi.com/api-references/users/create-user)}
+   */
+  async createUser(
+    bodyParams: Partial<IUserObject>,
+    ip_address: string,
+    options: IHeadersOptions | null = null
+  ): Promise<User> {
     let headerObj = {
       client_id: this.client_id,
       client_secret: this.client_secret,
@@ -96,8 +117,16 @@ class Client {
     return instantiateUser({ data, headerObj, client: this });
   };
 
-  // GET ALL USERS
-  getAllUsers(queryParams: IQueryParams = {}) {
+  /**
+   * @description gets a list of users based on query passed.
+   * @param queryParams parameters for GET call to fetch users
+   * @returns list of users based on query passed.
+   * 
+   * {@link [View All Users](https://docs.synapsefi.com/api-references/users/view-all-users-paginated)}
+   */
+  getAllUsers(
+    queryParams: IQueryParams = {}
+  ): Promise<AxiosResponse<IGetUsersResponse>> {
     const { query, page, per_page, show_refresh_tokens } = queryParams;
     const { host, headers } = this;
     const originalUrl = `${host}/users`;
@@ -113,8 +142,18 @@ class Client {
     return axios.get(urlWithParams, { headers });
   };
 
-  // GET USER W/ USER_ID
-  async getUser(user_id, options: { [index: string]: string } | null = null) {
+  /**
+   * @description fetches and instanties a user object based on the passed user primary key.
+   * @param user_id primary key of the desired user to get
+   * @param options TODO
+   * @returns instantiated user object
+   * 
+   * {@link [View User](https://docs.synapsefi.com/api-references/users/view-user)}
+   */
+  async getUser(
+    user_id: string,
+    options: { [index: string]: string } | null = null
+  ): Promise<User> {
     let headerObj = {
       client_id: this.client_id,
       client_secret: this.client_secret,
@@ -138,8 +177,14 @@ class Client {
     return instantiateUser({ data, headerObj, client: this });
   };
 
-  // GET ALL PLATFORM TRANSACTIONS
-  getPlatformTransactions(queryParams: IQueryParams = {}) {
+  /**
+   * @description gest a list of transactions
+   * @param queryParams parameters for GET call to fetch list of transactions
+   * @returns list of transactions based on query passed
+   */
+  getPlatformTransactions(
+    queryParams: IQueryParams = {}
+  ): Promise<AxiosResponse<IGetTransactionsApiResponse>> {
     const { page, per_page, filter } = queryParams;
     const { host, headers } = this;
     const originalUrl = `${host}/trans`;
@@ -153,8 +198,14 @@ class Client {
     return axios.get(urlWithParams, { headers });
   };
 
-  // GET ALL PLATFORM NODES
-  getPlatformNodes(queryParams: IQueryParams = {}) {
+  /**
+   * @description gest a list of nodes
+   * @param queryParams parameters for GET call to fetch list of nodes
+   * @returns list of nodes based on query passed
+   */
+  getPlatformNodes(
+    queryParams: IQueryParams = {}
+  ): Promise<AxiosResponse<IGetNodesApiResponse>> {
     const { page, per_page, filter } = queryParams;
     const { host, headers } = this;
     const originalUrl = `${host}/nodes`;
@@ -169,8 +220,10 @@ class Client {
     return axios.get(urlWithParams, { headers });
   };
 
-  // GET INSTITUTIONS
-  getInstitutions() {
+  /**
+   * @returns list of institutions
+   */
+  getInstitutions(): Promise<AxiosResponse<any>> {
     const { host, headers } = this;
     const url = `${host}/institutions`
     return axios.get(url, { headers });
@@ -187,7 +240,16 @@ class Client {
     return axios.get(url, { headers });
   };
 
-  // POST CREATE SUBSCRIPTION
+  /**
+   * 
+   * @param subscriptionUrl url destination for webhooks
+   * @param scope scopes on which to run the callback
+   * @param idempotency_key optional idempotency in headers
+   * @returns newly created
+   * 
+   * {@link [Subscription Object Details](https://docs.synapsefi.com/api-references/subscriptions/create-subscription)}
+   * {@link [Create Subscription](https://docs.synapsefi.com/api-references/subscriptions/create-subscription)}
+   */
   createSubscription(
     subscriptionUrl: string,
     scope: string[] = this._default_subscription_scopes,
@@ -210,8 +272,16 @@ class Client {
     return axios.post(url, bodyParams, { headers });
   };
 
-  // GET ALL SUBSCRIPTIONS
-  getAllSubscriptions(queryParams: IQueryParams = {}) {
+  /**
+   * @description gets a list of all the subscriptions
+   * @param queryParams Query params to view list of subsciptions
+   * @returns list of subscriptions
+   * 
+   * {@link [View All Subscriptions](https://docs.synapsefi.com/api-references/subscriptions/view-all-subscriptions)}
+   */
+  getAllSubscriptions(
+    queryParams: IQueryParams = {},
+  ): Promise<AxiosResponse<IGetSubscriptionsApiResponse>> {
     const { page, per_page } = queryParams;
     const { host, headers } = this;
     const originalUrl = `${host}/subscriptions`;
@@ -221,22 +291,44 @@ class Client {
     return axios.get(urlWithParams, { headers });
   };
 
-  // GET SUBSCRIPTION W/ SUBSCRIPTION_ID
-  getSubscription(subscription_id) {
+  /**
+   * @description fetch a single subscription by ID
+   * @param subscription_id primary key of subscription to fetch
+   * @returns subscription object details
+   */
+  getSubscription(
+    subscription_id: string,
+  ): Promise<AxiosResponse<ISubscriptionObject>> {
     const { host, headers } = this;
     const url = `${host}/subscriptions/${subscription_id}`;
     return axios.get(url, { headers });
   };
 
-  // PATCH UPDATE SUBSCRIPTION
-  updateSubscription(subscription_id, bodyParams = {}) {
+  /**
+   * @description patch call to update specified subscription
+   * @param subscription_id primary key of subscription to update
+   * @param bodyParams subscription properties to update
+   * @returns updated scription object
+   */
+  updateSubscription(
+    subscription_id: string,
+    bodyParams: Partial<ISubscriptionObject> = {},
+  ): Promise<AxiosResponse<ISubscriptionObject>> {
     const { host, headers } = this;
     const url = `${host}/subscriptions/${subscription_id}`;
     return axios.post(url, bodyParams, { headers });
   };
 
-  // GET LOCATE ATMS
-  locateAtms(queryParams: IQueryParams = {}) {
+  /**
+   * @description view all atms
+   * @param queryParams 
+   * @returns 
+   * 
+   * {@link [View ATMs](https://docs.synapsefi.com/api-references/nodes/view-atms)}
+   */
+  locateAtms(
+    queryParams: IQueryParams = {},
+  ): Promise<AxiosResponse<IGetAtmLocationsResponse>> {
     const { page, per_page, zip, radius, lat, lon } = queryParams;
     const { host, headers } = this;
     const originalUrl = `${host}/nodes/atms`;
@@ -254,19 +346,28 @@ class Client {
     return axios.get(urlWithParams, { headers });
   };
 
-  // GET Verify Address
-  // TODO: BETTER TYPING FOR POST PATCH REQUEST BODIES
-  // SEE API REQ FILE FOR DETAILS
-  verifyAddress(bodyParams: IQueryParams = {}) {
+  /**
+   * 
+   * @param bodyParams 
+   * @returns deliverability details object
+   */
+  verifyAddress(
+    bodyParams: any = {}
+  ): Promise<AxiosResponse<IDeliverabilityObject>> {
     const { host, headers } = this;
     const url = `${host}/address-verification`;
     return axios.post(url, bodyParams, { headers });
   };
 
-  // GET Verify Routing Number
-  // TODO: BETTER TYPING FOR POST PATCH REQUEST BODIES
-  // SEE API REQ FILE FOR DETAILS
-  verifyRoutingNumber(bodyParams: IQueryParams = {}) {
+  /**
+   * @param bodyParams 
+   * @returns information about the verified routing number
+   * 
+   * {@link [Verify Routing Number](https://docs.synapsefi.com/api-references/miscellaneous/verify-routing-number)}
+   */
+  verifyRoutingNumber(
+    bodyParams: { routing_num?: string; type?: string } = {},
+  ): Promise<AxiosResponse<IGetAtmLocationsResponse>> {
     const { host, headers } = this;
     const url = `${host}/routing-number-verification`;
     return axios.post(url, bodyParams, { headers });

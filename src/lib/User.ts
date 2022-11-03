@@ -1,61 +1,16 @@
 import { IHeadersObject, IHeadersValues, IQueryParams } from "../interfaces/helpers";
-import axios from 'axios';
-
-import {
-  addUserKyc,
-  deleteExistingDocument,
-  updateUser,
-  getUserDuplicates,
-  swapDuplicateUsers,
-  _grabRefreshToken,
-  _oauthUser,
-  createNode,
-  verifyAchMfa,
-  getAllUserNodes,
-  getNode,
-  getUserTransactions,
-  triggerDummyTransactions,
-  generateUboForm,
-  getStatementsByUser,
-  getStatementsByNode,
-  shipCardNode,
-  resetCardNode,
-  verifyMicroDeposits,
-  reinitiateMicroDeposits,
-  updateNode,
-  deleteNode,
-  generateApplePayToken,
-  createTransaction,
-  getTransaction,
-  getAllNodeTransactions,
-  deleteTransaction,
-  commentOnStatus,
-  disputeCardTransaction,
-  getAllSubnets,
-  getSubnet,
-  createSubnet,
-  updateSubnet,
-  pushToMobileWallet,
-  shipCard,
-  registerNewFingerprint,
-  supplyDevice2FA,
-  verifyFingerprint2FA,
-  getUser,
-  updateIpAddress,
-  createBatchTransactions,
-  getAllCardShipments,
-  getCardShipment,
-  deleteCardShipment
-} from '../constants/apiReqNames';
-
+import axios, { AxiosResponse } from 'axios';
 import Client from './Client';
-import apiRequests from '../apiReqs/apiRequests';
 import buildHeaders, { makePostPatchConfig } from '../helpers/buildHeaders';
 import { addQueryParams } from "../helpers/buildUrls";
+import { IUserObject } from "../interfaces/user";
+import { IGetNodesApiResponse, INodeDetailsObject } from "../interfaces/node";
+import { IDisputeTransactionPayload, IGetTransactionsApiResponse, ITransactionDetailsObject } from "../interfaces/transaction";
+import { IGetShipmentsApiResponse, IGetSubnetsApiResponse, IShipmentObject, ISubnetDetailsObject } from "../interfaces/subnet";
 
 class User {
   id: string;
-  body: any;
+  body: IUserObject;
   host: string;
   fingerprint: string;
   ip_address: string;
@@ -84,22 +39,48 @@ class User {
     });
   }
 
-  // PATCH ADD USER KYC
-  addUserKyc(bodyParams = {}) {
+  /**
+   * @description patch call to add KYC info for users
+   * @param bodyParams user object details to be updated
+   * @returns updated user object
+   * 
+   * {@link [KYC FAQs](https://docs.synapsefi.com/api-references/users#kyc-faqs)}
+   */
+  addUserKyc(
+    bodyParams: Partial<IUserObject> = {}
+  ): Promise<AxiosResponse<IUserObject>> {
     const { host, headers, id } = this;
     const url = `${host}/users/${id}`;
     return axios.patch(url, bodyParams, { headers });
   }
 
-  // PATCH DELETE EXISTING DOCUMENT
-  deleteExistingDocument(bodyParams = {}) {
+  /**
+   * @description delete a base document by ID
+   * @param bodyParams specify which document id to delete, include `permission_scope` as `"DELETE_DOCUMENT"`
+   * @returns updated user object
+   * 
+   * @todo refactor to take in a document id and abstract building the necessary body params
+   * 
+   * {@link [Delete an existing document](https://docs.synapsefi.com/api-references/users/update-user#delete-an-existing-base-document)}
+   */
+  deleteExistingDocument(
+    bodyParams: Partial<IUserObject> = {}
+  ): Promise<AxiosResponse<IUserObject>> {
     const { host, headers, id } = this;
     const url = `${host}/users/${id}`;
     return axios.patch(url, bodyParams, { headers });
   }
 
-  // PATCH UPDATE USER
-  updateUser(bodyParams = {}) {
+  /**
+   * @description update a user object
+   * @param bodyParams user object properties to update
+   * @returns update user object details
+   * 
+   * {@link [Update User](https://docs.synapsefi.com/api-references/users/update-user)}
+   */
+  updateUser(
+    bodyParams: Partial<IUserObject> = {}
+  ): Promise<AxiosResponse<IUserObject>> {
     const { host, headers, id } = this;
     const url = `${host}/users/${id}`;
     const config = makePostPatchConfig(headers);
@@ -141,7 +122,9 @@ class User {
     return axios.patch(url, bodyParams, { headers })
   }
 
-  // RETRIEVE REFRESH TOKEN
+  /**
+   * RETRIEVE REFRESH TOKEN
+   */
   _grabRefreshToken() {
     const { host, id, headers } = this;
     const url = `${host}/users/${id}?full_dehydrate=no`
@@ -152,7 +135,9 @@ class User {
       })
   }
 
-  // POST OAUTH USER
+  /**
+   * POST OAUTH USER
+   */
   _oauthUser(bodyParams = {}) {
     const { host, id, headers } = this;
     const url = `${host}/oauth/${id}`;
@@ -174,8 +159,18 @@ class User {
       })
   }
 
-  // POST CREATE NODE
-  createNode(bodyParams = {}, idempotency_key = null) {
+  /**
+   * @description creates a node for the user.
+   * @param bodyParams type is required, info and extra values are optional depending on type.
+   * @param idempotency_key optional idempotency key for headers
+   * @returns newly created node object
+   * 
+   * {@link [Create Node](https://docs.synapsefi.com/api-references/nodes/create-node)}
+   */
+  createNode(
+    bodyParams = {},
+    idempotency_key: string | null = null
+  ): Promise<AxiosResponse<INodeDetailsObject>> {
     if (idempotency_key) {
       this.headers = buildHeaders({
         client_id: this.client.client_id,
@@ -211,8 +206,16 @@ class User {
     return axios.post(url, { access_token, mfa_answer }, { headers });
   }
 
-  // GET ALL USER NODES
-  getAllUserNodes(queryParams: IQueryParams = {}) {
+  /**
+   * @description gets all user nodes
+   * @param queryParams parameters and filter for searching for user nodes
+   * @returns list of user's nodes
+   * 
+   * {@link [View All User Nodes](https://docs.synapsefi.com/api-references/nodes/view-all-user-nodes)}
+   */
+  getAllUserNodes(
+    queryParams: IQueryParams = {},
+  ): Promise<AxiosResponse<IGetNodesApiResponse>> {
     const { page, per_page, type } = queryParams;
     const { host, headers, id } = this;
     const originalUrl = `${host}/users/${id}/nodes`;
@@ -226,8 +229,18 @@ class User {
     return axios.get(urlWithParams, { headers });
   }
 
-  // GET NODE W/ NODE_ID
-  getNode(node_id, queryParams: IQueryParams = {}) {
+  /**
+   * @description fetch node details by suplied node ID
+   * @param node_id primary key for node
+   * @param queryParams query parameters
+   * @returns node details object
+   * 
+   * {@link [View Node](https://docs.synapsefi.com/api-references/nodes/view-node)}
+   */
+  getNode(
+    node_id: string,
+    queryParams: IQueryParams = {}
+  ): Promise<AxiosResponse<INodeDetailsObject>> {
     const { full_dehydrate, force_refresh } = queryParams;
     const { host, headers, id } = this;
     const originalUrl = `${host}/users/${id}/nodes/${node_id}`;
@@ -241,7 +254,13 @@ class User {
     return axios.get(urlWithParams, { headers });
   }
 
-  // GET ALL USER TRANSACTIONS
+  /**
+   * @description returns a list of user transactions
+   * @param queryParams filters and parameters for trans to fetch
+   * @returns list of trans
+   * 
+   * {@link [View all user transactions](https://docs.synapsefi.com/api-references/transactions/view-all-user-transactions)}
+   */
   getUserTransactions(queryParams: IQueryParams = {}) {
     const { page, per_page, filter } = queryParams;
     const { host, headers, id } = this;
@@ -257,7 +276,10 @@ class User {
     return axios.get(urlWithParams, { headers });
   }
 
-  // GET TRIGGER DUMMY TRANSACTIONS
+  /**
+   * 
+   * GET TRIGGER DUMMY TRANSACTIONS
+   */
   triggerDummyTransactions(node_id, queryParams: IQueryParams = {}) {
     const {
       amount,
@@ -282,15 +304,32 @@ class User {
     return axios.get(urlWithParams, { headers });
   }
 
-  // PATCH GENERATE UBO FORM
-  generateUboForm(bodyParams) {
+  /**
+   * @description UBO or Ultimate Beneficial Owner documents is used to declare who is the ultimate beneficial owner of a business or major shareholder.
+   * @param bodyParams see Generate UBO Doc for details
+   * @returns TODO
+   * 
+   * {@link [Generate UBO Doc](https://docs.synapsefi.com/api-references/users/generate-ubo-doc)}
+   */
+  generateUboForm(
+    bodyParams: any
+  ): Promise<AxiosResponse<any>> {
     const { host, headers, id } = this;
     const url = `${host}/users/${id}/ubo`;
     return axios.patch(url, bodyParams, { headers });
   }
 
-  // GET STATEMENTS BY USER
-  getStatementsByUser(queryParams: IQueryParams = {}) {
+  /**
+   * @description gets list of statement objects based on supplied user id
+   * @param queryParams 
+   * @returns list of user statement objects
+   * 
+   * {@link [Statement Object Details](https://docs.synapsefi.com/api-references/statements/statement-object-details)}
+   * {@link [View all user statements](https://docs.synapsefi.com/api-references/statements/view-all-user-statements)}
+   */
+  getStatementsByUser(
+    queryParams: IQueryParams = {}
+  ): Promise<AxiosResponse<any>> {
     const { page, per_page } = queryParams;
     const { host, headers, id } = this;
     const originalUrl = `${host}/users/${id}/statements`;
@@ -304,8 +343,18 @@ class User {
     return axios.get(urlWithParams, { headers });
   }
 
-  // GET STATEMENTS BY NODE
-  getStatementsByNode(node_id, queryParams: IQueryParams = {}) {
+  /**
+   * @description gets list of statement objects base on passed node id
+   * @param queryParams 
+   * @returns list of node statement objects
+   * 
+   * {@link [Statement Object Details](https://docs.synapsefi.com/api-references/statements/statement-object-details)}
+   * {@link [View all node statements](https://docs.synapsefi.com/api-references/statements/view-all-node-statements)}
+   */
+  getStatementsByNode(
+    node_id: string,
+    queryParams: IQueryParams = {}
+  ): Promise<AxiosResponse<any>> {
     const { page, per_page } = queryParams;
     const { host, headers, id } = this;
     const originalUrl = `${host}/users/${id}/nodes/${node_id}/statements`;
@@ -319,14 +368,18 @@ class User {
     return axios.get(urlWithParams, { headers });
   }
 
-  // PATCH SHIP DEBIT CARD NODE
+  /**
+   * @deprecated use `shipCard` instead
+   */
   shipCardNode(node_id, bodyParams) {
     const { host, headers, id } = this;
     const url = `${host}/users/${id}/nodes/${node_id}?ship=yes`;
     return axios.patch(url, bodyParams, { headers });
   }
 
-  // PATCH RESET DEBIT CARD NODE
+  /**
+   * @deprecated
+   */
   resetCardNode(node_id) {
     const { host, headers, id } = this;
     const url = `${host}/users/${id}/nodes/${node_id}?reset=yes`;
@@ -334,39 +387,74 @@ class User {
     return axios.patch(url, {}, { headers });
   }
 
-  // PATCH VERIFY MICRO-DEPOSITS
-  verifyMicroDeposits(node_id, bodyParams) {
+  /**
+   * @description micro deposits used to verify ACH node
+   * @param node_id primary key of node
+   * @param bodyParams micro deposits
+   * @returns updated node object
+   * 
+   * @todo refactor to take in the two micro deposit values and shape the payload in this method
+   * {@link [Verify Micro Deposits](https://docs.synapsefi.com/api-references/nodes/update-node#verify-micro-deposits)}
+   */
+  verifyMicroDeposits(
+    node_id: string,
+    bodyParams: { micro: [number, number] },
+  ): Promise<AxiosResponse<INodeDetailsObject>> {
     const { host, headers, id } = this;
     const url = `${host}/users/${id}/nodes/${node_id}`;
 
     return axios.patch(url, bodyParams, { headers });
   }
 
-  // PATCH REINITIATE MICRO-DEPOSITS
-  reinitiateMicroDeposits(node_id) {
+  /**
+   * @description resends the micro deposits
+   * @param node_id primary key of node
+   * 
+   * {@link [Resend Micro Deposits](https://docs.synapsefi.com/api-references/nodes/update-node#resend-micro-deposits)}
+   */
+  reinitiateMicroDeposits(
+    node_id: string,
+  ): Promise<AxiosResponse<any>> {
     const { host, headers, id } = this;
     const url = `${host}/users/${id}/nodes/${node_id}?resend_micro=yes`;
 
     return axios.patch(url, {}, { headers });
   }
 
-  // PATCH UPDATE NODE
-  updateNode(node_id, bodyParams) {
+  /**
+   * @description `PATCH` call to update node
+   * @param node_id primary key of node
+   * @param bodyParams node object properties to update
+   * @returns updated node object
+   */
+  updateNode(
+    node_id: string,
+    bodyParams: Partial<INodeDetailsObject>,
+  ): Promise<AxiosResponse<INodeDetailsObject>> {
     const { host, headers, id } = this;
     const url = `${host}/users/${id}/nodes/${node_id}`;
 
     return axios.patch(url, bodyParams, { headers });
   }
 
-  // DELETE NODE
-  deleteNode(node_id) {
+  /**
+   * @description sets `is_active` to false
+   * @param node_id primary key of node
+   * @returns inactive node object
+   */
+  deleteNode(
+    node_id: string,
+  ): Promise<AxiosResponse<INodeDetailsObject>> {
     const { host, headers, id } = this;
     const url = `${host}/users/${id}/nodes/${node_id}`;
 
     return axios.delete(url, { headers });
   }
 
-  // PATCH GENERATE APPLE PAY TOKEN
+  /**
+   * @deprecated use `pushToMobileWallet` instead
+   * {@link [Push to Wallet](https://docs.synapsefi.com/api-references/subnets/push-to-wallet)}
+   */
   generateApplePayToken(node_id, bodyParams) {
     const { host, headers, id } = this;
     const url = `${host}/users/${id}/nodes/${node_id}/applepay`;
@@ -374,8 +462,20 @@ class User {
     return axios.patch(url, bodyParams, { headers });
   }
 
-  // POST CREATE TRANSACTION
-  createTransaction(node_id, bodyParams, idempotency_key = null) {
+  /**
+   * @description `POST` call to create a transaction for a specified node
+   * @param node_id primary key of node
+   * @param bodyParams details for transaction to create
+   * @param idempotency_key optional idempotency key
+   * @returns newly created transaction object
+   * 
+   * {@link [Create Transaction](https://docs.synapsefi.com/api-references/transactions/create-transaction)}
+   */
+  createTransaction(
+    node_id: string,
+    bodyParams: Partial<ITransactionDetailsObject>,
+    idempotency_key = null
+  ): Promise<AxiosResponse<ITransactionDetailsObject>> {
     if (idempotency_key) {
       this.headers = buildHeaders({
         client_id: this.client.client_id,
@@ -408,23 +508,45 @@ class User {
    * [Batch Transaction Docs]{@link https://docs.synapsefi.com/api-references/transactions/create-batch-transactions}
    * [Trans Object Details]{@link https://docs.synapsefi.com/api-references/transactions/transaction-object-details}
    */
-  createBatchTransactions(node_id, bodyParams) {
+  createBatchTransactions(
+    node_id: string,
+    bodyParams: Partial<ITransactionDetailsObject>[],
+  ): Promise<AxiosResponse<IGetTransactionsApiResponse>> {
     const { host, headers, id } = this;
     const url = `${host}/users/${id}/nodes/${node_id}/batch-trans`;
 
     return axios.post(url, bodyParams, { headers });
   }
 
-  // GET TRANSACTION W/ TRANSACTION_ID
-  getTransaction(node_id, trans_id) {
+  /**
+   * @description `GET` call for a single transaction
+   * @param node_id Primary key of node 
+   * @param trans_id Primary key of transaction
+   * @returns Single Transaction object
+   * 
+   * {@link [View Transaction](https://docs.synapsefi.com/api-references/transactions/view-transaction)}
+   */
+  getTransaction(
+    node_id: string,
+    trans_id: string,
+  ): Promise<AxiosResponse<ITransactionDetailsObject>> {
     const { host, headers, id } = this;
     const url = `${host}/users/${id}/nodes/${node_id}/trans/${trans_id}`;
 
     return axios.get(url, { headers });
   }
 
-  // GET ALL NODE TRANSACTIONS
-  getAllNodeTransactions(node_id, queryParams: IQueryParams = {}) {
+  /**
+   * @param node_id primary key of node
+   * @param queryParams filter & query parameters for get transactions call
+   * @returns list of transactions for a specified node
+   * 
+   * {@link [View All Node transactions](https://docs.synapsefi.com/api-references/transactions/view-all-node-transactions)}
+   */
+  getAllNodeTransactions(
+    node_id: string,
+    queryParams: IQueryParams = {},
+  ): Promise<AxiosResponse<IGetTransactionsApiResponse>> {
     const { page, per_page, filter } = queryParams;
     const { host, headers, id } = this;
     const originalUrl = `${host}/users/${id}/nodes/${node_id}/trans`;
@@ -439,32 +561,79 @@ class User {
     return axios.get(urlWithParams, { headers });
   }
 
-  // DELETE TRANSACTION
-  deleteTransaction(node_id, trans_id) {
+  /**
+   * @description To cancel a transaction en route to the recipient, the transaction must not have been batched already. For example, to cancel transactions between native Synapse accounts (ex: Deposit Accounts), they need to have status CREATED or QUEUED-BY-SYNAPSE.While a transaction leaving a Deposit Account, to an ACH-US account can be canceled with status CREATED, QUEUED-BY-SYNAPSE orPROCESSING-DEBIT (because outgoing ACH is batched during PROCESSING-CREDIT).
+   * You cannot cancel an already settled transaction, with the exception of Reversals for Interchange Pull transactions. 
+
+   * @param node_id primary key of the node
+   * @param trans_id primary key of the transaction
+   * @returns canceled transaction
+   * 
+   * {@link [Cancel Transaction](https://docs.synapsefi.com/api-references/transactions/cancel-transaction)}
+   */
+  deleteTransaction(
+    node_id: string,
+    trans_id: string,
+  ): Promise<AxiosResponse<ITransactionDetailsObject>> {
     const { host, headers, id } = this;
     const url = `${host}/users/${id}/nodes/${node_id}/trans/${trans_id}`;
 
     return axios.delete(url, { headers });
   }
 
-  // PATCH COMMENT ON STATUS
-  commentOnStatus(node_id, trans_id, bodyParams) {
+  /**
+   * @description `PATCH` call to comment on the status of a transaction
+   * @param node_id primary key of node
+   * @param trans_id primary key of transaction
+   * @param bodyParams transaction details to update
+   * @returns updated transaction object
+   * 
+   * @todo refactor to take string comment sintead and format payload here. Also, create sister methods for retry and execute trans
+   */
+  commentOnStatus(
+    node_id: string,
+    trans_id: string,
+    bodyParams: Partial<ITransactionDetailsObject>,
+  ): Promise<AxiosResponse<ITransactionDetailsObject>> {
     const { host, headers, id } = this;
     const url = `${host}/users/${id}/nodes/${node_id}/trans/${trans_id}`;
 
     return axios.patch(url, bodyParams, { headers });
   }
 
-  // PATCH DISPUTE CARD TRANSACTION
-  disputeCardTransaction(node_id, trans_id, bodyParams) {
+  /**
+   * @description `PATCH` call to dispute a card related transaction
+   * @param node_id primary key of node
+   * @param trans_id primary key of transaction
+   * @param bodyParams dispute transaction payload, see docs for details
+   * 
+   * @todo response typing
+   * 
+   * {@link [Dispute Transaction](https://docs.synapsefi.com/api-references/transactions/dispute-transaction)}
+   */
+  disputeCardTransaction(
+    node_id: string,
+    trans_id: string,
+    bodyParams: IDisputeTransactionPayload,
+  ): Promise<AxiosResponse<any>> {
     const { host, headers, id } = this;
     const url = `${host}/users/${id}/nodes/${node_id}/trans/${trans_id}/dispute`;
     const config = makePostPatchConfig(headers);
     return axios.patch(url, bodyParams, config);
   }
 
-  // GET ALL SUBNETS
-  getAllSubnets(node_id, queryParams: IQueryParams = {}) {
+  /**
+   * @description `GET` call to fetch subnets for specified node id
+   * @param node_id primary key of node
+   * @param queryParams query params & filter for fetching subnets
+   * @returns list of subnets
+   * 
+   * {@link [View All Node Subnets](https://docs.synapsefi.com/api-references/subnets/view-all-node-subnets)}
+   */
+  getAllSubnets(
+    node_id,
+    queryParams: IQueryParams = {}
+  ): Promise<AxiosResponse<IGetSubnetsApiResponse>> {
     const { page, per_page } = queryParams;
     const { host, headers, id } = this;
     const originalUrl = `${host}/users/${id}/nodes/${node_id}/subnets`;
@@ -478,8 +647,20 @@ class User {
     return axios.get(urlWithParams, { headers });
   }
 
-  // GET SUBNET W/ SUBNET_ID
-  getSubnet(node_id, subnet_id, queryParams: IQueryParams = {}) {
+  /**
+   * @description `GET` call to view a single subnet
+   * @param node_id primary key of node
+   * @param subnet_id primary key of subnet
+   * @param queryParams query params for fetching subnet, for full dehydrate or not
+   * @returns sing subnet details
+   * 
+   * {@link [View Subnet](https://docs.synapsefi.com/api-references/subnets/view-subnet)}
+   */
+  getSubnet(
+    node_id: string,
+    subnet_id: string,
+    queryParams: IQueryParams = {}
+  ): Promise<AxiosResponse<ISubnetDetailsObject>> {
     const { full_dehydrate } = queryParams;
     const { host, headers, id } = this;
     let originalUrl = `${host}/users/${id}/nodes/${node_id}/subnets/${subnet_id}`;
@@ -492,8 +673,18 @@ class User {
     return axios.get(urlWithParams, { headers });
   }
 
-  // POST CREATE SUBNET
-  createSubnet(node_id, bodyParams, idempotency_key = null) {
+  /**
+   * @description `POST` call to create a subnet for a specified node
+   * @param node_id primary key of node
+   * @param bodyParams 
+   * @param idempotency_key optional idempotency key
+   * @returns newly created subnet
+   */
+  createSubnet(
+    node_id: string,
+    bodyParams: { nickname?: string; account_class?: string; bin?: string },
+    idempotency_key: string | null = null
+  ): Promise<AxiosResponse<ISubnetDetailsObject>> {
     if (idempotency_key) {
       this.headers = buildHeaders({
         client_id: this.client.client_id,
@@ -511,28 +702,65 @@ class User {
     return axios.post(url, bodyParams, { headers });
   }
 
-  // PATCH UPDATE SUBNET
-  updateSubnet(node_id, subnet_id, bodyParams = {}) {
+  /**
+   * @description `PATCH` call to update subnet details
+   * @param node_id primary key of node
+   * @param subnet_id primary key of subnet
+   * @param bodyParams Subnet object properties to update
+   * @returns updated subnet object
+   * 
+   * {@link [Update Subnet](https://docs.synapsefi.com/api-references/subnets/update-subnet)}
+   */
+  updateSubnet(
+    node_id: string,
+    subnet_id: string,
+    bodyParams: Partial<ISubnetDetailsObject> = {}
+  ): Promise<AxiosResponse<ISubnetDetailsObject>> {
     const { host, headers, id } = this;
     const url = `${host}/users/${id}/nodes/${node_id}/subnets/${subnet_id}`;
 
     return axios.patch(url, bodyParams, { headers });
   }
 
-  // POST PUSH CARD SUBNET
-  pushToMobileWallet(node_id, subnet_id, bodyParams={}) {
+  /**
+   * @description `PATCH` call to update subnet details
+   * @param node_id primary key of node
+   * @param subnet_id primary key of subnet
+   * @param bodyParams Subnet object properties to update
+   * 
+   * @todo typing
+   * 
+   * {@link [Push to Wallet](https://docs.synapsefi.com/api-references/subnets/push-to-wallet)}
+   */
+  pushToMobileWallet(
+    node_id: string,
+    subnet_id: string,
+    bodyParams: any = {},
+  ) {
     const { host, headers, id } = this;
     const url = `${host}/users/${id}/nodes/${node_id}/subnets/${subnet_id}/push`;
 
     return axios.post(url, bodyParams, { headers });
   }
 
-  // PATCH SHIP CARD SUBNET
-  shipCard(node_id, subnet_id, bodyParams ={}) {
+  /**
+   * @description `POST` call to create a card shipment
+   * @param node_id Primary Key of node
+   * @param subnet_id primary key of subnet
+   * @param bodyParams 
+   * @returns newly created subnet
+   * 
+   * {@link [Create Shipment](https://docs.synapsefi.com/api-references/shipments/create-shipment)}
+   */
+  shipCard(
+    node_id: string,
+    subnet_id: string,
+    bodyParams: Partial<IShipmentObject> = {}
+  ): Promise<AxiosResponse<IShipmentObject>> {
     const { host, headers, id } = this;
     const url = `${host}/users/${id}/nodes/${node_id}/subnets/${subnet_id}/ship`;
 
-    return axios.patch(url, bodyParams, { headers });
+    return axios.post(url, bodyParams, { headers });
   }
 
   /**
@@ -546,7 +774,11 @@ class User {
    * 
    * [Get Card Shipment Docs]{@link https://docs.synapsefi.com/api-references/shipments/view-all-subnet-shipments}
    */
-  getAllCardShipments(node_id, subnet_id, queryParams: IQueryParams = {}) {
+  getAllCardShipments(
+    node_id: string,
+    subnet_id: string,
+    queryParams: IQueryParams = {}
+  ): Promise<AxiosResponse<IGetShipmentsApiResponse>> {
     const { page, per_page } = queryParams;
     const { host, headers, id } = this;
     const originalUrl = `${host}/users/${id}/nodes/${node_id}/subnets/${subnet_id}/ship`;
@@ -571,7 +803,11 @@ class User {
    * 
    * [Get Card Shipment Docs]{@link https://docs.synapsefi.com/api-references/shipments/view-shipment}
    */
-  getCardShipment(node_id, subnet_id, shipment_id) {
+  getCardShipment(
+    node_id: string,
+    subnet_id: string,
+    shipment_id: string,
+  ): Promise<AxiosResponse<IShipmentObject>> {
     const { host, headers, id } = this;
     const url = `${host}/users/${id}/nodes/${node_id}/subnets/${subnet_id}/ship/${shipment_id}`;
     return axios.get(url, { headers });
@@ -587,15 +823,29 @@ class User {
    * 
    * 
    * [Get Card Shipment Docs]{@link https://docs.synapsefi.com/api-references/shipments/cancel-shipment}
+   * 
+   * @todo response typing
    */
-  deleteCardShipment(node_id, subnet_id, shipment_id) {
+  deleteCardShipment(
+    node_id: string,
+    subnet_id: string,
+    shipment_id: string,
+  ): Promise<AxiosResponse<any>> {
     const { host, headers, id } = this;
     const url = `${host}/users/${id}/nodes/${node_id}/subnets/${subnet_id}/ship/${shipment_id}`;
     return axios.delete(url, { headers });
   }
 
-  // POST First call for registering new fingerprint
-  async registerNewFingerprint(fp: string) {
+  /**
+   * @description triggers new fingerprint registration flow. If you use this call with a registered and active fingerprint, then this will authenticate the user if the refresh token has not expired.
+   * @param fp device fingerprint sring
+   * 
+   * {@link [OAuth docs](https://docs.synapsefi.com/api-references/oauth)}
+   * @todo reponse typing
+   */
+  async registerNewFingerprint(
+    fp: string
+  ): Promise<AxiosResponse<any>> {
     const refresh_token = await this._grabRefreshToken();
 
     this.fingerprint = fp;
@@ -612,8 +862,18 @@ class User {
     return axios.post(url, { refresh_token }, { headers });
   }
 
-  // POST Second call for registering new fingerprint
-  async supplyDevice2FA(fp: string, device: string) {
+  /**
+   * @description part of MFA register new fingerprint flow, tells Synapse where to send MFA pin to
+   * @param fp device fingerprint string
+   * @param device phone number or email string for 2FA flow
+   * 
+   * {@link [OAuth docs](https://docs.synapsefi.com/api-references/oauth)}
+   * @todo reponse typing
+   */
+  async supplyDevice2FA(
+    fp: string,
+    device: string
+  ): Promise<AxiosResponse<any>> {
     const refresh_token = await this._grabRefreshToken();
 
     this.fingerprint = fp;
@@ -634,8 +894,19 @@ class User {
     );
   }
 
-  // POST Final call for registering new fingerprint
-  async verifyFingerprint2FA(fp: string, validation_pin: string) {
+  /**
+   * @description part of fingerprint registration MFA flow - used to verify validation pin sent
+   * @param fp device fingerprint string
+   * @param validation_pin validation pin string sent via text or email to 2FA device
+   * 
+   * {@link [OAuth docs](https://docs.synapsefi.com/api-references/oauth)}
+   * @todo reponse typing
+   */
+
+  async verifyFingerprint2FA(
+    fp: string,
+    validation_pin: string
+  ): Promise<AxiosResponse<any>> {
     const refresh_token = await this._grabRefreshToken();
 
     this.fingerprint = fp;
@@ -656,8 +927,12 @@ class User {
     );
   }
 
-  // UPDATE USER IP ADDRESS
-  updateIpAddress(ip) {
+  /**
+   * @description updates the IP address in the instatiated users headers property
+   * @param ip 
+   * @returns updated headers object on instantiated user object
+   */
+  updateIpAddress(ip: string): IHeadersObject {
     this.ip_address = ip;
     this.headers = buildHeaders({
       client_id: this.client.client_id,
