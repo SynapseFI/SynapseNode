@@ -1,6 +1,6 @@
-const axios = require('axios');
+import axios from 'axios';
 
-const {
+import {
   createUser,
   getAllUsers,
   getUser,
@@ -19,10 +19,11 @@ const {
   getTradeMarketData,
   verifyAddress,
   verifyRoutingNumber
-} = require('../constants/apiReqNames');
+} from '../constants/apiReqNames';
 
-const { addQueryParams, replacePathParams } = require('../helpers/buildUrls');
+import { addQueryParams } from '../helpers/buildUrls';
 
+// DONE
 module.exports[createUser] = ({
   bodyParams,
   headers,
@@ -40,12 +41,13 @@ module.exports[createUser] = ({
   return axios.post(`${host}/users`, bodyParams, config);
 };
 
+// DONE
 module.exports[getAllUsers] = ({
   query,
   page,
   per_page,
   show_refresh_tokens,
-  clientInfo
+  clientInfo,
 }) => {
   const { host, headers } = clientInfo;
 
@@ -62,6 +64,7 @@ module.exports[getAllUsers] = ({
   );
 };
 
+// DONE
 module.exports[getUser] = ({ user_id, full_dehydrate, headers, clientInfo }) => {
   const { host } = clientInfo;
   // REFACTOR TO USE ADD_QUERY_PARAMS
@@ -71,6 +74,7 @@ module.exports[getUser] = ({ user_id, full_dehydrate, headers, clientInfo }) => 
   return axios.get(url, { headers });
 };
 
+// DONE
 module.exports[getPlatformTransactions] = ({ page, per_page, filter, clientInfo }) => {
   const { host, headers } = clientInfo;
 
@@ -86,6 +90,7 @@ module.exports[getPlatformTransactions] = ({ page, per_page, filter, clientInfo 
   );
 };
 
+// DONE
 module.exports[getPlatformNodes] = ({ page, per_page, filter, clientInfo }) => {
   const { host, headers } = clientInfo;
   const url = addQueryParams({
@@ -99,6 +104,7 @@ module.exports[getPlatformNodes] = ({ page, per_page, filter, clientInfo }) => {
   return axios.get(url, { headers });
 };
 
+// DONE
 module.exports[getInstitutions] = ({ clientInfo }) => {
   const { host, headers } = clientInfo;
   const url = `${host}/institutions`
@@ -106,6 +112,7 @@ module.exports[getInstitutions] = ({ clientInfo }) => {
   return axios.get(url, { headers });
 };
 
+// DONE
 module.exports[issuePublicKey] = ({ scope, clientInfo, userId }) => {
   const { host, headers } = clientInfo;
   let url = `${host}/client?issue_public_key=yes&scope=${scope.join()}`;
@@ -116,6 +123,7 @@ module.exports[issuePublicKey] = ({ scope, clientInfo, userId }) => {
   return axios.get(url, { headers });
 };
 
+// DONE
 module.exports[createSubscription] = ({ url, scope, clientInfo }) => {
   const { host, headers } = clientInfo;
   const reqBody = { url, scope };
@@ -124,6 +132,7 @@ module.exports[createSubscription] = ({ url, scope, clientInfo }) => {
   return axios.post(baseUrl, reqBody, { headers });
 };
 
+// DONE
 module.exports[getAllSubscriptions] = ({ page, per_page, clientInfo }) => {
   const { host, headers } = clientInfo;
   const url = addQueryParams({
@@ -136,6 +145,7 @@ module.exports[getAllSubscriptions] = ({ page, per_page, clientInfo }) => {
   return axios.get(url, { headers });
 };
 
+// DONE
 module.exports[getSubscription] = ({ subscription_id, clientInfo }) => {
   const { host, headers } = clientInfo;
   const url = `${host}/subscriptions/${subscription_id}`;
@@ -143,6 +153,7 @@ module.exports[getSubscription] = ({ subscription_id, clientInfo }) => {
   return axios.get(url, { headers });
 };
 
+// DONE
 module.exports[updateSubscription] = ({ subscription_id, bodyParams, clientInfo}) => {
   const { host, headers } = clientInfo;
   const url = `${host}/subscriptions/${subscription_id}`;
@@ -152,6 +163,7 @@ module.exports[updateSubscription] = ({ subscription_id, bodyParams, clientInfo}
   return axios.patch(url, reqBody, { headers });
 };
 
+// DONE
 module.exports[locateAtms] = ({ page, per_page, zip, radius, lat, lon, clientInfo }) => {
   const { host, headers } = clientInfo;
   const url = addQueryParams({
@@ -167,6 +179,7 @@ module.exports[locateAtms] = ({ page, per_page, zip, radius, lat, lon, clientInf
   return axios.get(url, { headers });
 };
 
+// DONE
 module.exports[verifyAddress] = ({ address_city, address_country_code, address_postal_code, address_street, address_subdivision, clientInfo }) => {
   const { host, headers } = clientInfo;
   const reqBody = { address_city, address_country_code, address_postal_code, address_street, address_subdivision };
@@ -175,6 +188,15 @@ module.exports[verifyAddress] = ({ address_city, address_country_code, address_p
   return axios.post(baseUrl, reqBody, { headers });
 };
 
+// DONE
+module.exports[verifyRoutingNumber] = ({ routing_num, type, clientInfo}) => {
+  const { host, headers } = clientInfo;
+  const reqBody = { routing_num, type };
+  const baseUrl = `${host}/routing-number-verification`;
+  return axios.post(baseUrl, reqBody, { headers });
+};
+
+// DONE
 module.exports[getCryptoQuotes] = ({ clientInfo }) => {
   const { host, headers } = clientInfo;
   const url = `${host}/nodes/crypto-quotes`;
@@ -182,6 +204,7 @@ module.exports[getCryptoQuotes] = ({ clientInfo }) => {
   return axios.get(url, { headers });
 };
 
+// DONE
 module.exports[getCryptoMarketData] = ({ limit, currency, clientInfo }) => {
   const { host, headers } = clientInfo;
   const url = addQueryParams({
@@ -193,6 +216,7 @@ module.exports[getCryptoMarketData] = ({ limit, currency, clientInfo }) => {
   return axios.get(url, { headers });
 };
 
+// DONE
 module.exports[getWebhookLogs] = ({ clientInfo }) => {
   const { host, headers } = clientInfo;
   const url = `${host}/subscriptions/logs`;
@@ -200,6 +224,7 @@ module.exports[getWebhookLogs] = ({ clientInfo }) => {
   return axios.get(url, { headers });
 };
 
+// DONE
 module.exports[getTradeMarketData] = ({ ticker, clientInfo }) => {
   const { host, headers } = clientInfo;
   const url = addQueryParams({
@@ -208,11 +233,4 @@ module.exports[getTradeMarketData] = ({ ticker, clientInfo }) => {
   });
 
   return axios.get(url, { headers });
-};
-
-module.exports[verifyRoutingNumber] = ({ routing_num, type, clientInfo}) => {
-  const { host, headers } = clientInfo;
-  const reqBody = { routing_num, type };
-  const baseUrl = `${host}/routing-number-verification`;
-  return axios.post(baseUrl, reqBody, { headers });
 };
