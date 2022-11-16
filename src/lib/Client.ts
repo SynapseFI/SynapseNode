@@ -52,6 +52,12 @@ class Client {
     fingerprint,
     ip_address,
     isProduction
+  }: {
+    client_id: string,
+    client_secret: string,
+    fingerprint: string,
+    ip_address: string,
+    isProduction: boolean
   }) {
     this.client_id = client_id;
     this.client_secret = client_secret;
@@ -90,8 +96,9 @@ class Client {
    * @param options TODO
    * @returns newly created user object instantiated with SynapseNode library
    *
-   * {@link [User Object Details](https://docs.synapsefi.com/api-references/users/user-object-details)}
-   * {@link [Create User](https://docs.synapsefi.com/api-references/users/create-user)}
+   * {@link [DOCS: User Object Details](https://docs.synapsefi.com/api-references/users/user-object-details)}
+   * 
+   * {@link [DOCS: Create User](https://docs.synapsefi.com/api-references/users/create-user)}
    */
   async createUser(
     bodyParams: Record<string, any>,
@@ -152,7 +159,7 @@ class Client {
    */
   async getUser(
     user_id: string,
-    options: { [index: string]: string } | null = null
+    options?
   ): Promise<User> {
     let headerObj = {
       client_id: this.client_id,

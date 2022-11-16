@@ -9,23 +9,23 @@ import { Helpers } from './demo.data';
 const createUserPayload = {
   "logins": [
     {
-      "email": "test@synapsefi.com"
+      "email": "demo@synapsefi.com"
     }
   ],
   "phone_numbers": [
     "901.111.1111",
-    "test@synapsefi.com"
+    "demo@synapsefi.com"
   ],
   "legal_names": [
-    "Test User"
+    "Demo User"
   ],
   "documents": [
     {
-      "email": "test@test.com",
+      "email": "demo@demo.com",
       "phone_number": "901.111.1111",
       "ip": "::1",
-      "name": "Test User",
-      "alias": "Test",
+      "name": "Demo User",
+      "alias": "Demo",
       "entity_type": "M",
       "entity_scope": "Arts & Entertainment",
       "day": 2,
@@ -64,7 +64,7 @@ const createUserPayload = {
 
 }
 
-const mochaAsync = fn => {
+const runAsync = fn => {
   return done => {
     fn.call().then(done, err => {
       done(err);
@@ -72,11 +72,10 @@ const mochaAsync = fn => {
   };
 }
 
-describe('Client', () => {
+describe('Client Object', () => {
 
   describe('post create user', () => {
-    it('should create a user object', mochaAsync(async () => {
-        // this.timeout(20000);
+    it('should create a user object', runAsync(async () => {
       const response = await Helpers.client.createUser(createUserPayload);
       expect(response.id).to.not.be.null;
       expect(response).to.be.an.instanceof(User);
@@ -84,7 +83,7 @@ describe('Client', () => {
   });
 
   describe('get all users', () => {
-    it('should return all users', mochaAsync(async () => {
+    it('should return all users', runAsync(async () => {
       const response = await Helpers.client.getAllUsers();
       expect(response.status).to.equal(200);
       expect(response.data.users.length).to.be.above(0);
@@ -92,7 +91,7 @@ describe('Client', () => {
   });
 
   describe('get user with userID', () => {
-    it('should return correct user', mochaAsync(async () => {
+    it('should return correct user', runAsync(async () => {
       const response = await Helpers.client.getUser('6373f44ce01a9ad3cf560db0');
       expect(response.id).to.equal('6373f44ce01a9ad3cf560db0');
       expect(response).to.be.an.instanceof(User);
@@ -100,7 +99,7 @@ describe('Client', () => {
   });
 
   describe('get platform transactions', () => {
-    it('should return all platform transactions', mochaAsync(async () => {
+    it('should return all platform transactions', runAsync(async () => {
       const response = await Helpers.client.getPlatformTransactions();
       expect(response.status).to.equal(200);
       expect(response.data.trans.length).to.be.above(0);
@@ -108,7 +107,7 @@ describe('Client', () => {
   });
 
   describe('get platform nodes', () => {
-    it('should return all platform nodes', mochaAsync(async () => {
+    it('should return all platform nodes', runAsync(async () => {
       const response = await Helpers.client.getPlatformNodes();
       expect(response.status).to.equal(200);
       expect(response.data.nodes.length).to.be.above(0);
@@ -116,7 +115,7 @@ describe('Client', () => {
   });
 
   describe('get institutions', () => {
-    it('should return all institutions', mochaAsync(async () => {
+    it('should return all institutions', runAsync(async () => {
       const response = await Helpers.client.getInstitutions();
       expect(response.status).to.equal(200);
       expect(response.data.banks.length).to.be.above(0);
@@ -124,7 +123,7 @@ describe('Client', () => {
   });
 
   describe('get issue public key', () => {
-    it('should issue public key', mochaAsync(async () => {
+    it('should issue public key', runAsync(async () => {
       const response = await Helpers.client.issuePublicKey();
       expect(response.status).to.equal(200);
       expect(response.data.public_key_obj.expires_in).to.equal('86400');
@@ -132,7 +131,7 @@ describe('Client', () => {
   });
 
   describe('post create subscription', () => {
-    it('should create new subscription', mochaAsync(async () => {
+    it('should create new subscription', runAsync(async () => {
       const response = await Helpers.client.createSubscription('https://webhook.site/4e8bb189-68cb-4d85-8ae5-291a1cea65f9');
       expect(response.status).to.equal(200);
       expect(response.data._id).to.not.be.null;
@@ -140,7 +139,7 @@ describe('Client', () => {
   });
 
   describe('get all subscriptions', () => {
-    it('should return all subscriptions', mochaAsync(async () => {
+    it('should return all subscriptions', runAsync(async () => {
       const response = await Helpers.client.getAllSubscriptions();
       expect(response.status).to.equal(200);
       expect(response.data.subscriptions.length).to.be.above(0);
@@ -148,7 +147,7 @@ describe('Client', () => {
   });
 
   describe('get subscription with subscriptionID', () => {
-    it('should return correct subscription', mochaAsync(async () => {
+    it('should return correct subscription', runAsync(async () => {
       const response = await Helpers.client.getSubscription('5dc0c2214ccf6e6d6c3d130e');
       expect(response.status).to.equal(200);
       expect(response.data._id).to.equal('5dc0c2214ccf6e6d6c3d130e');
@@ -156,7 +155,7 @@ describe('Client', () => {
   });
 
   // describe('patch update subscription', () => {
-  //   it('should update subscription', mochaAsync(async () => {
+  //   it('should update subscription', runAsync(async () => {
   //     const response = await Helpers.client.updateSubscription(
   //       '5dc0c2214ccf6e6d6c3d130e',
   //       {
@@ -169,30 +168,29 @@ describe('Client', () => {
   // });
 
   describe('get locate atms', () => {
-    it('should retrieve atms', mochaAsync(async () => {
+    it('should retrieve atms', runAsync(async () => {
       const response = await Helpers.client.locateAtms();
       expect(response.status).to.equal(200);
     }));
   });
 
   describe('get crypto quotes', () => {
-    it('should retrieve crypto quotes', mochaAsync(async () => {
+    it('should retrieve crypto quotes', runAsync(async () => {
       const response = await Helpers.client.getCryptoQuotes();
       expect(response.status).to.equal(200);
     }));
   });
 
   describe('get crypto market data', () => {
-    it('should retrieve crypto market data', mochaAsync(async () => {
+    it('should retrieve crypto market data', runAsync(async () => {
       const response = await Helpers.client.getCryptoMarketData();
       expect(response.status).to.equal(200);
     }));
   });
 
   describe('get webhook logs', () => {
-    it('should retrieve webhook logs', mochaAsync(async () => {
+    it('should retrieve webhook logs', runAsync(async () => {
       const response = await Helpers.client.getWebhookLogs();
-      console.log(response);
       expect(response.status).to.equal(200);
     }));
   });

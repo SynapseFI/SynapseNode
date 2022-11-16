@@ -13,7 +13,7 @@
     "clean": "rm -rf dist",
     "dist": "npm run clean && npm run build",
     "push": "npm run clean && npm run build && npm publish",
-    "demo": "mocha -r ts-node/register src/demo/client.ts --timeout 100000" 
+    "demo": "mocha -r ts-node/register src/demo/*.demo.ts --timeout 100000" 
   },
   "keywords": [
     "API",
