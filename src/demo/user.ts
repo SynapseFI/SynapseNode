@@ -1,5 +1,5 @@
 const expect = require('chai').expect;
-const Helpers = require('./testHelpers');
+const Helpers = require('./demo.data');
 
 const mochaAsync = fn => {
   return done => {

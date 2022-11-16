@@ -94,8 +94,8 @@ class Client {
    * {@link [Create User](https://docs.synapsefi.com/api-references/users/create-user)}
    */
   async createUser(
-    bodyParams: Partial<IUserObject>,
-    ip_address: string,
+    bodyParams: Record<string, any>,
+    ip_address?: string,
     options: IHeadersOptions | null = null
   ): Promise<User> {
     let headerObj = {

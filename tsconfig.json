@@ -11,7 +11,8 @@
     "removeComments": false,
     "esModuleInterop": true,
     "noImplicitAny": false,
-    "allowJs": true
+    "allowJs": true,
+    "types": [ "node", "mocha", "chai" ]
   },
   "include": [
     "src"
