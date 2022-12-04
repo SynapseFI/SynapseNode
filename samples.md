@@ -13,6 +13,8 @@
   * [Get Subscription](#get-subscription)
   * [Update Subscription](#update-subscription)
   * [Locate ATMs](#locate-atms)
+  * [Verify Address ATMs](#verify-address)
+  * [Verify Routing Number](#verify-routing-number)
   * [Get Crypto Quotes](#crypto-quotes)
   * [Get Crypto Market Data](#crypto-market-data)
   * [Get Webhook Logs](#webhook-logs)
@@ -50,11 +52,15 @@
   * [Get Subnet](#get-subnet)
   * [Create Subnet](#create-subnet)
   * [Update Subnet](#update-subnet)
+  * [Push to Mobile Wallet](#push-to-mobile-wallet)
   * [Ship Card Subnet](#ship-card-subnet)
   * [Get All Card Subnet Shipments](#get-all-card-subnet-shipments)
   * [Get Card Subnet Shipment](#get-card-subnet-shipment)
   * [Delete Card Subnet Shipment](#delete-card-subnet-shipment)
   * [Register New Fingerprint](#register-new-fingerprint)
+  * [Supply Device 2FA](#supply-device-2fa)
+  * [Verify Fingerprint 2FA](#verify-fingerprint-2fa)
+  * [Update IP Address](#update-ip-address)
 - [Idempotent Requests](#idempotent-requests)
 
 ## Initialization
@@ -361,6 +367,26 @@ client.locateAtms({
 .then(({data}) => console.log('DATA\n', data))
 .catch(error => console.log(error));
 ```
+
+#### Verify Address
+```javascript
+client.verifyAddress({
+  address_street: "1 Market St. STE 500",
+  address_city: "San Francisco",
+  address_subdivision: "CA",
+  address_postal_code: "94105",
+  address_country_code: "US"
+})
+```
+
+#### Verify Routing Number
+```javascript
+client.verifyRoutingNumber({
+  routing_num: "084008426",
+  type: "ACH-US"
+})
+```
+
 #### Crypto Quotes
 ```javascript
 client.getCryptoQuotes()
@@ -936,6 +962,23 @@ user.updateSubnet('<NODE_ID>', '<SUBNET_ID>', {
 .then(({data}) => console.log('DATA\n', data))
 .catch(error => console.log(error));
 ```
+
+#### Push to Mobile Wallet
+```javascript
+user.pushToMobileWallet(
+  nodeId,
+  subnet_id,
+  {
+    "type": "APPLE_PUSH",
+    "nonce": "RH0jOQ==",
+    "nonce_signature": "QNyNZuy...EFg/Q",
+    "certificates": [
+      "MIICz....OM/8OPQ7"
+    ]
+  }
+);
+```
+
 #### Ship Card Subnet
 ```javascript
 user.shipCard('<NODE_ID>', '<SUBNET_ID>', {
@@ -986,6 +1029,29 @@ user.supplyDevice2FA('<FINGERPRINT_VALUE>', '<2FA_DEVICE>')
 user.verifyFingerprint2FA('<FINGERPRINT_VALUE>', '<VALIDATION_PIN>')
     .then(({data}) => console.log('DATA\n', data))
     .catch(error => console.log(error));
+```
+
+#### Supply Device 2FA
+```javascript
+user.supplyDevice2FA(
+  fingerprint,
+  device,
+)
+```
+
+#### Supply Device 2FA
+```javascript
+user.verifyFingerprint2FA(
+  fingerprint,
+  validation_pin,
+)
+```
+
+#### Supply Device 2FA
+```javascript
+user.updateIpAddress(
+  ip_address,
+)
 ```
 #### Idempotent Requests
 POST calls support idempotency for safely retrying requests without accidentally performing the same operation twice. Pass the idempotency key you wish to use as a string as the final argument to the POST call. The only exception to this is the POST Create User call, where you must supply the idempotency key in the options object as shown in the [Create User](#create-user) section.
