@@ -22,7 +22,7 @@ describe('User Object', () => {
 
 
   describe('patch update user', () => {
-    console.log("DEMO USER", demoUser);
+
     it('should update user', runAsync(async () => {
       const response = await demoUser.updateUser({
         update: {
@@ -301,14 +301,14 @@ describe('User Object', () => {
     }));
   });
 
-  describe('post create subnet', () => {
-    it('should create subnet', runAsync(async () => {
-      const response = await demoUser.createSubnet('5dae4bfc75224d8215fbc1a8', {
-        nickname: 'Demo Subnet'
-      });
-      expect(response.status).to.equal(200);
-    }));
-  });
+  // describe('post create subnet', () => {
+  //   it('should create subnet', runAsync(async () => {
+  //     const response = await demoUser.createSubnet('5dae4bfc75224d8215fbc1a8', {
+  //       nickname: 'Demo Subnet'
+  //     });
+  //     expect(response.status).to.equal(200);
+  //   }));
+  // });
 
   // describe('register new fingerprint', () => {
   //   it('should submit new fingerprint', runAsync(async () => {

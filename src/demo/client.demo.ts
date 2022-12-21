@@ -17,14 +17,14 @@ const createUserPayload = {
     "demo@synapsefi.com"
   ],
   "legal_names": [
-    "Demo User"
+    "Node SDK User"
   ],
   "documents": [
     {
       "email": "demo@demo.com",
       "phone_number": "901.111.1111",
       "ip": "::1",
-      "name": "Demo User",
+      "name": "Node SDK User",
       "alias": "Demo",
       "entity_type": "M",
       "entity_scope": "Arts & Entertainment",
