@@ -140,3 +140,11 @@ export interface INodeDetailsSubnetInfo {
   _id: string;
   _links: object;
 };
+
+export interface IgenECashBarcodePayload {
+  amount: {
+    currency: string;
+    amount: number;
+  };
+  retailer_id: number;
+}

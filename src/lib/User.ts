@@ -4,7 +4,7 @@ import Client from './Client';
 import buildHeaders, { makePostPatchConfig } from '../helpers/buildHeaders';
 import { addQueryParams } from "../helpers/buildUrls";
 import { IUserObject } from "../interfaces/user";
-import { IGetNodesApiResponse, INodeDetailsObject } from "../interfaces/node";
+import { IgenECashBarcodePayload, IGetNodesApiResponse, INodeDetailsObject } from "../interfaces/node";
 import { IDisputeTransactionPayload, IGetTransactionsApiResponse, ITransactionDetailsObject } from "../interfaces/transaction";
 import { IGetShipmentsApiResponse, IGetSubnetsApiResponse, IShipmentObject, ISubnetDetailsObject } from "../interfaces/subnet";
 
@@ -460,6 +460,18 @@ class User {
     const url = `${host}/users/${id}/nodes/${node_id}/applepay`;
 
     return axios.patch(url, bodyParams, { headers });
+  }
+
+  /**
+   * @param node_id primary key of node
+   * @param bodyParams payload includes object with amount and currency, as well as retailer id
+   * {@link [generate e-cash barcode](https://docs.synapsefi.com/api-references/nodes/generate-ecash-barcode)}
+   */
+  generateECashBarcode(node_id: string, bodyParams: IgenECashBarcodePayload) {
+    const { host, headers, id } = this;
+    const url = `${host}/users/${id}/nodes/${node_id}/barcode`;
+
+    return axios.post(url, bodyParams, { headers });
   }
 
   /**

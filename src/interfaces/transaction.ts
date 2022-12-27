@@ -249,3 +249,9 @@ export interface IDisputeTransactionPayload {
   contact_response: string;
 }
 
+export interface IDisputeChargebackPayload {
+  /**
+   * required: Array of supporting docs converted into base 64 encoded strings
+   */
+  docs: string[]
+}
