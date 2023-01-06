@@ -40,7 +40,9 @@ describe('User Object', () => {
         info: {
           nickname: 'My Demo Checking'
         }
-      });
+      }).catch((error)=>{ console.log({error})});
+
+      console.log("RESPONSE", response.data.error);
       expect(response.status).to.equal(200);
     }));
   });
