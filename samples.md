@@ -19,6 +19,11 @@
   * [Get Crypto Market Data](#crypto-market-data)
   * [Get Webhook Logs](#webhook-logs)
   * [Get Trade Market Data](#trade-market-data)
+  * [Dispute Chargeback](#dispute-chargeback)
+  * [Get Node Types](#get-node-types)
+  * [Get User Document Types](#get-user-document-types)
+  * [Get User Entity Types](#get-user-entity-types)
+  * [Get User Entity Scopes](#get-user-entity-scopes)
 - [User](#user)
   * [Add User KYC](#add-user-kyc)
   * [Delete Existing Document](#delete-existing-document)
@@ -41,6 +46,7 @@
   * [Update Node](#update-node)
   * [Delete Node](#delete-node)
   * [Generate Apple Pay Token](#generate-apple-pay-token)
+  * [Generate E Cash Barcode](#generate-e-cash-barcode)
   * [Create Transaction](#create-transaction)
   * [Create Batch Transaction](#create-batch-transaction)
   * [Get Transaction](#get-transaction)
@@ -423,6 +429,45 @@ client.getTradeMarketData({
 .catch(error => console.log(error));
 ```
 
+#### Dispute Chargeback
+```javascript
+client.disputeChargeback('<TRANS_ID>', {
+  docs: [
+    "data:application/pdf;base64,JVBERi....ODY5CiUlRU9GCg==",
+  ]
+})
+.then(({data}) => console.log('DATA\n', data))
+.catch(error => console.log(error));
+```
+
+#### Get Node Types
+```javascript
+client.getNodeTypes()
+.then(({data}) => console.log('DATA\n', data))
+.catch(error => console.log(error));
+```
+
+#### Get User Document Types
+```javascript
+client.getNodeTypes()
+.then(({data}) => console.log('DATA\n', data))
+.catch(error => console.log(error));
+```
+
+#### Get User Entity Types
+```javascript
+client.getNodeTypes()
+.then(({data}) => console.log('DATA\n', data))
+.catch(error => console.log(error));
+```
+
+#### Get User Entity Scopes
+```javascript
+client.getNodeTypes()
+.then(({data}) => console.log('DATA\n', data))
+.catch(error => console.log(error));
+```
+
 ## User
 #### Add User KYC
 ```javascript
@@ -730,6 +775,7 @@ user.deleteNode('<NODE_ID>')
     .then(({data}) => console.log('DATA\n', data))
     .catch(error => console.log(error));
 ```
+
 #### Generate Apple Pay Token
 ```javascript
 user.generateApplePayToken('<NODE_ID>', {
@@ -740,6 +786,21 @@ user.generateApplePayToken('<NODE_ID>', {
 .then(({data}) => console.log('DATA\n', data))
 .catch(error => console.log(error));
 ```
+
+
+#### Generate E Cash Barcode
+```javascript
+user.generateECashBarcode('<NODE_ID>', {
+  amount: {
+    amount: 47,
+    currency: "USD"
+  },
+  retailer_id: 2481
+})
+.then(({data}) => console.log('DATA\n', data))
+.catch(error => console.log(error));
+```
+
 #### Create Transaction
 ```javascript
 user.createTransaction('<NODE_ID>', {

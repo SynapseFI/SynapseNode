@@ -28,13 +28,10 @@ import axios, { AxiosResponse } from 'axios';
 import { addQueryParams } from '../helpers/buildUrls';
 import { IGetUsersResponse, IUserObject } from '../interfaces/user';
 import User from './User';
-import { IGetTransactionsApiResponse } from '../interfaces/transaction';
+import { IDisputeChargebackPayload, IGetTransactionsApiResponse } from '../interfaces/transaction';
 import { IGetNodesApiResponse } from '../interfaces/node';
 import { IGetSubscriptionsApiResponse, ISubscriptionObject } from '../interfaces/subscription';
 
-/**
- * LITERALLY ANYTHING
- */
 class Client {
   client_id: string;
   client_secret: string;
@@ -408,6 +405,55 @@ class Client {
     const url = addQueryParams({ originalUrl, ticker });
     return axios.get(url, { headers });
   };
+
+  /**
+   * @description Only INTERCHANGE-US transactions that have been RETURNED within the last 14 days with return code of IR999 can be disputed.
+   * If dispute is won, the transaction will go back to SETTLED status. We recommend {@link [Subscribing to our webhooks](https://docs.synapsefi.com/api-references/subscriptions)} to be notified.
+   * @param transId Unique ID for transaction 
+   * @param bodyParams Array of supporting docs converted into base 64 encoded strings
+   */
+  disputeChargeback(transId: string, bodyParams: IDisputeChargebackPayload) {
+    const { host, headers } = this;
+    const url = `${host}/trans/${transId}/dispute-chargeback`;
+
+    return axios.patch(url, bodyParams, { headers });
+  }
+
+  /**
+   * @description {@link [Fetches allowed node types](https://docs.synapsefi.com/api-references/nodes/allowed-node-types)}
+   * @returns list of allowed node types
+   */
+  getNodeTypes() {
+    const { host } = this;
+    return axios.patch(`${host}/nodes/types`);
+  }
+
+  /**
+   * @description {@link [Fetches allowed user document types](https://docs.synapsefi.com/api-references/users/allowed-document-types)}
+   * @returns list of allowed user document types
+   */
+  getUserDocumentTypes() {
+    const { host } = this;
+    return axios.patch(`${host}/users/document-types`);
+  }
+
+  /**
+   * @description {@link [Fetches allowed user entity types](https://docs.synapsefi.com/api-references/users/allowed-entity-types)}
+   * @returns list of allowed user entity types
+   */
+  getUserEntityTypes() {
+    const { host } = this;
+    return axios.patch(`${host}/users/entity-types`);
+  }
+
+  /**
+   * @description {@link [Fetches allowed user entity scopes](https://docs.synapsefi.com/api-references/users/allowed-entity-scopes)}
+   * @returns list of allowed user entity scopes
+   */
+  getUserEntityScopes() {
+    const { host } = this;
+    return axios.patch(`${host}/users/entity-scopes`);
+  }
 }
 
 export default Client;
