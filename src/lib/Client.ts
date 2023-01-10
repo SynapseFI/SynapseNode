@@ -402,7 +402,7 @@ class Client {
    */
   getNodeTypes() {
     const { host } = this;
-    return axios.patch(`${host}/nodes/types`);
+    return axios.get(`${host}/nodes/types`);
   }
 
   /**
@@ -411,7 +411,7 @@ class Client {
    */
   getUserDocumentTypes() {
     const { host } = this;
-    return axios.patch(`${host}/users/document-types`);
+    return axios.get(`${host}/users/document-types`);
   }
 
   /**
@@ -420,7 +420,7 @@ class Client {
    */
   getUserEntityTypes() {
     const { host } = this;
-    return axios.patch(`${host}/users/entity-types`);
+    return axios.get(`${host}/users/entity-types`);
   }
 
   /**
@@ -429,7 +429,7 @@ class Client {
    */
   getUserEntityScopes() {
     const { host } = this;
-    return axios.patch(`${host}/users/entity-scopes`);
+    return axios.get(`${host}/users/entity-scopes`);
   }
 }
 
