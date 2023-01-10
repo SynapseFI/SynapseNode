@@ -1,26 +1,3 @@
-import {
-  createUser,
-  getAllUsers,
-  getUser,
-  getPlatformTransactions,
-  getUserTransactions,
-  getPlatformNodes,
-  getInstitutions,
-  issuePublicKey,
-  createSubscription,
-  getAllSubscriptions,
-  getSubscription,
-  updateSubscription,
-  locateAtms,
-  getCryptoQuotes,
-  getCryptoMarketData,
-  getWebhookLogs,
-  getTradeMarketData,
-  verifyAddress,
-  verifyRoutingNumber
-} from '../constants/apiReqNames';
-
-import apiRequests from '../apiReqs/apiRequests';
 import buildHeaders, { makePostPatchConfig } from '../helpers/buildHeaders';
 import { checkOptions, instantiateUser } from '../helpers/clientHelpers';
 import { IDeliverabilityObject, IGetAtmLocationsResponse, IHeadersObject, IHeadersOptions, IQueryParams, IVerifiedRoutingNum } from '../interfaces/helpers';
@@ -364,7 +341,7 @@ class Client {
    */
   verifyRoutingNumber(
     bodyParams: { routing_num?: string; type?: string } = {},
-  ): Promise<AxiosResponse<IGetAtmLocationsResponse>> {
+  ): Promise<AxiosResponse<IVerifiedRoutingNum>> {
     const { host, headers } = this;
     const url = `${host}/routing-number-verification`;
     return axios.post(url, bodyParams, { headers });

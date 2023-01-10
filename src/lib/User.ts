@@ -1,4 +1,4 @@
-import { IHeadersObject, IHeadersValues, IQueryParams } from "../interfaces/helpers";
+import { IHeadersObject, IQueryParams } from "../interfaces/helpers";
 import axios, { AxiosResponse } from 'axios';
 import Client from './Client';
 import buildHeaders, { makePostPatchConfig } from '../helpers/buildHeaders';
