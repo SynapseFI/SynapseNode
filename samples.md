@@ -13,10 +13,17 @@
   * [Get Subscription](#get-subscription)
   * [Update Subscription](#update-subscription)
   * [Locate ATMs](#locate-atms)
+  * [Verify Address ATMs](#verify-address)
+  * [Verify Routing Number](#verify-routing-number)
   * [Get Crypto Quotes](#crypto-quotes)
   * [Get Crypto Market Data](#crypto-market-data)
   * [Get Webhook Logs](#webhook-logs)
   * [Get Trade Market Data](#trade-market-data)
+  * [Dispute Chargeback](#dispute-chargeback)
+  * [Get Node Types](#get-node-types)
+  * [Get User Document Types](#get-user-document-types)
+  * [Get User Entity Types](#get-user-entity-types)
+  * [Get User Entity Scopes](#get-user-entity-scopes)
 - [User](#user)
   * [Add User KYC](#add-user-kyc)
   * [Delete Existing Document](#delete-existing-document)
@@ -39,6 +46,7 @@
   * [Update Node](#update-node)
   * [Delete Node](#delete-node)
   * [Generate Apple Pay Token](#generate-apple-pay-token)
+  * [Generate E Cash Barcode](#generate-e-cash-barcode)
   * [Create Transaction](#create-transaction)
   * [Create Batch Transaction](#create-batch-transaction)
   * [Get Transaction](#get-transaction)
@@ -50,11 +58,15 @@
   * [Get Subnet](#get-subnet)
   * [Create Subnet](#create-subnet)
   * [Update Subnet](#update-subnet)
+  * [Push to Mobile Wallet](#push-to-mobile-wallet)
   * [Ship Card Subnet](#ship-card-subnet)
   * [Get All Card Subnet Shipments](#get-all-card-subnet-shipments)
   * [Get Card Subnet Shipment](#get-card-subnet-shipment)
   * [Delete Card Subnet Shipment](#delete-card-subnet-shipment)
   * [Register New Fingerprint](#register-new-fingerprint)
+  * [Supply Device 2FA](#supply-device-2fa)
+  * [Verify Fingerprint 2FA](#verify-fingerprint-2fa)
+  * [Update IP Address](#update-ip-address)
 - [Idempotent Requests](#idempotent-requests)
 
 ## Initialization
@@ -361,6 +373,26 @@ client.locateAtms({
 .then(({data}) => console.log('DATA\n', data))
 .catch(error => console.log(error));
 ```
+
+#### Verify Address
+```javascript
+client.verifyAddress({
+  address_street: "1 Market St. STE 500",
+  address_city: "San Francisco",
+  address_subdivision: "CA",
+  address_postal_code: "94105",
+  address_country_code: "US"
+})
+```
+
+#### Verify Routing Number
+```javascript
+client.verifyRoutingNumber({
+  routing_num: "084008426",
+  type: "ACH-US"
+})
+```
+
 #### Crypto Quotes
 ```javascript
 client.getCryptoQuotes()
@@ -393,6 +425,45 @@ client.getWebhookLogs()
 client.getTradeMarketData({
   ticker: 'AAPL'
 })
+.then(({data}) => console.log('DATA\n', data))
+.catch(error => console.log(error));
+```
+
+#### Dispute Chargeback
+```javascript
+client.disputeChargeback('<TRANS_ID>', {
+  docs: [
+    "data:application/pdf;base64,JVBERi....ODY5CiUlRU9GCg==",
+  ]
+})
+.then(({data}) => console.log('DATA\n', data))
+.catch(error => console.log(error));
+```
+
+#### Get Node Types
+```javascript
+client.getNodeTypes()
+.then(({data}) => console.log('DATA\n', data))
+.catch(error => console.log(error));
+```
+
+#### Get User Document Types
+```javascript
+client.getNodeTypes()
+.then(({data}) => console.log('DATA\n', data))
+.catch(error => console.log(error));
+```
+
+#### Get User Entity Types
+```javascript
+client.getNodeTypes()
+.then(({data}) => console.log('DATA\n', data))
+.catch(error => console.log(error));
+```
+
+#### Get User Entity Scopes
+```javascript
+client.getNodeTypes()
 .then(({data}) => console.log('DATA\n', data))
 .catch(error => console.log(error));
 ```
@@ -704,6 +775,7 @@ user.deleteNode('<NODE_ID>')
     .then(({data}) => console.log('DATA\n', data))
     .catch(error => console.log(error));
 ```
+
 #### Generate Apple Pay Token
 ```javascript
 user.generateApplePayToken('<NODE_ID>', {
@@ -714,6 +786,21 @@ user.generateApplePayToken('<NODE_ID>', {
 .then(({data}) => console.log('DATA\n', data))
 .catch(error => console.log(error));
 ```
+
+
+#### Generate E Cash Barcode
+```javascript
+user.generateECashBarcode('<NODE_ID>', {
+  amount: {
+    amount: 47,
+    currency: "USD"
+  },
+  retailer_id: 2481
+})
+.then(({data}) => console.log('DATA\n', data))
+.catch(error => console.log(error));
+```
+
 #### Create Transaction
 ```javascript
 user.createTransaction('<NODE_ID>', {
@@ -936,6 +1023,23 @@ user.updateSubnet('<NODE_ID>', '<SUBNET_ID>', {
 .then(({data}) => console.log('DATA\n', data))
 .catch(error => console.log(error));
 ```
+
+#### Push to Mobile Wallet
+```javascript
+user.pushToMobileWallet(
+  nodeId,
+  subnet_id,
+  {
+    "type": "APPLE_PUSH",
+    "nonce": "RH0jOQ==",
+    "nonce_signature": "QNyNZuy...EFg/Q",
+    "certificates": [
+      "MIICz....OM/8OPQ7"
+    ]
+  }
+);
+```
+
 #### Ship Card Subnet
 ```javascript
 user.shipCard('<NODE_ID>', '<SUBNET_ID>', {
@@ -986,6 +1090,29 @@ user.supplyDevice2FA('<FINGERPRINT_VALUE>', '<2FA_DEVICE>')
 user.verifyFingerprint2FA('<FINGERPRINT_VALUE>', '<VALIDATION_PIN>')
     .then(({data}) => console.log('DATA\n', data))
     .catch(error => console.log(error));
+```
+
+#### Supply Device 2FA
+```javascript
+user.supplyDevice2FA(
+  fingerprint,
+  device,
+)
+```
+
+#### Supply Device 2FA
+```javascript
+user.verifyFingerprint2FA(
+  fingerprint,
+  validation_pin,
+)
+```
+
+#### Supply Device 2FA
+```javascript
+user.updateIpAddress(
+  ip_address,
+)
 ```
 #### Idempotent Requests
 POST calls support idempotency for safely retrying requests without accidentally performing the same operation twice. Pass the idempotency key you wish to use as a string as the final argument to the POST call. The only exception to this is the POST Create User call, where you must supply the idempotency key in the options object as shown in the [Create User](#create-user) section.

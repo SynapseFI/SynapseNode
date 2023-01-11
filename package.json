@@ -1,6 +1,6 @@
 {
   "name": "synapsenode",
-  "version": "1.2.21",
+  "version": "2.0.0-beta",
   "description": "Node.js Library for SynapseFI API v3.1 Rest",
   "main": "dist/index.js",
   "files": [
@@ -9,7 +9,7 @@
   "scripts": {
     "test": "mocha --recursive --timeout 100000",
     "test-nodes": "mocha --recursive test/nodesTests/*.js --timeout 100000",
-    "build": "babel src -d dist",
+    "build": "tsc --build",
     "clean": "rm -rf dist",
     "dist": "npm run clean && npm run build",
     "push": "npm run clean && npm run build && npm publish"
@@ -23,30 +23,13 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "axios": "^0.25.0",
-    "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.3",
-    "babel-eslint": "^8.2.6",
-    "babel-loader": "^8.0.4",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-stage-2": "^6.24.1",
-    "chai": "^4.2.0",
-    "eslint": "^5.8.0",
-    "eslint-config-airbnb-base": "^13.1.0",
-    "eslint-plugin-import": "^2.14.0",
-    "faker": "^4.1.0",
-    "husky": "^0.14.3",
-    "jest": "^23.6.0",
-    "lodash": "^4.17.11",
-    "mocha": "^5.2.0",
-    "randomatic": "^3.1.1"
-  },
-  "peerDependencies": {
-    "axios": "^0.25.0",
-    "lodash": "^4.17.10"
+    "@types/axios": "^0.14.0",
+    "@types/chai": "^4.3.3",
+    "@types/node": "^18.11.3",
+    "chai": "^4.3.6",
+    "typescript": "^4.8.4"
   },
   "dependencies": {
-    "axios": "^0.25.0",
-    "dotenv": "^6.2.0"
+    "axios": "^1.1.3"
   }
 }
