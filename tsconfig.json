@@ -4,6 +4,7 @@
     "downlevelIteration": true,
     "module": "commonjs",
     "declaration": true,
+    "declarationDir": "./types",
     "outDir": "./dist",
     "allowSyntheticDefaultImports": true,
     "strict": true,
