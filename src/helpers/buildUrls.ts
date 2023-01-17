@@ -1,6 +1,8 @@
-const _ = require('lodash');
+// const _ = require('lodash');
 
-module.exports.addQueryParams = ({
+import { IBuildQueryParamsArgs } from "../interfaces/helpers";
+
+export const addQueryParams = ({
   originalUrl,
   amount,
   query,
@@ -21,8 +23,8 @@ module.exports.addQueryParams = ({
   is_credit,
   subnet_id,
   ticker
-}) => {
-  const params = [];
+}: IBuildQueryParamsArgs): string => {
+  const params: string[] = [];
 
   if (query !== undefined) {
     params.push(`query=${query}`);
@@ -85,27 +87,28 @@ module.exports.addQueryParams = ({
   return params.length === 0 ? originalUrl : originalUrl += `?${params.join('&')}`;
 };
 
-module.exports.replacePathParams = ({
-  originalUrl,
-  user_id,
-  node_id,
-  trans_id,
-  subnet_id
-}) => {
-  let copiedUrl = originalUrl;
+// NOT USED
+// module.exports.replacePathParams = ({
+//   originalUrl,
+//   user_id,
+//   node_id,
+//   trans_id,
+//   subnet_id
+// }) => {
+//   let copiedUrl = originalUrl;
 
-  if (user_id !== undefined) {
-    copiedUrl = _.replace(copiedUrl, ':user_id', user_id);
-  }
-  if (node_id !== undefined) {
-    copiedUrl = _.replace(copiedUrl, ':node_id', node_id);
-  }
-  if (trans_id !== undefined) {
-    copiedUrl = _.replace(copiedUrl, ':trans_id', trans_id);
-  }
-  if (subnet_id !== undefined) {
-    copiedUrl = _.replace(copiedUrl, ':subnet_id', subnet_id);
-  }
+//   if (user_id !== undefined) {
+//     copiedUrl = _.replace(copiedUrl, ':user_id', user_id);
+//   }
+//   if (node_id !== undefined) {
+//     copiedUrl = _.replace(copiedUrl, ':node_id', node_id);
+//   }
+//   if (trans_id !== undefined) {
+//     copiedUrl = _.replace(copiedUrl, ':trans_id', trans_id);
+//   }
+//   if (subnet_id !== undefined) {
+//     copiedUrl = _.replace(copiedUrl, ':subnet_id', subnet_id);
+//   }
 
-  return copiedUrl;
-};
+//   return copiedUrl;
+// };
