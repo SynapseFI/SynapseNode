@@ -1,0 +1,29 @@
+export function addQueryParams({ originalUrl, amount, query, page, per_page, filter, show_refresh_tokens, full_dehydrate, force_refresh, type, zip, lat, lon, radius, limit, currency, foreign_transaction, is_credit, subnet_id, ticker }: {
+    originalUrl: any;
+    amount: any;
+    query: any;
+    page: any;
+    per_page: any;
+    filter: any;
+    show_refresh_tokens: any;
+    full_dehydrate: any;
+    force_refresh: any;
+    type: any;
+    zip: any;
+    lat: any;
+    lon: any;
+    radius: any;
+    limit: any;
+    currency: any;
+    foreign_transaction: any;
+    is_credit: any;
+    subnet_id: any;
+    ticker: any;
+}): any;
+export function replacePathParams({ originalUrl, user_id, node_id, trans_id, subnet_id }: {
+    originalUrl: any;
+    user_id: any;
+    node_id: any;
+    trans_id: any;
+    subnet_id: any;
+}): any;

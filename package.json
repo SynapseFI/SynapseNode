@@ -6,6 +6,7 @@
   "files": [
     "dist"
   ],
+  "types": "types/index.d.ts",
   "scripts": {
     "test": "mocha --recursive --timeout 100000",
     "test-nodes": "mocha --recursive test/nodesTests/*.js --timeout 100000",
