@@ -3,6 +3,7 @@
   "version": "2.0.0-beta",
   "description": "Node.js Library for SynapseFI API v3.1 Rest",
   "main": "dist/index.js",
+  "types": "synapsenode.d.ts",
   "files": [
     "dist"
   ],
