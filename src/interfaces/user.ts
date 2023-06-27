@@ -431,7 +431,7 @@ export interface IUserSocialDoc {
      * 
      * {@link [Allowed Document Types](https://docs.synapsefi.com/api-references/users/allowed-document-types)}
      */
-    country_code?: string;
+    address_country_code?: string;
     /**
      * requirement depends. ISO Alpha-2 formatted Address country code of the issuing state of the virtual document. Go to Allowed Document Types response section to see which social documents require this field. This field will not be returned in any user responses.
      * 
