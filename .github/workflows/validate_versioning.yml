@@ -17,5 +17,5 @@ jobs:
       - name: Validate Versioning
         run: |
           node \
-          .scripts/validateVersioning.js
+          .scripts/validateVersioning.js \
           ${{ github.head_ref }} ${{ github.base_ref }}
