@@ -7,49 +7,7 @@
  */
 
 const process = require('process');
-const fs = require('fs');
 const { execSync } = require('child_process');
-
-/*
- * -----------------------------------------------------------------------------------------
- * ----------------------------------- Constants & Data ------------------------------------
- * -----------------------------------------------------------------------------------------
- */
-
-const headFileRows = [
-  `#### **Task Link**: `,
-  '',
-  '- [ ] Jira status updated',
-  '- [ ] Release notes for ticket written',
-  '',
-  '#### **Description**:',
-  '',
-  '#### **Updates**:',
-];
-
-const tableFileRows = [
-  '| Component/File | Description |',
-  '| -- | -- |',
-];
-
-const ticketFileRows = [
-  '#### **Description**:',
-  '',
-  '| Pull | Ticket | Description |',
-  '| -- | -- | -- |',
-];
-
-const tailFileRows = [
-  '',
-  '#### **Category**',
-  '- ',
-  '',
-  '#### **Notes**:',
-  '- ',
-  '',
-  '#### **Visuals**:',
-  '[drag & drop here]',
-];
 
 /*
  * -----------------------------------------------------------------------------------------
@@ -69,150 +27,47 @@ const getArgs = (args) => {
  * -----------------------------------------------------------------------------------------
  */
 
-const checkDirSafe = (path) => {
-  try {
-    fs.readdirSync(path);
-    return true;
-  } catch (error) {
-    return false;
-  }
-};
-
-const createOutDirIfNeeded = (outDirPath) => {
-  const outDirExists = checkDirSafe(outDirPath);
-
-  if (outDirExists) {
-    return;
-  } else {
-    fs.mkdirSync(outDirPath);
-    execSync(`echo ${outDirPath} >> .gitignore`)
-  }
-};
-
-const getTaskLink = (branchName) => {
-  // should account for things like CF-30b || CF-30_css, where matched text is only CF-30
-  const jiraTicketMatch = branchName.match(/[A-Z]{2,10}-\d+/);
-  let taskLinkString = '_No Ticket Found_'
-  if (jiraTicketMatch !== null) {
-    const [cleanBranchName] = jiraTicketMatch;
-    taskLinkString = `[${cleanBranchName}]`
-      + `(https://synapsefi.atlassian.net/browse/${cleanBranchName})`;
-  };
-  return taskLinkString;
-};
-
-const getPrLink = (prNum) => {
-  // PR number is extraxted from the commit msg using a regex capture group inside of `getPrAndTicketRow`
-  const prMatch = prNum.match(/\d+/);
-  let prLinkString = '_No PR Found_'
-  if (prMatch !== null) {
-    const [cleanPrNum] = prMatch;
-    prLinkString = `[${cleanPrNum}]`
-      + `(https://github.com/SynapseUI/dashboard_v3/pull/${cleanPrNum})`;
-  };
-  return prLinkString;
-};
-
-const getFileNameRow = (acc, fileName) => {
-  // index of . in file extension of full path
-  const hasExtension = fileName.match(/\.[jt]sx?$/);
-  const extIdx = hasExtension !== null ? hasExtension.index : fileName.length;
-  // index of last / in file name
-  const fileNameStartIdx = fileName.lastIndexOf('/') + 1;
-  const fileNameStripped = fileName.slice(fileNameStartIdx, extIdx);
-  const tableRowStr = `| \`${fileNameStripped}\` | -- |`;
-  return [...acc, tableRowStr];
-}
-
-const getPrAndTicketRow = (acc, commitMsg) => {
-  const isPrMergeMatch = commitMsg.match(
-    /Merge pull request #(?<prNum>\d+) from SynapseUI\/(?<ticketNum>[A-Z]{2,10}-\d+)/
-  );
-  if (isPrMergeMatch === null) {
-    return acc;
-  };
-
-  // grab requisite nums from regex match groupds
-  const { prNum, ticketNum } = isPrMergeMatch.groups;
-
-  const prLink = getPrLink(prNum);
-  const ticketLink = getTaskLink(ticketNum)
-
-  return acc.includes(ticketLink)
-    ? acc
-    : [...acc, `| ${prLink} | ${ticketLink} | -- |`];
-}
-
-/*
- * -----------------------------------------------------------------------------------------
- * -------------------------------------- Flag Helpers -------------------------------------
- * -----------------------------------------------------------------------------------------
- */
+const versionErr = new Error('NO UPDATES TO PACKAGE VERSION FOUND. MAKE SURE TO UPDATE PACKAGE VERSION');
 
 /**
- * @description inserts the correct git -C argument if the --repo-dir flag is passed
+ * @description rough comparing per semver rules, not number comparison, which means JavaScript native string comparison oddities work in our favor
+ * '11' > '12' --> false
+ * '12' > '11' --> true
+ * '2' > '11'  --> true
+ * '2' > '21'  --> false
+ * '3-beta' > '2-beta' --> true
+ * '1-beta' > '2-beta' --> false
  */
+const checkVersions = (oldVersionStr, newVersionStr) => {
+  if (!oldVersionStr || !newVersionStr) {
+    throw versionErr;
+  }
+  const oldVersionArr = oldVersionStr.split('.');
+  const newVersionArr = newVersionStr.split('.');
+
+  let foundLargerNum = false;
+  for (let i = 0; i < newVersionArr.length; i += 1) {
+    const curOldNum = oldVersionArr[i];
+    const curNewNum = newVersionArr[i];
+    if (foundLargerNum === false && curNewNum > curOldNum) {
+      foundLargerNum = true;
+    };
+  };
+
+  if (foundLargerNum === false) {
+    throw versionErr;
+  }
+};
+
 const getDiffCmdString = (baseBranch, headBranch) => {
   const diffCmdArr = [
     `git`,
-    `--no-pager log --pretty="tformat:%s" origin/${baseBranch}...origin/${headBranch}`
+    `--no-pager diff origin/${baseBranch}...origin/${headBranch}`,
+    'package.json',
   ];
 
   return diffCmdArr.filter(Boolean).join(' ');
 }
-
-/**
- * @description handles output based on flags passed
- */
-const handleOutput = (flags, templateStr, headBranch) => {
-  const {
-    ['--print-only']: printOnly,
-    ['--open-after']: openAfter,
-    ['--file-name']: fileName,
-  } = flags;
-
-  if (printOnly) {
-    return process.stdout.write(templateStr + '\n', );
-  };
-
-  createOutDirIfNeeded('.prMarkdown');
-  const mdFileName = fileName
-    ? `.prMarkdown/${fileName}.md`
-    : `.prMarkdown/prUpdates-${headBranch}.md`;
-
-  fs.writeFileSync(mdFileName, templateStr);
-
-  if (openAfter) {
-    execSync(`code ${mdFileName}`)
-  }
-}
-
-/**
- * @description builds the file contents string
- */
-const makeFileContents = (flags, filesChangedStr, headBranch, baseBranch) => {
-  const {
-    ['--table-only']: tableOnly,
-  } = flags;
-
-  const isOnlyTickets = ['uat', 'main', 'CF-000'].includes(baseBranch);
-  const filesChanged = filesChangedStr.split('\n');
-  const stripFnToUse = isOnlyTickets ? getPrAndTicketRow : getFileNameRow;
-
-  const strippedChanges = filesChanged.filter(Boolean).reduce(stripFnToUse, []);
-
-  const tableToUse = isOnlyTickets ? ticketFileRows : tableFileRows;
-  // for (const changeMade of strippedChanges) {
-  for (const changeMade of strippedChanges) {
-    tableToUse.push(changeMade);
-  };
-
-  if (tableOnly || isOnlyTickets) {
-    return tableToUse.join('\n');
-  } else {
-    return [...headFileRows, ...tableToUse, ...tailFileRows].join('\n');
-  };
-};
 
 /*
  * -----------------------------------------------------------------------------------------
@@ -228,8 +83,13 @@ const filesChangedStr = execSync(
   { encoding: 'utf8' },
 );
 
-console.log(filesChangedStr)
+const regex = new RegExp(/\s{2}"version":\s"(?<versionNumber>.*)",$/)
+const foundVChanges = filesChangedStr.split('\n').reduce((acc, lineChange) => {
+  if (regex.test(lineChange)) {
+    const { versionNumber } = lineChange.match(regex).groups;
+    return [...acc, versionNumber];
+  }
+  return acc;
+}, []);
 
-// headFileRows[0] = headFileRows[0] + getTaskLink(headBranch);
-// const fileAsString = makeFileContents(flags, filesChangedStr, headBranch, baseBranch);
-// handleOutput(flags, fileAsString, headBranch);
+checkVersions(...foundVChanges)

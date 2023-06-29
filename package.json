@@ -1,6 +1,6 @@
 {
   "name": "synapsenode",
-  "version": "2.0.1",
+  "version": "2.0.0-beta.12",
   "description": "Node.js Library for SynapseFI API v3.1 Rest",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
