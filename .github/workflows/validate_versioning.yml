@@ -1,0 +1,20 @@
+on: 
+  pull_request:
+    types: [opened]
+
+jobs:
+  validate-new-version-number:
+    runs-on: ubuntu-latest
+    env:
+      NODE_OPTIONS: '--max_old_space_size=4096'
+    steps:
+      - name: Checkout code into repo dir
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Validate Versioning
+        run: |
+          node \
+          .scripts/validateVersioning.js \
+          ${{ github.head_ref }} ${{ github.base_ref }}
