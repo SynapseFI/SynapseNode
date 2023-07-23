@@ -220,6 +220,10 @@ client.getAllUsers({
 .catch(error => console.log(error));
 ```
 #### Get User
+
+Note that there is no need to authenticate the user through OAuth after you get the user. This 
+library does that for you.
+
 If using a static fingerprint across platform:
 ```javascript
 client.getUser('<USER_ID>')
